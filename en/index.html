@@ -32,26 +32,44 @@
 <!-- don't edit end -->
 <!-- document start -->
 <p>
-    <p>S2Dao has the following features:</p>
-    <ul>
-      <li>O/R mapping without a XML document
-      <p>Many current O/R mapping framework depends on XML to hold large amount of information.<BR>S2Dao does not require XML. O/R mapping is accomplished by just adding metadate to Java source code.</p></li></ul>
-    <ul>
-      <li>Does not require JDBC knowledge
-      <p>Java applications use JDBC to connect to a database.
-      <br>When using S2Dao, database connections are handled by S2Dao. Developers are able to connect to a database without knowing intricate detailsof JDBC api. It is not necessary to write codes to connect and disconnect from the database.</p></li></ul>
-    <ul>
-      <li>SQL programmers and Java programmers can work separately on what they know the best
-      <p>S2Dao is able to read SQL commands written in external files. These SQL commands may be tested using tools like Oracle SQL*Plus. Java mappings are written as comments in these files. Thus, these SQL commands can still be executed. Files which contain SQL commands with Java codes in comments are called 2 way SQL. It is also possible to map with Java read in by S2Dao.<BR>
-As stated, SQL commands are written in external files separately from Java logic programming files. This allows SQL programmers to work independently from Java logic programmers which results in shortening the overall development schedule.
-</p></li></ul>
-    <ul>
-      <li>Automatic generation of SQL commands
-      <p>If Java method names are named in a prescribed manner, it is possible to generate SQL commands.<BR>In most circumstances, generated SQL command will suffice, but in cases of complex SQL commands or when SQL command needs to be customized, SQL commands should be written manually.
-      </p></li></ul>
-    <ul>
-      <li>Separation of interface and implementation
-      <p>By just defining interfaces, it is possible to apply <A href="http://www.seasar.org/aop.html">Aspect</A> and to generate SQL commands.</p></li></ul>
+	<p>S2Dao has the following features:</p>
+	<ul>
+		<li>O/R mapping without a XML document
+		<p>Many current O/R mapping framework depends on XML to hold large amount of information.<br />
+		S2Dao does not require XML. 
+		O/R mapping is accomplished by just adding metadate to Java source code.</p>
+		</li>
+	</ul>
+	<ul>
+		<li>Does not require JDBC knowledge
+		<p>Java applications use JDBC to connect to a database.
+		<br />When using S2Dao, database connections are handled by S2Dao. 
+		Developers are able to connect to a database without knowing intricate details of JDBC api. 
+		It is not necessary to write codes to connect and disconnect from the database.</p>
+		</li>
+	</ul>
+	<ul>
+		<li>SQL programmers and Java programmers can work separately on what they know the best
+		<p>S2Dao is able to read SQL commands written in external files. 
+		These SQL commands may be tested using tools like Oracle SQL*Plus. 
+		Java mappings are written as comments in these files. 
+		Thus, these SQL commands can still be executed. 
+		Files which contain SQL commands with Java codes in comments are called 2 way SQL.
+		It is also possible to map with Java read in by S2Dao.<br />
+		As stated, SQL commands are written in external files separately from Java logic programming files. This allows SQL programmers to work independently from Java logic programmers which results in shortening the overall development schedule.</p>
+		</li>
+	</ul>
+	<ul>
+		<li>Automatic generation of SQL commands
+		<p>If Java method names are named in a prescribed manner, it is possible to generate SQL commands.<br />
+		In most circumstances, generated SQL command will suffice, but in cases of complex SQL commands or when SQL command needs to be customized, SQL commands should be written manually.</p>
+		</li>
+	</ul>
+	<ul>
+		<li>Separation of interface and implementation
+		<p>By just defining interfaces, it is possible to apply <A href="http://s2container.seasar.org/en/aop.html">Aspect</A> and to generate SQL commands.</p>
+		</li>
+	</ul>
 </p>
 
 <h3><a name="document">document</a></h3>
