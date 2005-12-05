@@ -142,14 +142,13 @@
                 href="#EntityManagerExample">Example of Using EntityManager</A> 
 
                 <LI><A 
-                href="http://www.seasar.org/testtech.html#S2DaoTestCaseExample">Example of S2DaoTestCase</A> 
+                href="http://s2container.seasar.org/ja/testtech.html#S2DaoTestCaseExample">Example of S2DaoTestCase</A> 
                 </LI></UL>
-              <LI><A 
-              href="http://www.seasar.org/s2DaoExercise.html">S2Dao Exercises</A> 
+              <LI>S2Dao Exercises
               </LI></UL>
             <H2><A name="S2Dao Reference">S2Dao Reference</A></H2>
             <H3><A name=SetUp>Setup</A></H3>
-            <P>As is required by Seasar2, S2Dao requires JDK1.4 or later. Extract the S2DaoVx.x.x.zip archive file to some directory. Open Eclipse project and import extracted files in s2dao directory by selecting [File]- [Existing Projects into Workspace]. Samples files are located under src/examples directory.</P>
+            <P>As is required by Seasar2, S2Dao requires JDK1.4 or later. Extract the s2-dao-x.x.x.zip archive file to some directory. Open Eclipse project and import extracted files in s2dao directory by selecting [File]- [Existing Projects into Workspace]. Samples files are located under src/examples directory.</P>
             <P>Files necessary to use S2Dao are included in the s2dao/lib directory. HSQLDB RDBMS is included to allow easier testing with a database. To use HSQLDB, it is necessary that it is started. To start HSQLDB, execute /bin/runHsqldb.bat file (for Windows users). lib/hsqldb.jar is required to use HSQLDB, but it is unnecessary in a production environment which does not use HSQLDB. To use S2Dao, add to the CLASSPATH *.jar files under the lib directory (excep hsqldb.jar) and j2ee.dicon, dao.diocon, log4j.properties under the src directory. If S2Dao files are imported to an Eclipse workspace, it is not necessary to add these files to the CLASSPATH.</P>
             <H3><A name=DaoMakeFile>Files Needed to be Created</A></H3>
             <P>To use S2Dao, it is necessary to create JavaBeans, Dao(.java), dicon file, and SQL file (.sql).
