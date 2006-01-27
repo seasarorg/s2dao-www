@@ -472,10 +472,10 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
     	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
-    	diconファイルの詳しい設定方法については、<a href="DIContainer.html">DIContainer</a>を参照して下さい。</p>
+    	diconファイルの詳しい設定方法については、<a href="http://s2container.seasar.org/ja/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 		<h5>S2DaoInterceptorの適用</h5>
     	<p>Dao機能を使用するにはorg.seasar.dao.interceptors.S2DaoInterceptorを登録したDaoに対してAOPを適用します。<br />
-    	AOPについては、<a href="aop.html">AOP</a>のページを参照して下さい。<br />
+    	AOPについては、<a href="http://s2container.seasar.org/ja/aop.html">AOP</a>のページを参照して下さい。<br />
     	以下はDao(example.dao.EmployeeDao)をコンポーネント登録するサンプル</p>
     	EmployeeDao.dicon
 <pre>
@@ -773,7 +773,7 @@ public class EmployeeSearchCondition {
 	<li>生成したS2ContainerからgetComponentを呼び出し、登録したDaoを取得する	</li>
 	<li>取得したDaoのメソッドを実行する</li>
 	</ol>
-	<p>S2Daoではトランザクション制御は行なっていません、トランザクションについては<a href="tx.html">トランザクションの自動制御</a>を参照して下さい。</p>
+	<p>S2Daoではトランザクション制御は行なっていません、トランザクションについては<a href="http://s2container.seasar.org/ja/tx.html">トランザクションの自動制御</a>を参照して下さい。</p>
     実行クラスサンプル
 <pre>
 package examples.dao;
