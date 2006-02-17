@@ -1,0 +1,599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://sourceforge.jp/projects/seasar"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="download.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="document.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="resource.html"><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" height="100%" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="752" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+<li><a href="#S2Pager">S2Pagerとは</a></li>
+<li><a href="#Setup">セットアップ</a></li>
+<ul>
+<li><a href="#Config">環境設定</a></li>
+<li><a href="#Sample">サンプルの実行</a></li>
+<li><a href="#Dicon">dao.diconの修正</a></li>
+</ul>
+<li><a href="#UseS2Pager">S2ページャの使い方</a></li>
+<ul>
+<li><a href="#PagerCondtion">PagerCondtion - 検索条件を保持する</a></li>
+<li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></li>
+<li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
+<li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a></li>
+<li><a href="#ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></li>
+</ul>
+</ul>
+
+</ul>
+<h2><a name="S2Pager">S2Pagerとは</a></h2>
+<p>S2Daoを使ってページャを実現するライブラリです。
+	S2Daoで検索した結果に対して、開始位置と最大取得件数を指定して結果の一部のみを取得することができます。
+	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。
+</p>
+
+<h2><a name="Setup">セットアップ</a></h2>
+<h3><a name="Config">環境設定</a></h3>
+<p>S2PagerVx.x.x.zipを解凍してできたs2pagerディレクトリをEclipseで、｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。 これで、私と全く同じ環境になります。src/examples配下にサンプルもあります。</p>
+<p>
+	S2Pagerとして必要なjarファイルは、s2pager/lib/s2-pager-x.x.x.jarです。
+	またS2,S2Daoも必要です。
+</p>
+
+
+<h3><a name="Sample">サンプルの実行</a></h3>
+<p>
+	S2PagerのサンプルはJSP2.0で動作します。以下の手順でTomcat5.0.xなどJSP2.0をサポートするServletコンテナ上で動作させる必要があります。<br>
+	<ol>
+		<li>解凍ディレクトリのbin/runHsqldb.batを実行して、HSQLDBを起動します。</li>
+		<li>s2pager.warをTomcat5.0.xのwebappsディレクトリに配置します。
+		<li>Tomcat5.0.xを起動します。</li>
+		<li><a href="http://localhost:8080/s2pager/">http://localhost:8080/s2pager/</a>をブラウザで開きます。(Tomcatが8080ポートで動作している場合)</li>
+	</ol>
+</p>
+<p>
+	Tomcatプラグインを導入している環境であれば、EclioseのTomcatPlugin上でそのまま動作させることもできます。
+</p>
+<h3><a name="Dicon">dao.diconの修正</a></h3>
+<p>
+	S2Pagerを既存のプロジェクトで使用するには、S2Daoのdao.diconをS2Pager用に修正する必要があります。src/dao.diconを参考にして以下のようにdao.diconを修正します。
+</p>
+<pre>
+&lt;component
+  class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
+  &lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+  &lt;arg&gt;
+    &lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+  &lt;/arg&gt;
+&lt;!--
+&lt;arg&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+&lt;/arg&gt;
+--&gt;
+  &lt;arg&gt;
+    &lt;component class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+      &lt;arg&gt;
+        &lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+      &lt;/arg&gt;
+      &lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+    &lt;/component&gt;
+  &lt;/arg&gt;
+&lt;/component&gt;
+
+&lt;component name="interceptor"
+  class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
+  &lt;arg&gt;
+    &lt;component name="s2dao"
+      class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
+    &lt;/component&gt;
+  &lt;/arg&gt;
+&lt;/component&gt;
+
+&lt;!--
+  &lt;component
+    class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
+  &lt;component name="interceptor"
+    class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+--&gt;
+&lt;/components&gt;
+</pre>
+
+
+<h2><a name="UseS2Pager">S2Pagerの使い方</h2>
+<h3><a name="PagerCondtion">PagerCondtion - 検索条件を保持する</a></h3>
+<p>ページャ機能は次の手順で実現します。</p>
+<ol>
+<li>
+PagerConditionインターフェイスをimplementsする検索条件DTOを作成します。
+デフォルトの実装として、org.seasar.dao.pager.DefaultPagerConditionクラスが用意されています。
+検索条件DTOはS2Pager用のプロパティ(offset,limit,count)と、検索条件(下記の例ではcategory)を保持します。
+<pre>
+/**
+ * ページャ条件オブジェクトのインターフェイス
+ * @author Toshitaka Agata
+ */
+public interface PagerCondition {
+    
+    public static final int NONE_LIMIT = -1;
+    
+    /**
+     * 検索結果の総件数を取得します。
+     * @return 総件数
+     */
+    public int getCount();
+    
+    /**
+     * 検索結果の総件数をセットします。
+     * @param count 総件数
+     */
+    public void setCount(int count);
+    
+    /**
+     * 検索結果から一度に取得する最大件数を取得します。
+     * @return 最大件数
+     */
+    public int getLimit();
+    
+    /**
+     * 検索結果から一度に取得する最大件数をセットします。
+     * @param limit 最大件数
+     */
+    public void setLimit(int limit);
+    
+    /**
+     * 検索結果の取得開始位置ををセットします。
+     * @param offset 取得開始位置
+     */
+    public void setOffset(int offset);
+
+    /**
+     * 検索結果の取得開始位置をを取得します。
+     * @return 取得開始位置
+     */
+    public int getOffset();
+}
+</pre>
+
+<pre>
+/**
+ * 検索条件DTO。
+ * 独自の検索条件はこのクラスのようにPagerConditionインターフェイスを実装する
+ * クラスで実現します。通常はDefaultPagerConditionを継承するとよいでしょう。
+ * @author agata
+ */
+public class CategoryPagerCondition extends DefaultPagerCondition {
+    /** カテゴリー(検索条件) */
+    private String category;
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+}
+</pre>
+</li>
+<li>
+検索条件DTOを引数に持つDaoの検索メソッドを作成します。
+<pre>
+public interface BookDao {
+    public List findByCategoryPagerCondition(CategoryPagerCondition dto);
+}
+</pre>
+</li>
+<li>
+検索条件DTOに開始位置(offset)と最大取得数(limit)をセットしてDaoのメソッドを呼び出します。
+<pre>
+
+// offsetとlimitをセット
+CategoryPagerCondition dto = new CategoryPagerCondition();
+dto.setLimit(10);
+String offsetStr = request.getParameter("offset");
+dto.setOffset(Integer.parseInt(offset));
+
+// 独自の検索条件
+String category = request.getParameter("category");
+if (category != null && category.length() != 0) {
+    dto.setCategory(category);
+}
+
+// ページャ対応の検索を実行
+BookDao bookDao = (BookDao) container.getComponent(BookDao.class);
+   List books = bookDao.findByCategoryPagerCondition(dto);
+request.setAttribute("books", books);
+
+// countには検索結果の総数がセットされている。
+System.out.println("count=" + dto.getCount());
+
+</pre>
+</li>
+</ol>
+
+
+<h3><a name="PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></h3>
+<p>通常、検索条件オブジェクトはHttpSessionのアトリビュートに格納します。
+S2Pagerでは検索条件オブジェクトのHttpSessionへの格納などをサポートする
+ユーティリィ的なクラスとしてorg.seasar.dao.pager.PagerSupportクラスを用意しています。
+</p>
+<p>
+PagerSupportクラスのコンストラクタで次の項目を指定します。
+
+<table border="1">
+	<tr>
+		<th nowrap>引数</th>
+		<th>意味</hd>
+		<th>説明</hd>
+	</tr>
+	<tr>
+		<td nowrap>第１引数</td>
+		<td>最大取得数</td>
+		<td>PagerConditionのlimitに使用されます。</td>
+	</tr>
+	<tr>
+		<td>第２引数</td>
+		<td>条件保持DTOのクラスオブジェクト</td>
+		<td>セッション中に>条件保持DTOが存在しかった場合、ここで指定したクラスの検索条件DTOが生成されます。</td>
+	</tr>
+	<tr>
+		<td>第３引数</td>
+		<td>属性名</td>
+		<td>セッションの属性名を指定します。ここで指定した名前で検索条件DTOがセッション中に格納されます。</td>
+	</tr>
+</table>
+<pre>
+	/** ページャサポートクラス */
+	private PagerSupport pager = 
+		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
+</pre>
+</p>
+
+<p>
+セッション中の検索条件DTOの取得開始位置(offset)の更新は、パラメータ名"offset"が取得開始位置を意味する場合次のコードで可能です。
+<pre>
+        // パラメータoffsetを元にページャのoffset位置を更新
+        pager.updateOffset(request);
+</pre>
+</p>
+
+<p>
+また、任意のパラメータ名で更新をしたい場合、次のようなコードになります。
+<pre>
+        // パラメータ"hoge"を元にページャのoffset位置を更新
+        pager.updateOffset(request, "hoge");
+</pre>
+</p>
+
+<p>
+セッション中の検索条件DTOを取得するには、次のようなコードになります。
+<pre>
+        // ページャの条件保持オブジェクトをセッションから取得
+        // 存在しない場合は、PagerSupportのコンストラクタで
+        // 渡されたクラスが新規に作成されます。
+        CategoryPagerCondition dto = 
+            (CategoryPagerCondition) pager.getPagerCondition(request);
+</pre>
+</p>
+
+
+<p>
+以上のPagerSupportの使い方をまとめると、次のようなコードになります。
+Actionクラスのインスタンス変数としてPagerSupportを保持していますが、
+PagerSupportはスレッドセーフです。複数ユーザで共有して安全に使用することができます。
+ただし、最大取得数(limit)をユーザごとに切り替えたい場合は、PagerSupport自体をセッションに格納するなど工夫が必要でしょう。
+
+<pre>
+public BookAction extends Action {
+	/** ページャサポートクラス */
+	private PagerSupport pager =
+		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
+	
+	private BookDao bookDao;
+	
+	public void setBookDao(BookDao bookDao) {
+		this.bookDao = bookDao;
+	}
+	
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // パラメータoffsetを元にページャのoffset位置を更新
+        pager.updateOffset(request);
+        
+        // ページャの条件保持オブジェクトをセッションから取得
+        // 存在しない場合は、PagerSupportのコンストラクタで
+        // 渡されたクラスが新規に作成されます。
+        CategoryPagerCondition dto = 
+            (CategoryPagerCondition) pager.getPagerCondition(request);
+        
+        // 条件保持オブジェクト中の独自の検索条件をセット
+        // この場合、書籍カテゴリを表すcateogry
+        String category = request.getParameter("category");
+        if (category != null && category.length() != 0) {
+            dto.setCategory(category);
+        }
+        
+        // ページャ対応の検索を実行
+        List books = bookDao.findByCategoryPagerCondition(dto);
+        request.setAttribute("books", books);
+        
+        // 結果ページにフォワード
+        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        
+    }
+}
+</pre>
+</p>
+
+<h3><a name="PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></h3>
+<p>
+	S2Pagerではページリンクを表示するビューの部品は用意していません。
+	これは、ページリンクの表示形式は、プロジェクトによって異なるためです。
+	ただ、サンプルは用意しています。
+	サンプルではJSTL版とJSP2.0のタグファイルによるページリンクの２パターンがあります。
+	カスタムタグでのサンプルはありません。作成された方はソースの提供お待ちしております;-)
+	
+</p>
+	また、PagerConditionの情報を元にビューでリンクを生成するためのビューヘルパークラスとして、
+	org.seasar.dao.pager.PagerViewHelperクラスがあります。
+	PagerViewHelperクラスを使うとビューで（特にJSTLのELやVelocityで）ページリンクを作成するのが楽になります。
+	<br/><br/>
+	PagerViewHelperは以下のメソッドを持っています。
+<pre>
+/**
+ * ページャのビューヘルパークラスです。
+ * @author Toshitaka Agata
+ */
+public class PagerViewHelper implements PagerCondition {
+	// コンストラクタ
+    public PagerViewHelper(PagerCondition condition) { ... }
+    public PagerViewHelper(PagerCondition condition, int displayPageMax) { ... }
+
+	// PagerConditionへの委譲メソッド
+    public int getCount() { ... }
+    public void setCount(int count) { ... }
+    public int getLimit() { ... }
+    public void setLimit(int limit) { ... }
+    public int getOffset() { ... }
+    public void setOffset(int offset) { ... }
+
+	// ヘルパーメソッド
+
+    /**
+     * 前へのリンクが表示できるかどうかを判定します。
+     * @param ture/false
+     */
+    public boolean isPrev() { ... }
+
+    /**
+     * 次へのリンクが表示できるかどうかを判定します。
+     * @param ture/false
+     */
+    public boolean isNext() { ... }
+
+    /**
+     * 現在表示中の一覧の最後のoffsetを取得します。
+     * @param 現在表示中の一覧の最後のoffset
+     */
+    public int getCurrentLastOffset() { ... }
+
+    /**
+     * 次へリンクのoffsetを返します。
+     * @return 次へリンクのoffset
+     */
+    public int getNextOffset() { ... }
+
+    /**
+     * 前へリンクのoffsetを返します。
+     * @return 前へリンクのoffset
+     */
+    public int getPrevOffset() { ... }
+
+    /**
+     * 現在ページのインデックスを返します。
+     * @return 現在ページのインデックス
+     */
+    public int getPageIndex() { ... }
+
+    /**
+     * 現在ページのカウント(インデックス+1)を返します。
+     * @return 現在ページのカウント(インデックス+1)
+     */
+    public int getPageCount() { ... }
+    
+    /**
+     * 最終ページのインデックスを返します。
+     * @return 最終ページのインデックス
+     */
+    public int getLastPageIndex() { ... }
+
+    /**
+     * ページリンクの表示上限を元に、ページ番号リンクの表示開始位置を返します。
+     * @return ページ番号リンクの表示開始位置
+     */
+    public int getDisplayPageIndexBegin() { ... }
+
+    /**
+     * ページリンクの表示上限を元に、ページ番号リンクの表示終了位置を返します。
+     * @return ページ番号リンクの表示終了位置
+     */
+    public int getDisplayPageIndexEnd() { ... }
+
+</pre>
+
+</p>
+<p>
+以下はサンプルにあるJSTLによるページリンクの実装例です。
+<br/>
+<b>呼び出し側：result.jsp</b>
+<pre>
+&lt;!--ページャー(件数表示あり)--&gt;
+&lt;c:import url="tags/pager.jsp"&gt;
+	&lt;c:param name="condition" value="categoryPagerCondition"/&gt;・・・検索条件DTOのセッション中の属性名を指定
+&lt;/c:import&gt;
+</pre>
+
+<b>ページャリンクの部品：pager.jsp</b>
+<pre>
+&lt;%@ page contentType="text/html; charset=Windows-31J" %&gt;
+&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+
+&lt;%
+	// パラメータの取得
+	String conditionName = request.getParameter("condition");
+	String counter = request.getParameter("counter");
+	String href = request.getParameter("href");
+	
+	// PagerViewHelperの作成
+	org.seasar.dao.pager.PagerCondition condition =
+		(org.seasar.dao.pager.PagerCondition)pageContext.findAttribute(conditionName);
+	org.seasar.dao.pager.PagerViewHelper helperCondition = 
+		new org.seasar.dao.pager.PagerViewHelper(condition);
+
+	// 属性をセット
+	pageContext.setAttribute("counter", counter);
+	pageContext.setAttribute("href", href);
+	pageContext.setAttribute("helperCondition", helperCondition);
+%&gt;
+
+
+&lt;%-- メイン --%&gt;
+&lt;table border="0" cellpadding="0" cellspacing="0"&gt;
+&lt;tr&gt;
+&lt;c:if test="${counter != 'false'}"&gt;
+	&lt;td width="200" align="left" valign="center"&gt;
+		該当件数：&lt;c:out value="${helperCondition.count}"/&gt;件
+	&lt;/td&gt;
+&lt;/c:if&gt;
+
+	&lt;td align="right" valign="center"&gt;
+&lt;c:if test="${helperCondition.prev}"&gt;
+		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
+		&lt;c:out value="${helperCondition.prevOffset}"/&gt;"&gt;&lt; 前の
+		&lt;c:out value="${helperCondition.limit}"/&gt;件&lt;/a&gt;
+&lt;/c:if&gt;
+			&nbsp;
+&lt;c:forEach begin="0"
+	end="${helperCondition.lastPageIndex}"
+	step="1"
+	varStatus="status"&gt;
+	&lt;c:if test="${status.index != helperCondition.pageIndex}"&gt;
+			&nbsp;&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
+			&lt;c:out value="${status.index * helperCondition.limit}"/&gt;"&gt;
+			&lt;c:out value="${status.count}"/&gt;&lt;/a&gt;
+	&lt;/c:if&gt;
+	&lt;c:if test="${status.index == helperCondition.pageIndex}"&gt;
+			&nbsp;[&lt;c:out value="${status.count}"/&gt;]
+	&lt;/c:if&gt;
+&lt;/c:forEach&gt;
+			&nbsp;&nbsp;&nbsp;
+&lt;c:if test="${helperCondition.next}"&gt;
+		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
+		&lt;c:out value="${helperCondition.nextOffset}"/&gt;"&gt;次の
+		&lt;c:out value="${helperCondition.limit}"/&gt;件 &gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/c:if&gt;
+&lt;c:if test="${!helperCondition.next}"&gt;
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;/c:if&gt;
+
+&lt;/tr&gt;
+&lt;/table&gt;
+</pre>
+</p>
+<h3><a name="PagerUtil">PagerUtil - S2Daoを使わないList,Colllecitonに対するページング</a></h3>
+<p>
+	S2Daoを使わないList,Colllecitonに対してページングを行いたいときはPagerUtil#filterを使用します。
+<pre>
+List list = getItems(); // フィルタリング前のリスト
+DefaultPagerCondtion condition = new DefaultPagerCondition();
+condition.setLimit(10);
+condition.setOffset(10);
+List result = PagerUtil.filter(list, condition);
+System.out.println(result.size()); // 10
+System.out.println(condition.getCount()); // 35
+</pre>
+</p>
+
+<h3><a name="ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></h3>
+<p>
+	スクロール可能カーソルを使用することで、大量データ検索時のパフォーマンスが向上します。
+	ただし、DBやJDBCドライバの実装によっては、スクロール可能カーソルが使用できない場合があります。
+	その場合、スクロール可能カーソルを使用しない設定にすることができます。
+	スクロール可能カーソルを使用しない場合は、ResultSetの空回しによりカーソルの移動を行います。	
+
+<br>
+<br>
+<b>スクロール可能カーソルをOFFにする設定(dao.dicon)</b>
+<pre>
+&lt;component
+  class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
+  &lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+<font color="red">
+&lt;!--
+  &lt;arg&gt;
+    &lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+  &lt;/arg&gt;
+--&gt;
+&lt;arg&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+&lt;/arg&gt;
+</font>
+  &lt;arg&gt;
+    &lt;component class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+      &lt;arg&gt;
+        &lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+      &lt;/arg&gt;
+      &lt;property name="useScrollCursor"&gt;<font color="red">false</font>&lt;/property&gt;
+    &lt;/component&gt;
+  &lt;/arg&gt;
+&lt;/component&gt;
+
+&lt;component name="interceptor"
+  class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
+  &lt;arg&gt;
+    &lt;component name="s2dao"
+      class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
+    &lt;/component&gt;
+  &lt;/arg&gt;
+&lt;/component&gt;
+
+&lt;!--
+  &lt;component
+    class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
+  &lt;component name="interceptor"
+    class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+--&gt;
+&lt;/components&gt;
+</pre>
+</p>
+
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td></tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">&copy; Copyright The Seasar Project and the others 2004, all rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>
