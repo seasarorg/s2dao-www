@@ -1,20 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
-<link href="seasar_b.css" type="text/css" rel="stylesheet"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
-</head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" height="100%"><tr>
+<head>
+<title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('ja')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
 <tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
 <tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
 <td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
 <td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
 </tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="http://sourceforge.jp/projects/seasar"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="download.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-<td><a href="document.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
-<td><a href="resource.html"><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
 <td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
 <td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
 <table  width="780" border="0" cellspacing="0" cellpadding="0" height="100%" class="white">
@@ -22,55 +29,55 @@
 <!-- don't edit end -->
 <!-- document start -->
 <ul>
-<li><a href="#S2Pager">S2Pager‚Æ‚Í</a></li>
-<li><a href="#Setup">ƒZƒbƒgƒAƒbƒv</a></li>
+<li><a href="#S2Pager">S2Pagerã¨ã¯</a></li>
+<li><a href="#Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></li>
 <ul>
-<li><a href="#Config">ŠÂ‹«İ’è</a></li>
-<li><a href="#Sample">ƒTƒ“ƒvƒ‹‚ÌÀs</a></li>
-<li><a href="#Dicon">dao.dicon‚ÌC³</a></li>
+<li><a href="#Config">ç’°å¢ƒè¨­å®š</a></li>
+<li><a href="#Sample">ã‚µãƒ³ãƒ—ãƒ«ã®å®Ÿè¡Œ</a></li>
+<li><a href="#Dicon">dao.diconã®ä¿®æ­£</a></li>
 </ul>
-<li><a href="#UseS2Pager">S2ƒy[ƒWƒƒ‚Ìg‚¢•û</a></li>
+<li><a href="#UseS2Pager">S2ãƒšãƒ¼ã‚¸ãƒ£ã®ä½¿ã„æ–¹</a></li>
 <ul>
-<li><a href="#PagerCondtion">PagerCondtion - ŒŸõğŒ‚ğ•Û‚·‚é</a></li>
-<li><a href="#PagerSupport">PagerSupport - ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌŒŸõğŒ‚ÌŠi”[‚ğƒTƒ|[ƒg</a></li>
-<li><a href="#PagerViewHelper">PagerViewHelper - ƒrƒ…[‚Ìì¬‚ğ•‚¯‚é</a></li>
-<li><a href="#PagerUtil">PagerUtil#filter - S2Dao‚ğg‚í‚È‚¢List,Collleciton‚É‘Î‚·‚éƒy[ƒWƒ“ƒO</a></li>
-<li><a href="#ScrollCursor">ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹ - ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ÌON/OFF</a></li>
+<li><a href="#PagerCondtion">PagerCondtion - æ¤œç´¢æ¡ä»¶ã‚’ä¿æŒã™ã‚‹</a></li>
+<li><a href="#PagerSupport">PagerSupport - ã‚»ãƒƒã‚·ãƒ§ãƒ³ã¸ã®æ¤œç´¢æ¡ä»¶ã®æ ¼ç´ã‚’ã‚µãƒãƒ¼ãƒˆ</a></li>
+<li><a href="#PagerViewHelper">PagerViewHelper - ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆã‚’åŠ©ã‘ã‚‹</a></li>
+<li><a href="#PagerUtil">PagerUtil#filter - S2Daoã‚’ä½¿ã‚ãªã„List,Colllecitonã«å¯¾ã™ã‚‹ãƒšãƒ¼ã‚¸ãƒ³ã‚°</a></li>
+<li><a href="#ScrollCursor">ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ« - ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã®ON/OFF</a></li>
 </ul>
 </ul>
 
 </ul>
-<h2><a name="S2Pager">S2Pager‚Æ‚Í</a></h2>
-<p>S2Dao‚ğg‚Á‚Äƒy[ƒWƒƒ‚ğÀŒ»‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Å‚·B
-	S2Dao‚ÅŒŸõ‚µ‚½Œ‹‰Ê‚É‘Î‚µ‚ÄAŠJnˆÊ’u‚ÆÅ‘åæ“¾Œ”‚ğw’è‚µ‚ÄŒ‹‰Ê‚Ìˆê•”‚Ì‚İ‚ğæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-	‚±‚ê‚É‚æ‚èAGoogle‚ÌŒŸõŒ‹‰Ê‚Ì‚æ‚¤‚ÉA‘å—Ê‚ÌŒŸõŒ‹‰Ê‚ğƒy[ƒW’PˆÊ‚Å•\¦‚·‚é‚±‚Æ‚ª‰Â”\‚É‚È‚è‚Ü‚·B
+<h2><a name="S2Pager">S2Pagerã¨ã¯</a></h2>
+<p>S2Daoã‚’ä½¿ã£ã¦ãƒšãƒ¼ã‚¸ãƒ£ã‚’å®Ÿç¾ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã§ã™ã€‚
+	S2Daoã§æ¤œç´¢ã—ãŸçµæœã«å¯¾ã—ã¦ã€é–‹å§‹ä½ç½®ã¨æœ€å¤§å–å¾—ä»¶æ•°ã‚’æŒ‡å®šã—ã¦çµæœã®ä¸€éƒ¨ã®ã¿ã‚’å–å¾—ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+	ã“ã‚Œã«ã‚ˆã‚Šã€Googleã®æ¤œç´¢çµæœã®ã‚ˆã†ã«ã€å¤§é‡ã®æ¤œç´¢çµæœã‚’ãƒšãƒ¼ã‚¸å˜ä½ã§è¡¨ç¤ºã™ã‚‹ã“ã¨ãŒå¯èƒ½ã«ãªã‚Šã¾ã™ã€‚
 </p>
 
-<h2><a name="Setup">ƒZƒbƒgƒAƒbƒv</a></h2>
-<h3><a name="Config">ŠÂ‹«İ’è</a></h3>
-<p>S2PagerVx.x.x.zip‚ğ‰ğ“€‚µ‚Ä‚Å‚«‚½s2pagerƒfƒBƒŒƒNƒgƒŠ‚ğEclipse‚ÅA¢ƒtƒ@ƒCƒ‹¨ƒCƒ“ƒ|[ƒg¨Šù‘¶‚ÌƒvƒƒWƒFƒNƒg‚ğƒ[ƒNƒXƒy[ƒX‚Ö£‚ÅƒCƒ“ƒ|[ƒg‚µ‚Ä‚­‚¾‚³‚¢B ‚±‚ê‚ÅA„‚Æ‘S‚­“¯‚¶ŠÂ‹«‚É‚È‚è‚Ü‚·Bsrc/examples”z‰º‚ÉƒTƒ“ƒvƒ‹‚à‚ ‚è‚Ü‚·B</p>
+<h2><a name="Setup">ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—</a></h2>
+<h3><a name="Config">ç’°å¢ƒè¨­å®š</a></h3>
+<p>S2PagerVx.x.x.zipã‚’è§£å‡ã—ã¦ã§ããŸs2pagerãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’Eclipseã§ã€ï½¢ãƒ•ã‚¡ã‚¤ãƒ«â†’ã‚¤ãƒ³ãƒãƒ¼ãƒˆâ†’æ—¢å­˜ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã¸ï½£ã§ã‚¤ãƒ³ãƒãƒ¼ãƒˆã—ã¦ãã ã•ã„ã€‚ ã“ã‚Œã§ã€ç§ã¨å…¨ãåŒã˜ç’°å¢ƒã«ãªã‚Šã¾ã™ã€‚src/examplesé…ä¸‹ã«ã‚µãƒ³ãƒ—ãƒ«ã‚‚ã‚ã‚Šã¾ã™ã€‚</p>
 <p>
-	S2Pager‚Æ‚µ‚Ä•K—v‚Èjarƒtƒ@ƒCƒ‹‚ÍAs2pager/lib/s2-pager-x.x.x.jar‚Å‚·B
-	‚Ü‚½S2,S2Dao‚à•K—v‚Å‚·B
+	S2Pagerã¨ã—ã¦å¿…è¦ãªjarãƒ•ã‚¡ã‚¤ãƒ«ã¯ã€s2pager/lib/s2-pager-x.x.x.jarã§ã™ã€‚
+	ã¾ãŸS2,S2Daoã‚‚å¿…è¦ã§ã™ã€‚
 </p>
 
 
-<h3><a name="Sample">ƒTƒ“ƒvƒ‹‚ÌÀs</a></h3>
+<h3><a name="Sample">ã‚µãƒ³ãƒ—ãƒ«ã®å®Ÿè¡Œ</a></h3>
 <p>
-	S2Pager‚ÌƒTƒ“ƒvƒ‹‚ÍJSP2.0‚Å“®ì‚µ‚Ü‚·BˆÈ‰º‚Ìè‡‚ÅTomcat5.0.x‚È‚ÇJSP2.0‚ğƒTƒ|[ƒg‚·‚éServletƒRƒ“ƒeƒiã‚Å“®ì‚³‚¹‚é•K—v‚ª‚ ‚è‚Ü‚·B<br>
+	S2Pagerã®ã‚µãƒ³ãƒ—ãƒ«ã¯JSP2.0ã§å‹•ä½œã—ã¾ã™ã€‚ä»¥ä¸‹ã®æ‰‹é †ã§Tomcat5.0.xãªã©JSP2.0ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹Servletã‚³ãƒ³ãƒ†ãƒŠä¸Šã§å‹•ä½œã•ã›ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚<br>
 	<ol>
-		<li>‰ğ“€ƒfƒBƒŒƒNƒgƒŠ‚Ìbin/runHsqldb.bat‚ğÀs‚µ‚ÄAHSQLDB‚ğ‹N“®‚µ‚Ü‚·B</li>
-		<li>s2pager.war‚ğTomcat5.0.x‚ÌwebappsƒfƒBƒŒƒNƒgƒŠ‚É”z’u‚µ‚Ü‚·B
-		<li>Tomcat5.0.x‚ğ‹N“®‚µ‚Ü‚·B</li>
-		<li><a href="http://localhost:8080/s2pager/">http://localhost:8080/s2pager/</a>‚ğƒuƒ‰ƒEƒU‚ÅŠJ‚«‚Ü‚·B(Tomcat‚ª8080ƒ|[ƒg‚Å“®ì‚µ‚Ä‚¢‚éê‡)</li>
+		<li>è§£å‡ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®bin/runHsqldb.batã‚’å®Ÿè¡Œã—ã¦ã€HSQLDBã‚’èµ·å‹•ã—ã¾ã™ã€‚</li>
+		<li>s2pager.warã‚’Tomcat5.0.xã®webappsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã—ã¾ã™ã€‚
+		<li>Tomcat5.0.xã‚’èµ·å‹•ã—ã¾ã™ã€‚</li>
+		<li><a href="http://localhost:8080/s2pager/">http://localhost:8080/s2pager/</a>ã‚’ãƒ–ãƒ©ã‚¦ã‚¶ã§é–‹ãã¾ã™ã€‚(TomcatãŒ8080ãƒãƒ¼ãƒˆã§å‹•ä½œã—ã¦ã„ã‚‹å ´åˆ)</li>
 	</ol>
 </p>
 <p>
-	Tomcatƒvƒ‰ƒOƒCƒ“‚ğ“±“ü‚µ‚Ä‚¢‚éŠÂ‹«‚Å‚ ‚ê‚ÎAEcliose‚ÌTomcatPluginã‚Å‚»‚Ì‚Ü‚Ü“®ì‚³‚¹‚é‚±‚Æ‚à‚Å‚«‚Ü‚·B
+	Tomcatãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’å°å…¥ã—ã¦ã„ã‚‹ç’°å¢ƒã§ã‚ã‚Œã°ã€Eclioseã®TomcatPluginä¸Šã§ãã®ã¾ã¾å‹•ä½œã•ã›ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
 </p>
-<h3><a name="Dicon">dao.dicon‚ÌC³</a></h3>
+<h3><a name="Dicon">dao.diconã®ä¿®æ­£</a></h3>
 <p>
-	S2Pager‚ğŠù‘¶‚ÌƒvƒƒWƒFƒNƒg‚Åg—p‚·‚é‚É‚ÍAS2Dao‚Ìdao.dicon‚ğS2Pager—p‚ÉC³‚·‚é•K—v‚ª‚ ‚è‚Ü‚·Bsrc/dao.dicon‚ğQl‚É‚µ‚ÄˆÈ‰º‚Ì‚æ‚¤‚Édao.dicon‚ğC³‚µ‚Ü‚·B
+	S2Pagerã‚’æ—¢å­˜ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§ä½¿ç”¨ã™ã‚‹ã«ã¯ã€S2Daoã®dao.diconã‚’S2Pagerç”¨ã«ä¿®æ­£ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚src/dao.diconã‚’å‚è€ƒã«ã—ã¦ä»¥ä¸‹ã®ã‚ˆã†ã«dao.diconã‚’ä¿®æ­£ã—ã¾ã™ã€‚
 </p>
 <pre>
 &lt;component
@@ -113,17 +120,17 @@
 </pre>
 
 
-<h2><a name="UseS2Pager">S2Pager‚Ìg‚¢•û</h2>
-<h3><a name="PagerCondtion">PagerCondtion - ŒŸõğŒ‚ğ•Û‚·‚é</a></h3>
-<p>ƒy[ƒWƒƒ‹@”\‚ÍŸ‚Ìè‡‚ÅÀŒ»‚µ‚Ü‚·B</p>
+<h2><a name="UseS2Pager">S2Pagerã®ä½¿ã„æ–¹</h2>
+<h3><a name="PagerCondtion">PagerCondtion - æ¤œç´¢æ¡ä»¶ã‚’ä¿æŒã™ã‚‹</a></h3>
+<p>ãƒšãƒ¼ã‚¸ãƒ£æ©Ÿèƒ½ã¯æ¬¡ã®æ‰‹é †ã§å®Ÿç¾ã—ã¾ã™ã€‚</p>
 <ol>
 <li>
-PagerConditionƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğimplements‚·‚éŒŸõğŒDTO‚ğì¬‚µ‚Ü‚·B
-ƒfƒtƒHƒ‹ƒg‚ÌÀ‘•‚Æ‚µ‚ÄAorg.seasar.dao.pager.DefaultPagerConditionƒNƒ‰ƒX‚ª—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
-ŒŸõğŒDTO‚ÍS2Pager—p‚ÌƒvƒƒpƒeƒB(offset,limit,count)‚ÆAŒŸõğŒ(‰º‹L‚Ì—á‚Å‚Ícategory)‚ğ•Û‚µ‚Ü‚·B
+PagerConditionã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’implementsã™ã‚‹æ¤œç´¢æ¡ä»¶DTOã‚’ä½œæˆã—ã¾ã™ã€‚
+ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å®Ÿè£…ã¨ã—ã¦ã€org.seasar.dao.pager.DefaultPagerConditionã‚¯ãƒ©ã‚¹ãŒç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚
+æ¤œç´¢æ¡ä»¶DTOã¯S2Pagerç”¨ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(offset,limit,count)ã¨ã€æ¤œç´¢æ¡ä»¶(ä¸‹è¨˜ã®ä¾‹ã§ã¯category)ã‚’ä¿æŒã—ã¾ã™ã€‚
 <pre>
 /**
- * ƒy[ƒWƒƒğŒƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
+ * ãƒšãƒ¼ã‚¸ãƒ£æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
  * @author Toshitaka Agata
  */
 public interface PagerCondition {
@@ -131,38 +138,38 @@ public interface PagerCondition {
     public static final int NONE_LIMIT = -1;
     
     /**
-     * ŒŸõŒ‹‰Ê‚Ì‘Œ”‚ğæ“¾‚µ‚Ü‚·B
-     * @return ‘Œ”
+     * æ¤œç´¢çµæœã®ç·ä»¶æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return ç·ä»¶æ•°
      */
     public int getCount();
     
     /**
-     * ŒŸõŒ‹‰Ê‚Ì‘Œ”‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param count ‘Œ”
+     * æ¤œç´¢çµæœã®ç·ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param count ç·ä»¶æ•°
      */
     public void setCount(int count);
     
     /**
-     * ŒŸõŒ‹‰Ê‚©‚çˆê“x‚Éæ“¾‚·‚éÅ‘åŒ”‚ğæ“¾‚µ‚Ü‚·B
-     * @return Å‘åŒ”
+     * æ¤œç´¢çµæœã‹ã‚‰ä¸€åº¦ã«å–å¾—ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return æœ€å¤§ä»¶æ•°
      */
     public int getLimit();
     
     /**
-     * ŒŸõŒ‹‰Ê‚©‚çˆê“x‚Éæ“¾‚·‚éÅ‘åŒ”‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param limit Å‘åŒ”
+     * æ¤œç´¢çµæœã‹ã‚‰ä¸€åº¦ã«å–å¾—ã™ã‚‹æœ€å¤§ä»¶æ•°ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param limit æœ€å¤§ä»¶æ•°
      */
     public void setLimit(int limit);
     
     /**
-     * ŒŸõŒ‹‰Ê‚Ìæ“¾ŠJnˆÊ’u‚ğ‚ğƒZƒbƒg‚µ‚Ü‚·B
-     * @param offset æ“¾ŠJnˆÊ’u
+     * æ¤œç´¢çµæœã®å–å¾—é–‹å§‹ä½ç½®ã‚’ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
+     * @param offset å–å¾—é–‹å§‹ä½ç½®
      */
     public void setOffset(int offset);
 
     /**
-     * ŒŸõŒ‹‰Ê‚Ìæ“¾ŠJnˆÊ’u‚ğ‚ğæ“¾‚µ‚Ü‚·B
-     * @return æ“¾ŠJnˆÊ’u
+     * æ¤œç´¢çµæœã®å–å¾—é–‹å§‹ä½ç½®ã‚’ã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @return å–å¾—é–‹å§‹ä½ç½®
      */
     public int getOffset();
 }
@@ -170,13 +177,13 @@ public interface PagerCondition {
 
 <pre>
 /**
- * ŒŸõğŒDTOB
- * “Æ©‚ÌŒŸõğŒ‚Í‚±‚ÌƒNƒ‰ƒX‚Ì‚æ‚¤‚ÉPagerConditionƒCƒ“ƒ^[ƒtƒFƒCƒX‚ğÀ‘•‚·‚é
- * ƒNƒ‰ƒX‚ÅÀŒ»‚µ‚Ü‚·B’Êí‚ÍDefaultPagerCondition‚ğŒp³‚·‚é‚Æ‚æ‚¢‚Å‚µ‚å‚¤B
+ * æ¤œç´¢æ¡ä»¶DTOã€‚
+ * ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶ã¯ã“ã®ã‚¯ãƒ©ã‚¹ã®ã‚ˆã†ã«PagerConditionã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’å®Ÿè£…ã™ã‚‹
+ * ã‚¯ãƒ©ã‚¹ã§å®Ÿç¾ã—ã¾ã™ã€‚é€šå¸¸ã¯DefaultPagerConditionã‚’ç¶™æ‰¿ã™ã‚‹ã¨ã‚ˆã„ã§ã—ã‚‡ã†ã€‚
  * @author agata
  */
 public class CategoryPagerCondition extends DefaultPagerCondition {
-    /** ƒJƒeƒSƒŠ[(ŒŸõğŒ) */
+    /** ã‚«ãƒ†ã‚´ãƒªãƒ¼(æ¤œç´¢æ¡ä»¶) */
     private String category;
     public String getCategory() {
         return category;
@@ -188,7 +195,7 @@ public class CategoryPagerCondition extends DefaultPagerCondition {
 </pre>
 </li>
 <li>
-ŒŸõğŒDTO‚ğˆø”‚É‚ÂDao‚ÌŒŸõƒƒ\ƒbƒh‚ğì¬‚µ‚Ü‚·B
+æ¤œç´¢æ¡ä»¶DTOã‚’å¼•æ•°ã«æŒã¤Daoã®æ¤œç´¢ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½œæˆã—ã¾ã™ã€‚
 <pre>
 public interface BookDao {
     public List findByCategoryPagerCondition(CategoryPagerCondition dto);
@@ -196,27 +203,27 @@ public interface BookDao {
 </pre>
 </li>
 <li>
-ŒŸõğŒDTO‚ÉŠJnˆÊ’u(offset)‚ÆÅ‘åæ“¾”(limit)‚ğƒZƒbƒg‚µ‚ÄDao‚Ìƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚Ü‚·B
+æ¤œç´¢æ¡ä»¶DTOã«é–‹å§‹ä½ç½®(offset)ã¨æœ€å¤§å–å¾—æ•°(limit)ã‚’ã‚»ãƒƒãƒˆã—ã¦Daoã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã³å‡ºã—ã¾ã™ã€‚
 <pre>
 
-// offset‚Ælimit‚ğƒZƒbƒg
+// offsetã¨limitã‚’ã‚»ãƒƒãƒˆ
 CategoryPagerCondition dto = new CategoryPagerCondition();
 dto.setLimit(10);
 String offsetStr = request.getParameter("offset");
 dto.setOffset(Integer.parseInt(offset));
 
-// “Æ©‚ÌŒŸõğŒ
+// ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶
 String category = request.getParameter("category");
 if (category != null && category.length() != 0) {
     dto.setCategory(category);
 }
 
-// ƒy[ƒWƒƒ‘Î‰‚ÌŒŸõ‚ğÀs
+// ãƒšãƒ¼ã‚¸ãƒ£å¯¾å¿œã®æ¤œç´¢ã‚’å®Ÿè¡Œ
 BookDao bookDao = (BookDao) container.getComponent(BookDao.class);
    List books = bookDao.findByCategoryPagerCondition(dto);
 request.setAttribute("books", books);
 
-// count‚É‚ÍŒŸõŒ‹‰Ê‚Ì‘”‚ªƒZƒbƒg‚³‚ê‚Ä‚¢‚éB
+// countã«ã¯æ¤œç´¢çµæœã®ç·æ•°ãŒã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚‹ã€‚
 System.out.println("count=" + dto.getCount());
 
 </pre>
@@ -224,65 +231,65 @@ System.out.println("count=" + dto.getCount());
 </ol>
 
 
-<h3><a name="PagerSupport">PagerSupport - ƒZƒbƒVƒ‡ƒ“‚Ö‚ÌŒŸõğŒ‚ÌŠi”[‚ğƒTƒ|[ƒg</a></h3>
-<p>’ÊíAŒŸõğŒƒIƒuƒWƒFƒNƒg‚ÍHttpSession‚ÌƒAƒgƒŠƒrƒ…[ƒg‚ÉŠi”[‚µ‚Ü‚·B
-S2Pager‚Å‚ÍŒŸõğŒƒIƒuƒWƒFƒNƒg‚ÌHttpSession‚Ö‚ÌŠi”[‚È‚Ç‚ğƒTƒ|[ƒg‚·‚é
-ƒ†[ƒeƒBƒŠƒB“I‚ÈƒNƒ‰ƒX‚Æ‚µ‚Äorg.seasar.dao.pager.PagerSupportƒNƒ‰ƒX‚ğ—pˆÓ‚µ‚Ä‚¢‚Ü‚·B
+<h3><a name="PagerSupport">PagerSupport - ã‚»ãƒƒã‚·ãƒ§ãƒ³ã¸ã®æ¤œç´¢æ¡ä»¶ã®æ ¼ç´ã‚’ã‚µãƒãƒ¼ãƒˆ</a></h3>
+<p>é€šå¸¸ã€æ¤œç´¢æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯HttpSessionã®ã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆã«æ ¼ç´ã—ã¾ã™ã€‚
+S2Pagerã§ã¯æ¤œç´¢æ¡ä»¶ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®HttpSessionã¸ã®æ ¼ç´ãªã©ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹
+ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªã‚£çš„ãªã‚¯ãƒ©ã‚¹ã¨ã—ã¦org.seasar.dao.pager.PagerSupportã‚¯ãƒ©ã‚¹ã‚’ç”¨æ„ã—ã¦ã„ã¾ã™ã€‚
 </p>
 <p>
-PagerSupportƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅŸ‚Ì€–Ú‚ğw’è‚µ‚Ü‚·B
+PagerSupportã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§æ¬¡ã®é …ç›®ã‚’æŒ‡å®šã—ã¾ã™ã€‚
 
 <table border="1">
 	<tr>
-		<th nowrap>ˆø”</th>
-		<th>ˆÓ–¡</hd>
-		<th>à–¾</hd>
+		<th nowrap>å¼•æ•°</th>
+		<th>æ„å‘³</hd>
+		<th>èª¬æ˜</hd>
 	</tr>
 	<tr>
-		<td nowrap>‘æ‚Pˆø”</td>
-		<td>Å‘åæ“¾”</td>
-		<td>PagerCondition‚Ìlimit‚Ég—p‚³‚ê‚Ü‚·B</td>
+		<td nowrap>ç¬¬ï¼‘å¼•æ•°</td>
+		<td>æœ€å¤§å–å¾—æ•°</td>
+		<td>PagerConditionã®limitã«ä½¿ç”¨ã•ã‚Œã¾ã™ã€‚</td>
 	</tr>
 	<tr>
-		<td>‘æ‚Qˆø”</td>
-		<td>ğŒ•ÛDTO‚ÌƒNƒ‰ƒXƒIƒuƒWƒFƒNƒg</td>
-		<td>ƒZƒbƒVƒ‡ƒ“’†‚É>ğŒ•ÛDTO‚ª‘¶İ‚µ‚©‚Á‚½ê‡A‚±‚±‚Åw’è‚µ‚½ƒNƒ‰ƒX‚ÌŒŸõğŒDTO‚ª¶¬‚³‚ê‚Ü‚·B</td>
+		<td>ç¬¬ï¼’å¼•æ•°</td>
+		<td>æ¡ä»¶ä¿æŒDTOã®ã‚¯ãƒ©ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</td>
+		<td>ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã«>æ¡ä»¶ä¿æŒDTOãŒå­˜åœ¨ã—ã‹ã£ãŸå ´åˆã€ã“ã“ã§æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã®æ¤œç´¢æ¡ä»¶DTOãŒç”Ÿæˆã•ã‚Œã¾ã™ã€‚</td>
 	</tr>
 	<tr>
-		<td>‘æ‚Rˆø”</td>
-		<td>‘®«–¼</td>
-		<td>ƒZƒbƒVƒ‡ƒ“‚Ì‘®«–¼‚ğw’è‚µ‚Ü‚·B‚±‚±‚Åw’è‚µ‚½–¼‘O‚ÅŒŸõğŒDTO‚ªƒZƒbƒVƒ‡ƒ“’†‚ÉŠi”[‚³‚ê‚Ü‚·B</td>
+		<td>ç¬¬ï¼“å¼•æ•°</td>
+		<td>å±æ€§å</td>
+		<td>ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®å±æ€§åã‚’æŒ‡å®šã—ã¾ã™ã€‚ã“ã“ã§æŒ‡å®šã—ãŸåå‰ã§æ¤œç´¢æ¡ä»¶DTOãŒã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã«æ ¼ç´ã•ã‚Œã¾ã™ã€‚</td>
 	</tr>
 </table>
 <pre>
-	/** ƒy[ƒWƒƒƒTƒ|[ƒgƒNƒ‰ƒX */
+	/** ãƒšãƒ¼ã‚¸ãƒ£ã‚µãƒãƒ¼ãƒˆã‚¯ãƒ©ã‚¹ */
 	private PagerSupport pager = 
 		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
 </pre>
 </p>
 
 <p>
-ƒZƒbƒVƒ‡ƒ“’†‚ÌŒŸõğŒDTO‚Ìæ“¾ŠJnˆÊ’u(offset)‚ÌXV‚ÍAƒpƒ‰ƒ[ƒ^–¼"offset"‚ªæ“¾ŠJnˆÊ’u‚ğˆÓ–¡‚·‚éê‡Ÿ‚ÌƒR[ƒh‚Å‰Â”\‚Å‚·B
+ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã®æ¤œç´¢æ¡ä»¶DTOã®å–å¾—é–‹å§‹ä½ç½®(offset)ã®æ›´æ–°ã¯ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å"offset"ãŒå–å¾—é–‹å§‹ä½ç½®ã‚’æ„å‘³ã™ã‚‹å ´åˆæ¬¡ã®ã‚³ãƒ¼ãƒ‰ã§å¯èƒ½ã§ã™ã€‚
 <pre>
-        // ƒpƒ‰ƒ[ƒ^offset‚ğŒ³‚Éƒy[ƒWƒƒ‚ÌoffsetˆÊ’u‚ğXV
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿offsetã‚’å…ƒã«ãƒšãƒ¼ã‚¸ãƒ£ã®offsetä½ç½®ã‚’æ›´æ–°
         pager.updateOffset(request);
 </pre>
 </p>
 
 <p>
-‚Ü‚½A”CˆÓ‚Ìƒpƒ‰ƒ[ƒ^–¼‚ÅXV‚ğ‚µ‚½‚¢ê‡AŸ‚Ì‚æ‚¤‚ÈƒR[ƒh‚É‚È‚è‚Ü‚·B
+ã¾ãŸã€ä»»æ„ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿åã§æ›´æ–°ã‚’ã—ãŸã„å ´åˆã€æ¬¡ã®ã‚ˆã†ãªã‚³ãƒ¼ãƒ‰ã«ãªã‚Šã¾ã™ã€‚
 <pre>
-        // ƒpƒ‰ƒ[ƒ^"hoge"‚ğŒ³‚Éƒy[ƒWƒƒ‚ÌoffsetˆÊ’u‚ğXV
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿"hoge"ã‚’å…ƒã«ãƒšãƒ¼ã‚¸ãƒ£ã®offsetä½ç½®ã‚’æ›´æ–°
         pager.updateOffset(request, "hoge");
 </pre>
 </p>
 
 <p>
-ƒZƒbƒVƒ‡ƒ“’†‚ÌŒŸõğŒDTO‚ğæ“¾‚·‚é‚É‚ÍAŸ‚Ì‚æ‚¤‚ÈƒR[ƒh‚É‚È‚è‚Ü‚·B
+ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã®æ¤œç´¢æ¡ä»¶DTOã‚’å–å¾—ã™ã‚‹ã«ã¯ã€æ¬¡ã®ã‚ˆã†ãªã‚³ãƒ¼ãƒ‰ã«ãªã‚Šã¾ã™ã€‚
 <pre>
-        // ƒy[ƒWƒƒ‚ÌğŒ•ÛƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒVƒ‡ƒ“‚©‚çæ“¾
-        // ‘¶İ‚µ‚È‚¢ê‡‚ÍAPagerSupport‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å
-        // “n‚³‚ê‚½ƒNƒ‰ƒX‚ªV‹K‚Éì¬‚³‚ê‚Ü‚·B
+        // ãƒšãƒ¼ã‚¸ãƒ£ã®æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‹ã‚‰å–å¾—
+        // å­˜åœ¨ã—ãªã„å ´åˆã¯ã€PagerSupportã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§
+        // æ¸¡ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒæ–°è¦ã«ä½œæˆã•ã‚Œã¾ã™ã€‚
         CategoryPagerCondition dto = 
             (CategoryPagerCondition) pager.getPagerCondition(request);
 </pre>
@@ -290,14 +297,14 @@ PagerSupportƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅŸ‚Ì€–Ú‚ğw’è‚µ‚Ü‚·B
 
 
 <p>
-ˆÈã‚ÌPagerSupport‚Ìg‚¢•û‚ğ‚Ü‚Æ‚ß‚é‚ÆAŸ‚Ì‚æ‚¤‚ÈƒR[ƒh‚É‚È‚è‚Ü‚·B
-ActionƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX•Ï”‚Æ‚µ‚ÄPagerSupport‚ğ•Û‚µ‚Ä‚¢‚Ü‚·‚ªA
-PagerSupport‚ÍƒXƒŒƒbƒhƒZ[ƒt‚Å‚·B•¡”ƒ†[ƒU‚Å‹¤—L‚µ‚ÄˆÀ‘S‚Ég—p‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-‚½‚¾‚µAÅ‘åæ“¾”(limit)‚ğƒ†[ƒU‚²‚Æ‚ÉØ‚è‘Ö‚¦‚½‚¢ê‡‚ÍAPagerSupport©‘Ì‚ğƒZƒbƒVƒ‡ƒ“‚ÉŠi”[‚·‚é‚È‚ÇH•v‚ª•K—v‚Å‚µ‚å‚¤B
+ä»¥ä¸Šã®PagerSupportã®ä½¿ã„æ–¹ã‚’ã¾ã¨ã‚ã‚‹ã¨ã€æ¬¡ã®ã‚ˆã†ãªã‚³ãƒ¼ãƒ‰ã«ãªã‚Šã¾ã™ã€‚
+Actionã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã¨ã—ã¦PagerSupportã‚’ä¿æŒã—ã¦ã„ã¾ã™ãŒã€
+PagerSupportã¯ã‚¹ãƒ¬ãƒƒãƒ‰ã‚»ãƒ¼ãƒ•ã§ã™ã€‚è¤‡æ•°ãƒ¦ãƒ¼ã‚¶ã§å…±æœ‰ã—ã¦å®‰å…¨ã«ä½¿ç”¨ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+ãŸã ã—ã€æœ€å¤§å–å¾—æ•°(limit)ã‚’ãƒ¦ãƒ¼ã‚¶ã”ã¨ã«åˆ‡ã‚Šæ›¿ãˆãŸã„å ´åˆã¯ã€PagerSupportè‡ªä½“ã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã«æ ¼ç´ã™ã‚‹ãªã©å·¥å¤«ãŒå¿…è¦ã§ã—ã‚‡ã†ã€‚
 
 <pre>
 public BookAction extends Action {
-	/** ƒy[ƒWƒƒƒTƒ|[ƒgƒNƒ‰ƒX */
+	/** ãƒšãƒ¼ã‚¸ãƒ£ã‚µãƒãƒ¼ãƒˆã‚¯ãƒ©ã‚¹ */
 	private PagerSupport pager =
 		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
 	
@@ -310,27 +317,27 @@ public BookAction extends Action {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // ƒpƒ‰ƒ[ƒ^offset‚ğŒ³‚Éƒy[ƒWƒƒ‚ÌoffsetˆÊ’u‚ğXV
+        // ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿offsetã‚’å…ƒã«ãƒšãƒ¼ã‚¸ãƒ£ã®offsetä½ç½®ã‚’æ›´æ–°
         pager.updateOffset(request);
         
-        // ƒy[ƒWƒƒ‚ÌğŒ•ÛƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒVƒ‡ƒ“‚©‚çæ“¾
-        // ‘¶İ‚µ‚È‚¢ê‡‚ÍAPagerSupport‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å
-        // “n‚³‚ê‚½ƒNƒ‰ƒX‚ªV‹K‚Éì¬‚³‚ê‚Ü‚·B
+        // ãƒšãƒ¼ã‚¸ãƒ£ã®æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‹ã‚‰å–å¾—
+        // å­˜åœ¨ã—ãªã„å ´åˆã¯ã€PagerSupportã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§
+        // æ¸¡ã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ãŒæ–°è¦ã«ä½œæˆã•ã‚Œã¾ã™ã€‚
         CategoryPagerCondition dto = 
             (CategoryPagerCondition) pager.getPagerCondition(request);
         
-        // ğŒ•ÛƒIƒuƒWƒFƒNƒg’†‚Ì“Æ©‚ÌŒŸõğŒ‚ğƒZƒbƒg
-        // ‚±‚Ìê‡A‘ĞƒJƒeƒSƒŠ‚ğ•\‚·cateogry
+        // æ¡ä»¶ä¿æŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸­ã®ç‹¬è‡ªã®æ¤œç´¢æ¡ä»¶ã‚’ã‚»ãƒƒãƒˆ
+        // ã“ã®å ´åˆã€æ›¸ç±ã‚«ãƒ†ã‚´ãƒªã‚’è¡¨ã™cateogry
         String category = request.getParameter("category");
         if (category != null && category.length() != 0) {
             dto.setCategory(category);
         }
         
-        // ƒy[ƒWƒƒ‘Î‰‚ÌŒŸõ‚ğÀs
+        // ãƒšãƒ¼ã‚¸ãƒ£å¯¾å¿œã®æ¤œç´¢ã‚’å®Ÿè¡Œ
         List books = bookDao.findByCategoryPagerCondition(dto);
         request.setAttribute("books", books);
         
-        // Œ‹‰Êƒy[ƒW‚ÉƒtƒHƒ[ƒh
+        // çµæœãƒšãƒ¼ã‚¸ã«ãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰
         request.getRequestDispatcher("/result.jsp").forward(request, response);
         
     }
@@ -338,31 +345,31 @@ public BookAction extends Action {
 </pre>
 </p>
 
-<h3><a name="PagerViewHelper">PagerViewHelper - ƒrƒ…[‚Ìì¬‚ğ•‚¯‚é</a></h3>
+<h3><a name="PagerViewHelper">PagerViewHelper - ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆã‚’åŠ©ã‘ã‚‹</a></h3>
 <p>
-	S2Pager‚Å‚Íƒy[ƒWƒŠƒ“ƒN‚ğ•\¦‚·‚éƒrƒ…[‚Ì•”•i‚Í—pˆÓ‚µ‚Ä‚¢‚Ü‚¹‚ñB
-	‚±‚ê‚ÍAƒy[ƒWƒŠƒ“ƒN‚Ì•\¦Œ`®‚ÍAƒvƒƒWƒFƒNƒg‚É‚æ‚Á‚ÄˆÙ‚È‚é‚½‚ß‚Å‚·B
-	‚½‚¾AƒTƒ“ƒvƒ‹‚Í—pˆÓ‚µ‚Ä‚¢‚Ü‚·B
-	ƒTƒ“ƒvƒ‹‚Å‚ÍJSTL”Å‚ÆJSP2.0‚Ìƒ^ƒOƒtƒ@ƒCƒ‹‚É‚æ‚éƒy[ƒWƒŠƒ“ƒN‚Ì‚Qƒpƒ^[ƒ“‚ª‚ ‚è‚Ü‚·B
-	ƒJƒXƒ^ƒ€ƒ^ƒO‚Å‚ÌƒTƒ“ƒvƒ‹‚Í‚ ‚è‚Ü‚¹‚ñBì¬‚³‚ê‚½•û‚Íƒ\[ƒX‚Ì’ñ‹Ÿ‚¨‘Ò‚¿‚µ‚Ä‚¨‚è‚Ü‚·;-)
+	S2Pagerã§ã¯ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã‚’è¡¨ç¤ºã™ã‚‹ãƒ“ãƒ¥ãƒ¼ã®éƒ¨å“ã¯ç”¨æ„ã—ã¦ã„ã¾ã›ã‚“ã€‚
+	ã“ã‚Œã¯ã€ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºå½¢å¼ã¯ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ˆã£ã¦ç•°ãªã‚‹ãŸã‚ã§ã™ã€‚
+	ãŸã ã€ã‚µãƒ³ãƒ—ãƒ«ã¯ç”¨æ„ã—ã¦ã„ã¾ã™ã€‚
+	ã‚µãƒ³ãƒ—ãƒ«ã§ã¯JSTLç‰ˆã¨JSP2.0ã®ã‚¿ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚ˆã‚‹ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®ï¼’ãƒ‘ã‚¿ãƒ¼ãƒ³ãŒã‚ã‚Šã¾ã™ã€‚
+	ã‚«ã‚¹ã‚¿ãƒ ã‚¿ã‚°ã§ã®ã‚µãƒ³ãƒ—ãƒ«ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚ä½œæˆã•ã‚ŒãŸæ–¹ã¯ã‚½ãƒ¼ã‚¹ã®æä¾›ãŠå¾…ã¡ã—ã¦ãŠã‚Šã¾ã™;-)
 	
 </p>
-	‚Ü‚½APagerCondition‚Ìî•ñ‚ğŒ³‚Éƒrƒ…[‚ÅƒŠƒ“ƒN‚ğ¶¬‚·‚é‚½‚ß‚Ìƒrƒ…[ƒwƒ‹ƒp[ƒNƒ‰ƒX‚Æ‚µ‚ÄA
-	org.seasar.dao.pager.PagerViewHelperƒNƒ‰ƒX‚ª‚ ‚è‚Ü‚·B
-	PagerViewHelperƒNƒ‰ƒX‚ğg‚¤‚Æƒrƒ…[‚Åi“Á‚ÉJSTL‚ÌEL‚âVelocity‚Åjƒy[ƒWƒŠƒ“ƒN‚ğì¬‚·‚é‚Ì‚ªŠy‚É‚È‚è‚Ü‚·B
+	ã¾ãŸã€PagerConditionã®æƒ…å ±ã‚’å…ƒã«ãƒ“ãƒ¥ãƒ¼ã§ãƒªãƒ³ã‚¯ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ãƒ“ãƒ¥ãƒ¼ãƒ˜ãƒ«ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã¨ã—ã¦ã€
+	org.seasar.dao.pager.PagerViewHelperã‚¯ãƒ©ã‚¹ãŒã‚ã‚Šã¾ã™ã€‚
+	PagerViewHelperã‚¯ãƒ©ã‚¹ã‚’ä½¿ã†ã¨ãƒ“ãƒ¥ãƒ¼ã§ï¼ˆç‰¹ã«JSTLã®ELã‚„Velocityã§ï¼‰ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã‚’ä½œæˆã™ã‚‹ã®ãŒæ¥½ã«ãªã‚Šã¾ã™ã€‚
 	<br/><br/>
-	PagerViewHelper‚ÍˆÈ‰º‚Ìƒƒ\ƒbƒh‚ğ‚Á‚Ä‚¢‚Ü‚·B
+	PagerViewHelperã¯ä»¥ä¸‹ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒã£ã¦ã„ã¾ã™ã€‚
 <pre>
 /**
- * ƒy[ƒWƒƒ‚Ìƒrƒ…[ƒwƒ‹ƒp[ƒNƒ‰ƒX‚Å‚·B
+ * ãƒšãƒ¼ã‚¸ãƒ£ã®ãƒ“ãƒ¥ãƒ¼ãƒ˜ãƒ«ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  * @author Toshitaka Agata
  */
 public class PagerViewHelper implements PagerCondition {
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     public PagerViewHelper(PagerCondition condition) { ... }
     public PagerViewHelper(PagerCondition condition, int displayPageMax) { ... }
 
-	// PagerCondition‚Ö‚ÌˆÏ÷ƒƒ\ƒbƒh
+	// PagerConditionã¸ã®å§”è­²ãƒ¡ã‚½ãƒƒãƒ‰
     public int getCount() { ... }
     public void setCount(int count) { ... }
     public int getLimit() { ... }
@@ -370,65 +377,65 @@ public class PagerViewHelper implements PagerCondition {
     public int getOffset() { ... }
     public void setOffset(int offset) { ... }
 
-	// ƒwƒ‹ƒp[ƒƒ\ƒbƒh
+	// ãƒ˜ãƒ«ãƒ‘ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰
 
     /**
-     * ‘O‚Ö‚ÌƒŠƒ“ƒN‚ª•\¦‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
+     * å‰ã¸ã®ãƒªãƒ³ã‚¯ãŒè¡¨ç¤ºã§ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
      * @param ture/false
      */
     public boolean isPrev() { ... }
 
     /**
-     * Ÿ‚Ö‚ÌƒŠƒ“ƒN‚ª•\¦‚Å‚«‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·B
+     * æ¬¡ã¸ã®ãƒªãƒ³ã‚¯ãŒè¡¨ç¤ºã§ãã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™ã€‚
      * @param ture/false
      */
     public boolean isNext() { ... }
 
     /**
-     * Œ»İ•\¦’†‚Ìˆê——‚ÌÅŒã‚Ìoffset‚ğæ“¾‚µ‚Ü‚·B
-     * @param Œ»İ•\¦’†‚Ìˆê——‚ÌÅŒã‚Ìoffset
+     * ç¾åœ¨è¡¨ç¤ºä¸­ã®ä¸€è¦§ã®æœ€å¾Œã®offsetã‚’å–å¾—ã—ã¾ã™ã€‚
+     * @param ç¾åœ¨è¡¨ç¤ºä¸­ã®ä¸€è¦§ã®æœ€å¾Œã®offset
      */
     public int getCurrentLastOffset() { ... }
 
     /**
-     * Ÿ‚ÖƒŠƒ“ƒN‚Ìoffset‚ğ•Ô‚µ‚Ü‚·B
-     * @return Ÿ‚ÖƒŠƒ“ƒN‚Ìoffset
+     * æ¬¡ã¸ãƒªãƒ³ã‚¯ã®offsetã‚’è¿”ã—ã¾ã™ã€‚
+     * @return æ¬¡ã¸ãƒªãƒ³ã‚¯ã®offset
      */
     public int getNextOffset() { ... }
 
     /**
-     * ‘O‚ÖƒŠƒ“ƒN‚Ìoffset‚ğ•Ô‚µ‚Ü‚·B
-     * @return ‘O‚ÖƒŠƒ“ƒN‚Ìoffset
+     * å‰ã¸ãƒªãƒ³ã‚¯ã®offsetã‚’è¿”ã—ã¾ã™ã€‚
+     * @return å‰ã¸ãƒªãƒ³ã‚¯ã®offset
      */
     public int getPrevOffset() { ... }
 
     /**
-     * Œ»İƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
-     * @return Œ»İƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX
+     * ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     public int getPageIndex() { ... }
 
     /**
-     * Œ»İƒy[ƒW‚ÌƒJƒEƒ“ƒg(ƒCƒ“ƒfƒbƒNƒX+1)‚ğ•Ô‚µ‚Ü‚·B
-     * @return Œ»İƒy[ƒW‚ÌƒJƒEƒ“ƒg(ƒCƒ“ƒfƒbƒNƒX+1)
+     * ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚«ã‚¦ãƒ³ãƒˆ(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹+1)ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ç¾åœ¨ãƒšãƒ¼ã‚¸ã®ã‚«ã‚¦ãƒ³ãƒˆ(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹+1)
      */
     public int getPageCount() { ... }
     
     /**
-     * ÅIƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ•Ô‚µ‚Ü‚·B
-     * @return ÅIƒy[ƒW‚ÌƒCƒ“ƒfƒbƒNƒX
+     * æœ€çµ‚ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return æœ€çµ‚ãƒšãƒ¼ã‚¸ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
      */
     public int getLastPageIndex() { ... }
 
     /**
-     * ƒy[ƒWƒŠƒ“ƒN‚Ì•\¦ãŒÀ‚ğŒ³‚ÉAƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦ŠJnˆÊ’u‚ğ•Ô‚µ‚Ü‚·B
-     * @return ƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦ŠJnˆÊ’u
+     * ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºä¸Šé™ã‚’å…ƒã«ã€ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºé–‹å§‹ä½ç½®ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºé–‹å§‹ä½ç½®
      */
     public int getDisplayPageIndexBegin() { ... }
 
     /**
-     * ƒy[ƒWƒŠƒ“ƒN‚Ì•\¦ãŒÀ‚ğŒ³‚ÉAƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦I—¹ˆÊ’u‚ğ•Ô‚µ‚Ü‚·B
-     * @return ƒy[ƒW”Ô†ƒŠƒ“ƒN‚Ì•\¦I—¹ˆÊ’u
+     * ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºä¸Šé™ã‚’å…ƒã«ã€ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºçµ‚äº†ä½ç½®ã‚’è¿”ã—ã¾ã™ã€‚
+     * @return ãƒšãƒ¼ã‚¸ç•ªå·ãƒªãƒ³ã‚¯ã®è¡¨ç¤ºçµ‚äº†ä½ç½®
      */
     public int getDisplayPageIndexEnd() { ... }
 
@@ -436,54 +443,54 @@ public class PagerViewHelper implements PagerCondition {
 
 </p>
 <p>
-ˆÈ‰º‚ÍƒTƒ“ƒvƒ‹‚É‚ ‚éJSTL‚É‚æ‚éƒy[ƒWƒŠƒ“ƒN‚ÌÀ‘•—á‚Å‚·B
+ä»¥ä¸‹ã¯ã‚µãƒ³ãƒ—ãƒ«ã«ã‚ã‚‹JSTLã«ã‚ˆã‚‹ãƒšãƒ¼ã‚¸ãƒªãƒ³ã‚¯ã®å®Ÿè£…ä¾‹ã§ã™ã€‚
 <br/>
-<b>ŒÄ‚Ño‚µ‘¤Fresult.jsp</b>
+<b>å‘¼ã³å‡ºã—å´ï¼šresult.jsp</b>
 <pre>
-&lt;!--ƒy[ƒWƒƒ[(Œ”•\¦‚ ‚è)--&gt;
+&lt;!--ãƒšãƒ¼ã‚¸ãƒ£ãƒ¼(ä»¶æ•°è¡¨ç¤ºã‚ã‚Š)--&gt;
 &lt;c:import url="tags/pager.jsp"&gt;
-	&lt;c:param name="condition" value="categoryPagerCondition"/&gt;EEEŒŸõğŒDTO‚ÌƒZƒbƒVƒ‡ƒ“’†‚Ì‘®«–¼‚ğw’è
+	&lt;c:param name="condition" value="categoryPagerCondition"/&gt;ãƒ»ãƒ»ãƒ»æ¤œç´¢æ¡ä»¶DTOã®ã‚»ãƒƒã‚·ãƒ§ãƒ³ä¸­ã®å±æ€§åã‚’æŒ‡å®š
 &lt;/c:import&gt;
 </pre>
 
-<b>ƒy[ƒWƒƒƒŠƒ“ƒN‚Ì•”•iFpager.jsp</b>
+<b>ãƒšãƒ¼ã‚¸ãƒ£ãƒªãƒ³ã‚¯ã®éƒ¨å“ï¼špager.jsp</b>
 <pre>
 &lt;%@ page contentType="text/html; charset=Windows-31J" %&gt;
 &lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
 
 &lt;%
-	// ƒpƒ‰ƒ[ƒ^‚Ìæ“¾
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å–å¾—
 	String conditionName = request.getParameter("condition");
 	String counter = request.getParameter("counter");
 	String href = request.getParameter("href");
 	
-	// PagerViewHelper‚Ìì¬
+	// PagerViewHelperã®ä½œæˆ
 	org.seasar.dao.pager.PagerCondition condition =
 		(org.seasar.dao.pager.PagerCondition)pageContext.findAttribute(conditionName);
 	org.seasar.dao.pager.PagerViewHelper helperCondition = 
 		new org.seasar.dao.pager.PagerViewHelper(condition);
 
-	// ‘®«‚ğƒZƒbƒg
+	// å±æ€§ã‚’ã‚»ãƒƒãƒˆ
 	pageContext.setAttribute("counter", counter);
 	pageContext.setAttribute("href", href);
 	pageContext.setAttribute("helperCondition", helperCondition);
 %&gt;
 
 
-&lt;%-- ƒƒCƒ“ --%&gt;
+&lt;%-- ãƒ¡ã‚¤ãƒ³ --%&gt;
 &lt;table border="0" cellpadding="0" cellspacing="0"&gt;
 &lt;tr&gt;
 &lt;c:if test="${counter != 'false'}"&gt;
 	&lt;td width="200" align="left" valign="center"&gt;
-		ŠY“–Œ”F&lt;c:out value="${helperCondition.count}"/&gt;Œ
+		è©²å½“ä»¶æ•°ï¼š&lt;c:out value="${helperCondition.count}"/&gt;ä»¶
 	&lt;/td&gt;
 &lt;/c:if&gt;
 
 	&lt;td align="right" valign="center"&gt;
 &lt;c:if test="${helperCondition.prev}"&gt;
 		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
-		&lt;c:out value="${helperCondition.prevOffset}"/&gt;"&gt;&lt; ‘O‚Ì
-		&lt;c:out value="${helperCondition.limit}"/&gt;Œ&lt;/a&gt;
+		&lt;c:out value="${helperCondition.prevOffset}"/&gt;"&gt;&lt; å‰ã®
+		&lt;c:out value="${helperCondition.limit}"/&gt;ä»¶&lt;/a&gt;
 &lt;/c:if&gt;
 			&nbsp;
 &lt;c:forEach begin="0"
@@ -502,8 +509,8 @@ public class PagerViewHelper implements PagerCondition {
 			&nbsp;&nbsp;&nbsp;
 &lt;c:if test="${helperCondition.next}"&gt;
 		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
-		&lt;c:out value="${helperCondition.nextOffset}"/&gt;"&gt;Ÿ‚Ì
-		&lt;c:out value="${helperCondition.limit}"/&gt;Œ &gt;&lt;/a&gt;&lt;/td&gt;
+		&lt;c:out value="${helperCondition.nextOffset}"/&gt;"&gt;æ¬¡ã®
+		&lt;c:out value="${helperCondition.limit}"/&gt;ä»¶ &gt;&lt;/a&gt;&lt;/td&gt;
 &lt;/c:if&gt;
 &lt;c:if test="${!helperCondition.next}"&gt;
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -513,11 +520,11 @@ public class PagerViewHelper implements PagerCondition {
 &lt;/table&gt;
 </pre>
 </p>
-<h3><a name="PagerUtil">PagerUtil - S2Dao‚ğg‚í‚È‚¢List,Collleciton‚É‘Î‚·‚éƒy[ƒWƒ“ƒO</a></h3>
+<h3><a name="PagerUtil">PagerUtil - S2Daoã‚’ä½¿ã‚ãªã„List,Colllecitonã«å¯¾ã™ã‚‹ãƒšãƒ¼ã‚¸ãƒ³ã‚°</a></h3>
 <p>
-	S2Dao‚ğg‚í‚È‚¢List,Collleciton‚É‘Î‚µ‚Äƒy[ƒWƒ“ƒO‚ğs‚¢‚½‚¢‚Æ‚«‚ÍPagerUtil#filter‚ğg—p‚µ‚Ü‚·B
+	S2Daoã‚’ä½¿ã‚ãªã„List,Colllecitonã«å¯¾ã—ã¦ãƒšãƒ¼ã‚¸ãƒ³ã‚°ã‚’è¡Œã„ãŸã„ã¨ãã¯PagerUtil#filterã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
 <pre>
-List list = getItems(); // ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‘O‚ÌƒŠƒXƒg
+List list = getItems(); // ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°å‰ã®ãƒªã‚¹ãƒˆ
 DefaultPagerCondtion condition = new DefaultPagerCondition();
 condition.setLimit(10);
 condition.setOffset(10);
@@ -527,16 +534,16 @@ System.out.println(condition.getCount()); // 35
 </pre>
 </p>
 
-<h3><a name="ScrollCursor">ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹ - ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ÌON/OFF</a></h3>
+<h3><a name="ScrollCursor">ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ« - ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã®ON/OFF</a></h3>
 <p>
-	ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ğg—p‚·‚é‚±‚Æ‚ÅA‘å—Êƒf[ƒ^ŒŸõ‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‚ªŒüã‚µ‚Ü‚·B
-	‚½‚¾‚µADB‚âJDBCƒhƒ‰ƒCƒo‚ÌÀ‘•‚É‚æ‚Á‚Ä‚ÍAƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ªg—p‚Å‚«‚È‚¢ê‡‚ª‚ ‚è‚Ü‚·B
-	‚»‚Ìê‡AƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ğg—p‚µ‚È‚¢İ’è‚É‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-	ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ğg—p‚µ‚È‚¢ê‡‚ÍAResultSet‚Ì‹ó‰ñ‚µ‚É‚æ‚èƒJ[ƒ\ƒ‹‚ÌˆÚ“®‚ğs‚¢‚Ü‚·B	
+	ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã§ã€å¤§é‡ãƒ‡ãƒ¼ã‚¿æ¤œç´¢æ™‚ã®ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãŒå‘ä¸Šã—ã¾ã™ã€‚
+	ãŸã ã—ã€DBã‚„JDBCãƒ‰ãƒ©ã‚¤ãƒã®å®Ÿè£…ã«ã‚ˆã£ã¦ã¯ã€ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ãŒä½¿ç”¨ã§ããªã„å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+	ãã®å ´åˆã€ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã‚’ä½¿ç”¨ã—ãªã„è¨­å®šã«ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+	ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã‚’ä½¿ç”¨ã—ãªã„å ´åˆã¯ã€ResultSetã®ç©ºå›ã—ã«ã‚ˆã‚Šã‚«ãƒ¼ã‚½ãƒ«ã®ç§»å‹•ã‚’è¡Œã„ã¾ã™ã€‚	
 
 <br>
 <br>
-<b>ƒXƒNƒ[ƒ‹‰Â”\ƒJ[ƒ\ƒ‹‚ğOFF‚É‚·‚éİ’è(dao.dicon)</b>
+<b>ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯èƒ½ã‚«ãƒ¼ã‚½ãƒ«ã‚’OFFã«ã™ã‚‹è¨­å®š(dao.dicon)</b>
 <pre>
 &lt;component
   class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
