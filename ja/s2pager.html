@@ -499,7 +499,8 @@ public class PagerViewHelper implements PagerCondition {
 &lt;c:if test="${counter != 'false'}"&gt;
 	&lt;td width="200" align="left" valign="center"&gt;
 		該当件数：&lt;c:out value="${helperCondition.count}"/&gt;件
-		(&lt;c:out value="${helperCondition.offset + 1}"/&gt;-&lt;c:out value="${helperCondition.currentLastOffset + 1}"/&gt;)		
+		(&lt;c:out value="${helperCondition.offset + 1}"/&gt;
+		-&lt;c:out value="${helperCondition.currentLastOffset + 1}"/&gt;)		
 	&lt;/td&gt;
 &lt;/c:if&gt;
 
