@@ -3,10 +3,10 @@
 <!-- don't edit start -->
 <head>
 <title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
-<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"/>
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"/>
 <script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head>
 <body onload="preload('ja')">
@@ -32,7 +32,6 @@
 <li><a href="#S2Pager">S2Pagerとは</a></li>
 <li><a href="#Setup">セットアップ</a></li>
 <ul>
-<li><a href="#Config">環境設定</a></li>
 <li><a href="#Sample">サンプルの実行</a></li>
 <li><a href="#Dicon">dao.diconの修正</a></li>
 </ul>
@@ -42,34 +41,28 @@
 <li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></li>
 <li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
 <li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a></li>
+<li><a href="#LimitOffset">limitとoffsetを使用した高速取得</a></li>
 <li><a href="#ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></li>
 </ul>
 </ul>
 
 </ul>
 <h2><a name="S2Pager">S2Pagerとは</a></h2>
-<p>S2Daoを使ってページャを実現するライブラリです。
+<p>S2Daoを使ってページャを実現する機能です。
 	S2Daoで検索した結果に対して、開始位置と最大取得件数を指定して結果の一部のみを取得することができます。
-	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。
+	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。<br/>
+	<b>以前はS2PagerはS2Daoとは別のJARファイルとして配布されていましたが、S2Dao-1.0.31よりS2Dao本体に同梱されて配布されるようになりました。
+	以降のバージョンではS2DaoのJARファイルのみでS2Pagerを使用することができます。</b>
 </p>
 
 <h2><a name="Setup">セットアップ</a></h2>
-<h3><a name="Config">環境設定</a></h3>
-<p>S2PagerVx.x.x.zipを解凍してできたs2pagerディレクトリをEclipseで、｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。 これで、私と全く同じ環境になります。src/examples配下にサンプルもあります。</p>
-<p>
-	S2Pagerとして必要なjarファイルは、s2pager/lib/s2-pager-x.x.x.jarです。
-	またS2,S2Daoも必要です。
-</p>
-
-
 <h3><a name="Sample">サンプルの実行</a></h3>
 <p>
 	S2PagerのサンプルはJSP2.0で動作します。以下の手順でTomcat5.0.xなどJSP2.0をサポートするServletコンテナ上で動作させる必要があります。<br>
 	<ol>
-		<li>解凍ディレクトリのbin/runHsqldb.batを実行して、HSQLDBを起動します。</li>
-		<li>s2pager.warをTomcat5.0.xのwebappsディレクトリに配置します。
+		<li>s2dao-pager-examples.warをTomcat5.0.xのwebappsディレクトリに配置します。
 		<li>Tomcat5.0.xを起動します。</li>
-		<li><a href="http://localhost:8080/s2pager/">http://localhost:8080/s2pager/</a>をブラウザで開きます。(Tomcatが8080ポートで動作している場合)</li>
+		<li><a href="http://localhost:8080/s2dao-pager-examples/">http://localhost:8080/s2dao-pager-examples/</a>をブラウザで開きます。(Tomcatが8080ポートで動作している場合)</li>
 	</ol>
 </p>
 <p>
@@ -77,44 +70,67 @@
 </p>
 <h3><a name="Dicon">dao.diconの修正</a></h3>
 <p>
-	S2Pagerを既存のプロジェクトで使用するには、S2Daoのdao.diconをS2Pager用に修正する必要があります。src/dao.diconを参考にして以下のようにdao.diconを修正します。
+	S2Pagerを既存のプロジェクトで使用するには、S2Daoのdao.diconをS2Pager用に修正する必要があります。src/dao-pager.diconを参考にして以下のようにdao.diconを修正します。
+	(dao-pager.diconをdao.diconにリネームする方法が簡単です。)
 </p>
 <pre>
-&lt;component
-  class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
-  &lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
-  &lt;arg&gt;
-    &lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-  &lt;/arg&gt;
+&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+	"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components namespace="dao"&gt;
+	&lt;include path="j2ee.dicon"/&gt;
+	&lt;component
+		name="annotationReaderFactory"
+		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
+	/&gt;
+
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+	&lt;/component&gt;
 &lt;!--
-&lt;arg&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-&lt;/arg&gt;
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+	&lt;/component&gt;
 --&gt;
-  &lt;arg&gt;
-    &lt;component class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-      &lt;arg&gt;
-        &lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-      &lt;/arg&gt;
-      &lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-    &lt;/component&gt;
-  &lt;/arg&gt;
-&lt;/component&gt;
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+		&lt;/arg&gt;
+&lt;!--
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+		&lt;/arg&gt;
+--&gt;
+		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
+		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+	&lt;/component&gt;
 
-&lt;component name="interceptor"
-  class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
-  &lt;arg&gt;
-    &lt;component name="s2dao"
-      class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
-    &lt;/component&gt;
-  &lt;/arg&gt;
-&lt;/component&gt;
+	&lt;component name="interceptor"
+		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component name="s2dao"
+				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
+			&lt;/component&gt;
+		&lt;/arg&gt;
+	&lt;/component&gt;
 
 &lt;!--
-  &lt;component
-    class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-  &lt;component name="interceptor"
-    class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
+	&lt;component name="interceptor"
+		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
 --&gt;
 &lt;/components&gt;
 </pre>
@@ -483,6 +499,7 @@ public class PagerViewHelper implements PagerCondition {
 &lt;c:if test="${counter != 'false'}"&gt;
 	&lt;td width="200" align="left" valign="center"&gt;
 		該当件数：&lt;c:out value="${helperCondition.count}"/&gt;件
+		(&lt;c:out value="${helperCondition.offset + 1}"/&gt;-&lt;c:out value="${helperCondition.currentLastOffset + 1}"/&gt;)		
 	&lt;/td&gt;
 &lt;/c:if&gt;
 
@@ -534,6 +551,77 @@ System.out.println(condition.getCount()); // 35
 </pre>
 </p>
 
+
+<h3><a name="LimitOffset">limitとoffsetを使用した高速取得</a></h3>
+<p>
+	PosgreSQLやMySQLのように「limit　offset」が使用できるDBMSでは、大量データ検索時のパフォーマンスが大幅に向上します。
+	現在動作が確認できているのはPostgreSQL、MySQLです。
+	以下の設定により「PagerResultSetFactoryLimitOffsetWrapper」のコメントアウトを解除することで、「limit　offset」を使用した取得が可能になります。
+<br>
+<br>
+<b>limitとoffsetを使用した高速取得の設定(dao.dicon)</b>
+<pre>
+&lt;components namespace="dao"&gt;
+	&lt;include path="j2ee.dicon"/&gt;
+	&lt;component
+		name="annotationReaderFactory"
+		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
+	/&gt;
+<font color="red">
+&lt;!--
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+	&lt;/component&gt;
+--&gt;
+
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+	&lt;/component&gt;
+</font>
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+		&lt;/arg&gt;
+&lt;!--
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+		&lt;/arg&gt;
+--&gt;
+		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
+		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+	&lt;/component&gt;
+
+	&lt;component name="interceptor"
+		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component name="s2dao"
+				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
+			&lt;/component&gt;
+		&lt;/arg&gt;
+	&lt;/component&gt;
+
+&lt;!--
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
+	&lt;component name="interceptor"
+		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+--&gt;
+&lt;/components&gt;
+</pre>
+</p>
+
 <h3><a name="ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></h3>
 <p>
 	スクロール可能カーソルを使用することで、大量データ検索時のパフォーマンスが向上します。
@@ -545,48 +633,68 @@ System.out.println(condition.getCount()); // 35
 <br>
 <b>スクロール可能カーソルをOFFにする設定(dao.dicon)</b>
 <pre>
-&lt;component
-  class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
-  &lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+&lt;components namespace="dao"&gt;
+	&lt;include path="j2ee.dicon"/&gt;
+	&lt;component
+		name="annotationReaderFactory"
+		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
+	/&gt;
+
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+<font color="red">
+		&lt;property name="useScrollCursor"&gt;false&lt;/property&gt;
+</font>
+	&lt;/component&gt;
+&lt;!--
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+	&lt;/component&gt;
+--&gt;
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
+		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
 <font color="red">
 &lt;!--
-  &lt;arg&gt;
-    &lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-  &lt;/arg&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+		&lt;/arg&gt;
 --&gt;
-&lt;arg&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-&lt;/arg&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+		&lt;/arg&gt;
 </font>
-  &lt;arg&gt;
-    &lt;component class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-      &lt;arg&gt;
-        &lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-      &lt;/arg&gt;
-      &lt;property name="useScrollCursor"&gt;<font color="red">false</font>&lt;/property&gt;
-    &lt;/component&gt;
-  &lt;/arg&gt;
-&lt;/component&gt;
+		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
+		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+	&lt;/component&gt;
 
-&lt;component name="interceptor"
-  class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
-  &lt;arg&gt;
-    &lt;component name="s2dao"
-      class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
-    &lt;/component&gt;
-  &lt;/arg&gt;
-&lt;/component&gt;
+	&lt;component name="interceptor"
+		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component name="s2dao"
+				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
+			&lt;/component&gt;
+		&lt;/arg&gt;
+	&lt;/component&gt;
 
 &lt;!--
-  &lt;component
-    class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-  &lt;component name="interceptor"
-    class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
+	&lt;component
+		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
+	&lt;component name="interceptor"
+		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
 --&gt;
 &lt;/components&gt;
 </pre>
 </p>
-
 
 <!-- document end -->
 <!-- don't edit start -->
@@ -594,9 +702,10 @@ System.out.println(condition.getCount()); // 35
 <td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
 </tr><tr>
 <td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
-<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td></tr><tr>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
 <td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
-<td width="766" class="copyright">&copy; Copyright The Seasar Project and the others 2004, all rights reserved.</td>
+<td width="766" class="copyright">&copy; Copyright The Seasar Foundation and the others 2004-2005, all rights reserved.</td>
 </tr></table>
 <td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
 <td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
