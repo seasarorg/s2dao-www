@@ -557,7 +557,35 @@ System.out.println(condition.getCount()); // 35
 <h3><a name="LimitOffset">limitとoffsetを使用した高速取得</a></h3>
 <p>
 	PosgreSQLやMySQLのように「limit　offset」が使用できるDBMSでは、大量データ検索時のパフォーマンスが大幅に向上します。
-	現在動作が確認できているのはPostgreSQL、MySQLです。
+	現在までに動作が確認できているのはPostgreSQL、MySQLの以下のJDBCドライバのバージョンです。
+<br>
+<br>
+<b>動作確認されたJDBC Driverのバージョン</b>
+	<table border="1">
+		<tr>
+			<th>DBの種類</th>
+			<th>動作確認されたJDBC Driverのバージョン</th>
+			<th>備考</th>
+		</tr>
+		<tr>
+			<td>MySQL</td>
+			<td>mysql-connector-java-3.1.8</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>PostgreSQL</td>
+			<td>8.1-404-jdbc3</td>
+			<td>
+				<b>接続文字列にオプション「protocolVersion=2」を付ける必要があります。</b><br>
+				<pre>jdbc:postgresql://localhost:5432/postgres?protocolVersion=2</pre>
+				通常、PostgreSQL の Version8 のドライバを使用する際、それまでのバージョ
+				ンと比べ、型などについての挙動がかなり異なる為、オプション「protocolVersion=2」を付けて利用します。
+				オプション「protocolVersion=2」がない場合、PareparedStatement.toStringメソッドの挙動が変わるため、
+				S2Pagerは動作しません。
+			</td>
+		</tr>
+	</table>	
+<br>
 	以下の設定により「PagerResultSetFactoryLimitOffsetWrapper」のコメントアウトを解除することで、「limit　offset」を使用した取得が可能になります。
 <br>
 <br>
