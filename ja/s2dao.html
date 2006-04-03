@@ -375,7 +375,9 @@ public List getEmployeesBySal(Float minSal, Float maxSal);
 		</p>
 		<ul>
 		<li>INSERT処理</li>
-		<p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。戻り値はvoidあるいはintを指定してください。
+		<p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。
+		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
+		戻り値はvoidあるいはintを指定してください。
 		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
 <pre>public void insert(Department department);
@@ -383,8 +385,9 @@ public int addDept(Department department);
 public void createDept(Department department);
 </pre>
 		<li>UPDATE処理</li>
-		<p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。戻り値はvoidあるいはintです。
-		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
+		<p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。
+		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
+		戻り値はvoidあるいはintです。intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 メソッドの定義例は以下のようになります。</p>
 <pre>
 public int update(Department department);
@@ -392,7 +395,9 @@ public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
 		<li>DELETE処理</li>
-		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。戻り値はvoidあるいはintです。
+		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
+		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
+		戻り値はvoidあるいはintです。
 		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
 <pre>
@@ -537,6 +542,8 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 &lt;components namespace="dao"&gt;
     &lt;include path="j2ee.dicon"/&gt;
     &lt;component
+        class="org.seasar.dao.impl.FieldAnnotationReaderFactory"/&gt;
+    &lt;component
         class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
     &lt;component name="interceptor"
         class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
@@ -544,6 +551,24 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 </pre>
 		<p> &lt;component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
 		 org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。</p>
+		<p>　v1.0.32よりDaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+		<dl>
+			<dt>daoSuffixes</dt>
+				<dd>String[]</dd>
+				<dd>Daoインターフェース名の最後に付いていなければならない名前を指定します。デフォルトは{"Dao"}です。</dd>
+			<dt>insertPrefixes</dt>
+				<dd>String[]</dd>
+				<dd>insertメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "insert","create", "add" }です。</dd>
+			<dt>updatePrefixes</dt>
+				<dd>String[]</dd>
+				<dd>updateメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "update","modify", "store" }です。</dd>
+			<dt>deletePrefixes</dt>
+				<dd>String[]</dd>
+				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
+			<dt>sqlFileEncoding</dt>
+				<dd>String</dd>
+				<dd>Sqlファイルのエンコーディングを指定します。デフォルトは"JISAutoDetect"です。</dd>
+		</dl>
     <h4><a name="SQLfile">SQLファイル</a></h4>
     	<p>検索、更新処理等を行うSQL文を記述します。
 		Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
