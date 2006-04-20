@@ -37,7 +37,7 @@
 </ul>
 <li><a href="#UseS2Pager">S2ページャの使い方</a></li>
 <ul>
-<li><a href="#PagerCondtion">PagerCondtion - 検索条件を保持する</a></li>
+<li><a href="#PagerCondition">PagerCondition - 検索条件を保持する</a></li>
 <li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></li>
 <li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
 <li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a></li>
@@ -138,7 +138,7 @@
 
 
 <h2><a name="UseS2Pager">S2Pagerの使い方</h2>
-<h3><a name="PagerCondtion">PagerCondtion - 検索条件を保持する</a></h3>
+<h3><a name="PagerCondition">PagerCondition - 検索条件を保持する</a></h3>
 <p>ページャ機能は次の手順で実現します。</p>
 <ol>
 <li>
@@ -544,7 +544,7 @@ public class PagerViewHelper implements PagerCondition {
 	S2Daoを使わないList,Colllecitonに対してページングを行いたいときはPagerUtil#filterを使用します。
 <pre>
 List list = getItems(); // フィルタリング前のリスト
-DefaultPagerCondtion condition = new DefaultPagerCondition();
+DefaultPagerCondition condition = new DefaultPagerCondition();
 condition.setLimit(10);
 condition.setOffset(10);
 List result = PagerUtil.filter(list, condition);
