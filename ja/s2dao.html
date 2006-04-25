@@ -68,6 +68,7 @@
 				<li><a href="#Batch">バッチ更新</a></li>
 				<li><a href="#AutoSelect">検索SQLの自動生成 </a></li>
 				<li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
+				<li><a href="#CLOBType">CLOB型とのマッピング</a></li>
 				<li><a href="#HowToRun">S2Daoの実行</a></li>
 	        	<li><a href="http://s2container.seasar.org/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
 	        	<li><a href="http://s2container.seasar.org/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
@@ -223,6 +224,24 @@ public static final String id_ID = "sequence, sequenceName=myseq";
 <pre>
 public static final String id_ID = "assigned";
 </pre>
+
+	<h5><a name="CLOBType">CLOB型とのマッピング</a></h5>
+<p>
+JavaBeansのString型プロパティをテーブルのCLOB型と対応付けるには、VALUE_TYPEアノテーションを使用します。
+下記の例では、"aaa"プロパティをCLOB型と対応付けています。
+</p>
+<pre>
+public static Class aaa_VALUE_TYPE = StringClobType.class;
+private String aaa;
+public String getAaa() {
+    return aaa;
+}
+public void setAaa(String aaa) {
+    this.aaa = aaa;
+}
+</pre>
+VALUE_TYPEアノテーションで指定している"StringClobType.class"が、JavaとRDBMS間の型変換を行うクラスです。
+
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 	<p>カラムが永続化の対象かどうかという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。NO_PERSISTENT_PROPSに空文字を指定するとJDBCのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>
 <pre>
