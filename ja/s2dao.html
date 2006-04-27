@@ -231,7 +231,8 @@ JavaBeansのString型プロパティをテーブルのCLOB型と対応付ける�
 下記の例では、"aaa"プロパティをCLOB型と対応付けています。
 </p>
 <pre>
-public static Class aaa_VALUE_TYPE = StringClobType.class;
+// JavaBeans
+public static String aaa_VALUE_TYPE = "stringClobType";
 private String aaa;
 public String getAaa() {
     return aaa;
@@ -240,7 +241,12 @@ public void setAaa(String aaa) {
     this.aaa = aaa;
 }
 </pre>
-VALUE_TYPEアノテーションで指定している"StringClobType.class"が、JavaとRDBMS間の型変換を行うクラスです。
+<pre>
+&lt;!-- xxx.dicon --&gt;
+&lt;component name="stringClobType" class="org.seasar.extension.jdbc.types.StringClobType" /&gt;
+</pre>
+diconで指定している"StringClobType.class"が、JavaとRDBMS間の型変換を行うクラスです。
+VALUE_TYPEアノテーションには、diconで設定したコンポーネント名を記述します。
 
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 	<p>カラムが永続化の対象かどうかという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。NO_PERSISTENT_PROPSに空文字を指定するとJDBCのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>
