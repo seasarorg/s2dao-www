@@ -824,11 +824,15 @@ public int insert(Department department);
 		<p>例えば、2人のユーザがversionNo値0の同一データを取得して更新しようとした場合、
         先に更新したユーザは正常に登録することができます。そのとき自動でversionNoはインクリメントされ、DBのversionNoは1となります。
         次にもう１人のユーザがデータを更新しようとすると、ユーザが保持しているversionNoの値(0)と、
-        実際にDB格納されているversionNoの値(1)が異なることになり、UpdateFailureRuntimeExceptionが発生し更新失敗することになります。</p>
+        実際にDB格納されているversionNoの値(1)が異なることになり、NotSingleRowUpdatedRuntimeExceptionが発生し更新失敗することになります。</p>
 
     <h3><a name="Timestamp">Timestampによる排他制御 </a></h3>
-	    <p>VersionNoの他にTimestampによる排他制御もS2Daoが自動的に行うことができます。Timestamp型でtimestampという名前のプロパティを定義するだけで、自動的に行ってくれます。
-	    Timestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
+	    <p>VersionNoの他にTimestampによる排他制御もS2Daoが自動的に行うことができます。
+	    Timestamp型でtimestampという名前のプロパティを定義するだけで、自動的に行ってくれます。
+	    DaoからInsertする時に、new java.sql.Timestamp()をtimestampプロパティへセットしてInsert文を発行します。
+	    更新(Update・Delete)時に、JavaBeansのtimestampプロパティ値とレコードのtimestampカラム値を比較し、
+	    異なっている場合にはVersionNoと同様にNotSingleRowUpdatedRuntimeExceptionが投げられます。
+	    更新時にTimestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
 
 	<h3><a name="batch">バッチ更新</a></h3>
 		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。</p>
