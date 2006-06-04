@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('ja')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+
+<ul>
+	<li><a href="#JavaBeans">JavaBeansアノテーション</a>
+    	<ul>
+			<li><a href="#TableAnnotation">TABLEアノテーション</a></li>
+			<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
+			<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
+			<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
+		</ul>
+	</li>
+	<li><a href="#Dao">Daoアノテーション</a>
+		<ul>
+			<li><a href="#BeanAnnotation">BEANアノテーション</a></li>
+			<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
+			<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+			<li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
+			<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
+        </ul>
+	</li>
+	<li><a href="s2DaoExercise.html">S2Daoエクササイズ</a></li>
+</ul>
+
+<h2>S2Dao Tigerアノテーション</h2>
+S2Dao Tigerをclasspathへ含めると、Tigerアノテーション記法でS2Daoのアノテーションを記述できます。
+Tigerアノテーションと言っても記法が異なるだけで機能的には定数アノテーションと対になるため、
+定数アノテーションをTigerアノテーションで表現にはどうしたら良いか? という観点でここでは記載します。
+
+<h3><a name="JavaBeans">JavaBeans</a></h3>
+<h4><a name="TableAnnotation">TABLEアノテーション</a></h3>
+<p>
+TABLEアノテーションは、次の形式でS2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String TABLE = "DEPT";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(table="DEPT")
+public class Department implements Serializable {
+    // ...
+}
+</pre>
+
+<h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h3>
+<p>
+COLUMNアノテーションは、次の形式でS2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String timestamp_COLUMN = "tstamp";
+</pre>
+<pre>
+// Tigerアノテーション
+@Column("tstamp")
+public Timestamp getTimestamp() {
+    // ...
+}
+</pre>
+
+<h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h3>
+<p>
+VERSION_NO_PROPERTYアノテーションは、次の形式でS2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+TODO
+</pre>
+<pre>
+// Tigerアノテーション
+TODO
+</pre>
+
+<h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h3>
+<p>
+TIMESTAMP_PROPERTYアノテーションは、次の形式でS2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+TODO
+</pre>
+<pre>
+// Tigerアノテーション
+TODO
+</pre>
+
+<h3><a name="Dao">Dao(Data Access Object)</a></h3>
+<h4><a name="BeanAnnotation">BEANアノテーション</a></h3>
+<p>
+BEANアノテーションは、次の形式でS2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final Class BEAN = Employee.class;
+</pre>
+<pre>
+// Tigerアノテーション
+@S2Dao(bean=Employee.class)
+public interface DepartmentDao {
+    // ...
+}
+</pre>
+
+<h4><a name="BeanAnnotation">ARGSアノテーション</a></h3>
+<p>
+ARGSアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String getEmployees_ARGS = "ename";
+</pre>
+<pre>
+// Tigerアノテーション
+@Arguments("ename")
+public List getEmployees(String ename) {
+    // ...
+}
+</pre>
+
+<h4><a name="QueryAnnotation">QUERYアノテーション</a></h3>
+<p>
+QUERYアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public String getEmployeeByDeptno_ARGS = "deptno";
+public String getEmployeeByDeptno_ORDER = "deptno asc, empno desc";
+</pre>
+<pre>
+// Tigerアノテーション
+@Arguments("deptno")
+@Query("deptno asc, empno desc")
+public List getEmployeeByDeptno(int deptno);
+</pre>
+
+<h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
+<p>
+NO_PERSISTENT_PROPSアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String insert_NO_PERSISTENT_PROPS = "sal, comm";
+</pre>
+<pre>
+// Tigerアノテーション
+@NoPersistentProperty("sal, comm")
+public void insert(Employee employee);
+</pre>
+
+<h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h3>
+<p>
+PERSISTENT_PROPSアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String insert_PERSISTENT_PROPS = "deptno";
+</pre>
+<pre>
+// Tigerアノテーション
+@PersistentProperty("deptno")
+public void insert(Employee employee);
+</pre>
+
+<h4><a name="SqlAnnotation">SQLアノテーション</a></h3>
+<p>
+SQLアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String getCount_SQL = "SELECT COUNT(*) FROM emp";
+</pre>
+<pre>
+// Tigerアノテーション
+@Sql("SELECT count(*) FROM emp")
+public int getCount();
+</pre>
+
+<h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h3>
+<p>
+PROCEDUREアノテーションは、次の形式で記述します。
+</p>
+<pre>
+// 定数アノテーション
+public String getSalesTax_PROCEDURE = "SALES_TAX";
+</pre>
+<pre>
+// Tigerアノテーション
+@Procedure("SALES_TAX")
+public double getSalesTax(double subtotal);
+</pre>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2005, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr>
+</table>
+</body>
+<!-- document end -->
+</html>
