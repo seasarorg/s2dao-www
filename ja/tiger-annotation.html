@@ -32,10 +32,13 @@
 <ul>
 	<li><a href="#JavaBeans">JavaBeansアノテーション</a>
     	<ul>
+			<li><a href="#IdAnnotation">IDアノテーション</a></li>
+			<li><a href="#RelationAnnotation">RELNO, RELKEYSアノテーション</a></li>
 			<li><a href="#TableAnnotation">TABLEアノテーション</a></li>
 			<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
 			<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
 			<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
+			<li><a href="#TimestampPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
 		</ul>
 	</li>
 	<li><a href="#Dao">Daoアノテーション</a>
@@ -47,20 +50,55 @@
 			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
 			<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
+			<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
         </ul>
 	</li>
-	<li><a href="s2DaoExercise.html">S2Daoエクササイズ</a></li>
 </ul>
 
 <h2>S2Dao Tigerアノテーション</h2>
-S2Dao Tigerをclasspathへ含めると、Tigerアノテーション記法でS2Daoのアノテーションを記述できます。
-Tigerアノテーションと言っても記法が異なるだけで機能的には定数アノテーションと対になるため、
+S2Dao Tigerをclasspathへ含めることで、S2DaoのアノテーションをTigerアノテーションで記述できます。
+Tigerアノテーションと言っても記法が異なるだけで、機能的には定数アノテーションと対になるため、
 定数アノテーションをTigerアノテーションで表現にはどうしたら良いか? という観点でここでは記載します。
 
 <h3><a name="JavaBeans">JavaBeans</a></h3>
+<h4><a name="IdAnnotation">IDアノテーション</a></h3>
+<p>
+IDアノテーションは、Idアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String id_ID = "sequence, sequenceName=myseq";
+</pre>
+<pre>
+// Tigerアノテーション
+@Id(value = IdType.SEQUENCE, sequenceName = "myseq")
+public void setId(Integer id) {
+    // ...
+}
+</pre>
+IdTypeはorg.seasar.dao.annotation.tiger.IdType列挙型です。
+IDENTITY, SEQUENCE, ASSIGNEDの3種類があります。
+
+<h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h3>
+<p>
+RELNO, RELKEYSアノテーションは、Relationアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final int department_RELNO = 0;
+public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
+</pre>
+<pre>
+// Tigerアノテーション
+@Relation(relationNo = 0, relationKey = "DEPTNUM:DEPTNO")
+public void setDepartment(Department department) {
+    // ...
+}
+</pre>
+
 <h4><a name="TableAnnotation">TABLEアノテーション</a></h3>
 <p>
-TABLEアノテーションは、次の形式でS2Daoアノテーションに記述します。
+TABLEアノテーションは、Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -76,7 +114,7 @@ public class Department implements Serializable {
 
 <h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h3>
 <p>
-COLUMNアノテーションは、次の形式でS2Daoアノテーションに記述します。
+COLUMNアノテーションは、Columnアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -92,34 +130,56 @@ public Timestamp getTimestamp() {
 
 <h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h3>
 <p>
-VERSION_NO_PROPERTYアノテーションは、次の形式でS2Daoアノテーションに記述します。
+VERSION_NO_PROPERTYアノテーションは、Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
-TODO
+public static final String VERSION_NO_PROPERTY = "myVersionNo";
 </pre>
 <pre>
 // Tigerアノテーション
-TODO
+@Bean(versionNoProperty = "myVersionNo")
+public class Foo {
+    // ...
+}
 </pre>
 
 <h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h3>
 <p>
-TIMESTAMP_PROPERTYアノテーションは、次の形式でS2Daoアノテーションに記述します。
+TIMESTAMP_PROPERTYアノテーションは、Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
-TODO
+public static final String TIMESTAMP_PROPERTY = "myTimestamp";
 </pre>
 <pre>
 // Tigerアノテーション
-TODO
+@Bean(timeStampProperty = "myTimestamp")
+public class Foo {
+    // ...
+}
+</pre>
+
+<h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
+<p>
+NO_PERSISTENT_PROPSアノテーションは、Beanアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String NO_PERSISTENT_PROPS = "fooProperty";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(noPersistentProperty = "fooProperty")
+public class Foo {
+    // ...
+}
 </pre>
 
 <h3><a name="Dao">Dao(Data Access Object)</a></h3>
 <h4><a name="BeanAnnotation">BEANアノテーション</a></h3>
 <p>
-BEANアノテーションは、次の形式でS2Daoアノテーションに記述します。
+BEANアノテーションは、S2Daoアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -135,7 +195,7 @@ public interface DepartmentDao {
 
 <h4><a name="BeanAnnotation">ARGSアノテーション</a></h3>
 <p>
-ARGSアノテーションは、次の形式で記述します。
+ARGSアノテーションは、Argumentsアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -151,23 +211,21 @@ public List getEmployees(String ename) {
 
 <h4><a name="QueryAnnotation">QUERYアノテーション</a></h3>
 <p>
-QUERYアノテーションは、次の形式で記述します。
+QUERYアノテーションは、Queryアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
-public String getEmployeeByDeptno_ARGS = "deptno";
-public String getEmployeeByDeptno_ORDER = "deptno asc, empno desc";
+public String getAaa_QUERY = "A > B";
 </pre>
 <pre>
 // Tigerアノテーション
-@Arguments("deptno")
-@Query("deptno asc, empno desc")
-public List getEmployeeByDeptno(int deptno);
+@Query("A > B")
+public Aaa getAaa(int id);
 </pre>
 
 <h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
 <p>
-NO_PERSISTENT_PROPSアノテーションは、次の形式で記述します。
+NO_PERSISTENT_PROPSアノテーションは、NoPersistentPropertyアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -181,7 +239,7 @@ public void insert(Employee employee);
 
 <h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h3>
 <p>
-PERSISTENT_PROPSアノテーションは、次の形式で記述します。
+PERSISTENT_PROPSアノテーションは、PersistentPropertyアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -195,7 +253,7 @@ public void insert(Employee employee);
 
 <h4><a name="SqlAnnotation">SQLアノテーション</a></h3>
 <p>
-SQLアノテーションは、次の形式で記述します。
+SQLアノテーションは、Sqlアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -209,7 +267,7 @@ public int getCount();
 
 <h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h3>
 <p>
-PROCEDUREアノテーションは、次の形式で記述します。
+PROCEDUREアノテーションは、Procedureアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -219,6 +277,22 @@ public String getSalesTax_PROCEDURE = "SALES_TAX";
 // Tigerアノテーション
 @Procedure("SALES_TAX")
 public double getSalesTax(double subtotal);
+</pre>
+
+<h4><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h3>
+<p>
+VALUE_TYPEアノテーションは、ValueTypeアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static String bbb_VALUE_TYPE = "stringClobType";
+</pre>
+<pre>
+// Tigerアノテーション
+@ValueType("stringClobType")
+public void setBbb(String bbb) {
+    // ...
+}
 </pre>
 
 <!-- document end -->
