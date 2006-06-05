@@ -29,6 +29,13 @@
 <!-- don't edit end -->
 <!-- document start -->
 
+<h2>S2Dao Tigerアノテーション</h2>
+<p>
+S2Dao Tigerでは、S2DaoのアノテーションをTigerアノテーションで記述できます。
+Tigerアノテーションは定数アノテーションと対になるため、
+定数アノテーションをTigerアノテーションで表現にはどうしたら良いか? という観点でここでは記載します。
+</p>
+
 <ul>
 	<li><a href="#JavaBeans">JavaBeansアノテーション</a>
     	<ul>
@@ -55,15 +62,10 @@
 	</li>
 </ul>
 
-<h2>S2Dao Tigerアノテーション</h2>
-S2Dao Tigerをclasspathへ含めることで、S2DaoのアノテーションをTigerアノテーションで記述できます。
-Tigerアノテーションと言っても記法が異なるだけで、機能的には定数アノテーションと対になるため、
-定数アノテーションをTigerアノテーションで表現にはどうしたら良いか? という観点でここでは記載します。
-
 <h3><a name="JavaBeans">JavaBeans</a></h3>
 <h4><a name="IdAnnotation">IDアノテーション</a></h3>
 <p>
-IDアノテーションは、Idアノテーションに記述します。
+IDアノテーションは、org.seasar.dao.annotation.tiger.Idアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -81,7 +83,7 @@ IDENTITY, SEQUENCE, ASSIGNEDの3種類があります。
 
 <h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h3>
 <p>
-RELNO, RELKEYSアノテーションは、Relationアノテーションに記述します。
+RELNO, RELKEYSアノテーションは、org.seasar.dao.annotation.tiger.Relationアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -98,7 +100,7 @@ public void setDepartment(Department department) {
 
 <h4><a name="TableAnnotation">TABLEアノテーション</a></h3>
 <p>
-TABLEアノテーションは、Beanアノテーションに記述します。
+TABLEアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -114,7 +116,7 @@ public class Department implements Serializable {
 
 <h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h3>
 <p>
-COLUMNアノテーションは、Columnアノテーションに記述します。
+COLUMNアノテーションは、org.seasar.dao.annotation.tiger.Columnアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -130,7 +132,7 @@ public Timestamp getTimestamp() {
 
 <h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h3>
 <p>
-VERSION_NO_PROPERTYアノテーションは、Beanアノテーションに記述します。
+VERSION_NO_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -146,7 +148,7 @@ public class Foo {
 
 <h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h3>
 <p>
-TIMESTAMP_PROPERTYアノテーションは、Beanアノテーションに記述します。
+TIMESTAMP_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -162,7 +164,7 @@ public class Foo {
 
 <h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
 <p>
-NO_PERSISTENT_PROPSアノテーションは、Beanアノテーションに記述します。
+NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -179,7 +181,7 @@ public class Foo {
 <h3><a name="Dao">Dao(Data Access Object)</a></h3>
 <h4><a name="BeanAnnotation">BEANアノテーション</a></h3>
 <p>
-BEANアノテーションは、S2Daoアノテーションに記述します。
+BEANアノテーションは、org.seasar.dao.annotation.tiger.S2Daoアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -195,7 +197,7 @@ public interface DepartmentDao {
 
 <h4><a name="BeanAnnotation">ARGSアノテーション</a></h3>
 <p>
-ARGSアノテーションは、Argumentsアノテーションに記述します。
+ARGSアノテーションは、org.seasar.dao.annotation.tiger.Argumentsアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -211,7 +213,7 @@ public List getEmployees(String ename) {
 
 <h4><a name="QueryAnnotation">QUERYアノテーション</a></h3>
 <p>
-QUERYアノテーションは、Queryアノテーションに記述します。
+QUERYアノテーションは、org.seasar.dao.annotation.tiger.Queryアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -225,7 +227,7 @@ public Aaa getAaa(int id);
 
 <h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
 <p>
-NO_PERSISTENT_PROPSアノテーションは、NoPersistentPropertyアノテーションに記述します。
+NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.NoPersistentPropertyアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -239,7 +241,7 @@ public void insert(Employee employee);
 
 <h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h3>
 <p>
-PERSISTENT_PROPSアノテーションは、PersistentPropertyアノテーションに記述します。
+PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.PersistentPropertyアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -253,7 +255,7 @@ public void insert(Employee employee);
 
 <h4><a name="SqlAnnotation">SQLアノテーション</a></h3>
 <p>
-SQLアノテーションは、Sqlアノテーションに記述します。
+SQLアノテーションは、org.seasar.dao.annotation.tiger.Sqlアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -267,7 +269,7 @@ public int getCount();
 
 <h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h3>
 <p>
-PROCEDUREアノテーションは、Procedureアノテーションに記述します。
+PROCEDUREアノテーションは、org.seasar.dao.annotation.tiger.Procedureアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -281,7 +283,7 @@ public double getSalesTax(double subtotal);
 
 <h4><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h3>
 <p>
-VALUE_TYPEアノテーションは、ValueTypeアノテーションに記述します。
+VALUE_TYPEアノテーションは、org.seasar.dao.annotation.tiger.ValueTypeアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
