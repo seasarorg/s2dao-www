@@ -510,7 +510,13 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
  	<ul>
  	<li>サポートされるStoredProcedureの範囲について</li>
- 	<p>PROCEDUREアノテーションでは、戻り値のあるStoredProcedure、IN,OUT,INOUTパラメータを複数持つプロシジャーをサポートしています。
+ 	<p>PROCEDUREアノテーションでは、
+ 	<ul>
+ 		<li>戻り値のあるStoredProcedure</li>
+ 		<li>IN,OUT,INOUTパラメータを複数持つStoredProcedure</li>
+ 		<li>ResultSetを返すStoredProcedure</li>
+ 	</ul>
+ 	をサポートしています。
  	ただし、OUTやINOUTパラメータが複数ある場合はメソッドの返り値がMapでなければなりません。
  	<p>また、DBMSやJDBCドライバの実装によっては、利用できない場合があります。</p>
  	<table class="main" border="1">
