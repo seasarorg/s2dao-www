@@ -82,9 +82,12 @@
 	&lt;include path="j2ee.dicon"/&gt;
 	&lt;component
 		name="annotationReaderFactory"
-		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
-	/&gt;
-
+		class="org.seasar.dao.impl.AnnotationReaderFactoryImpl"/&gt;
+	&lt;component
+		class="org.seasar.dao.impl.ValueTypeFactoryImpl"/&gt;
+	&lt;component 
+		name="stringClobType" 
+		class="org.seasar.extension.jdbc.types.StringClobType"/&gt;
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
@@ -93,6 +96,7 @@
 		&lt;/arg&gt;
 		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
 	&lt;/component&gt;
+
 &lt;!--
 	&lt;component 
 		name="resultSetFactory"
@@ -103,6 +107,7 @@
 		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
 	&lt;/component&gt;
 --&gt;
+
 	&lt;component
 		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
 		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;

@@ -95,9 +95,13 @@
 		<p> S2Daoとして必要なjarファイルは、s2dao/libにそろってます。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
 		機能を試す前にあらかじめHSQLDBを実行しておいてください。HSQLDBを実行するには、bin/runHsqldb.batをダブルクリック(Windowsの場合)します。
 		lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
-		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon、dao.dicon、log4j.propertiesをCLASSPATHにとおせば、S2Daoを実行できます。
-		Eclipseにインポートして使う場合は設定は不要です。
-		(※dao.diconは1.0.36からはs2-dao-x.x.x.jarへ含まれるようになるので、明示的に配置する必要はなくなります。)</p>
+		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon、dao.dicon(※後述)、log4j.propertiesをCLASSPATHにとおせば、S2Daoを実行できます。
+		Eclipseにインポートして使う場合は設定は不要です。</p>
+	<h4><a name="dao.dicon">dao.dicon</a></h4>
+		<p>dao.diconはS2Daoの動作を設定するファイルです。
+		1.0.36からはs2-dao-x.x.x.jarへ含まれるようになるので、明示的に配置する必要はなくなります。
+		dao.diconをカスタマイズする場合は、カスタマイズしたdao.diconをs2-dao-x.x.x.jarより優先度の高いclasspathへ配置するなどして、
+		カスタマイズした側が使用されるようにしてください。</p>
 
     <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
 	    <p>S2Dao機能を使用するにあたり、JavaBeans、Dao(.java)、diconファイル、SQLファイル(.sql)の作成が必要となります。
@@ -590,8 +594,8 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 &lt;/components&gt;
 </pre>
 		<p>&lt;component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
-		 org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。
-		 (※dao.diconは1.0.36からはs2-dao-x.x.x.jarへ含まれるようになるので、明示的に設定する必要はなくなります。)</p>
+		org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。
+		(<a href="#dao.dicon">セットアップの項</a>も参照)</p>
 		<p>v1.0.32よりDaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
 		<dl>
 			<dt>daoSuffixes</dt>
