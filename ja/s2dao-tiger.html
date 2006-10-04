@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
 <head>
@@ -850,7 +850,7 @@ SELECT * FROM emp
 </pre>
 		<p>上記SQL文に相当するSQL文を自動生成するには以下のように定義します。上記SQLの/**/などについては、<a href="#SQLBind">SQLコメント</a>を参照してください。</p>
 <pre>
-@Arguments("job", "deptno")
+@Arguments({"job", "deptno"})
 public List getEmployeeByJobDeptno(String job, Integer deptno);
 </pre>
 		<p><a href="#N1Mapping">N:1でマッピング</a>されているカラムを指定する場合には、「カラム名_関連番号」で指定します。
