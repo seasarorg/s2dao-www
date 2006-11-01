@@ -424,6 +424,13 @@ public int update(Department department);
 public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
+		<p>更に、v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象とします。<br　/>
+		勿論、<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
+		メソッドの定義例は以下のようになります。
+<pre>
+public int updateUnlessNull(Department department);
+</pre>
+		</p>
 		<li>DELETE処理</li>
 		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
 		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
@@ -614,6 +621,13 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 				<dd>String</dd>
 				<dd>Sqlファイルのエンコーディングを指定します。デフォルトは"JISAutoDetect"です。</dd>
 		</dl>
+		<p>v1.0.37よりDaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+		<dl>
+			<dt>unlessNullSuffixes</dt>
+				<dd>String[]</dd>
+				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				メソッド名デフォルトは{"UnlessNull"}です。</dd>
+		</dl>		
     <h4><a name="SQLfile">SQLファイル</a></h4>
     	<p>検索、更新処理等を行うSQL文を記述します。
 		Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
@@ -884,8 +898,27 @@ public class EmployeeSearchCondition {
 }
 </pre>
 <pre>List getEmployeesBySearchCondition(EmployeeSearchCondition dto);</pre>
-	<p>また同様の指定方法で引数にEntityを使用することも出来ます。DTOの詳しい使用方法は、<a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</a>
-
+	<p>また同様の指定方法で引数にEntityを使用することも出来ます。DTOの詳しい使用方法は、<a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。<br />
+	更に、v1.0.37より、同様の指定方法で、引数にBEANアノテーションと互換性のある型を使用する事も出来ます。その場合、BEANアノテーションに定義された型がDTOとして使用されます。	
+	例えば、以下の様なDao定義を行う事が出来ます。</p>
+<pre>
+public class Employee implements Entity {
+    private long empno;
+    private String ename;
+    ...
+}
+</pre>
+<pre>
+public interface GenericDao {
+    Object select(Entity entity);
+    List selectList(Entity entity);
+}
+</pre>
+<pre>
+public interface EmployeeDao extends GenericDao {
+    Class BEAN = Employee.class;
+}
+</pre>
     <h3><a name="HowToRun">S2Daoの実行</a></h3>
     <p>Daoを実行する基本的な方法は以下のようになります。</p>
 	<ol>
