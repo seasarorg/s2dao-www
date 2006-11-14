@@ -50,9 +50,10 @@
 <h2><a name="S2Pager">S2Pagerとは</a></h2>
 <p>S2Daoを使ってページャを実現する機能です。
 	S2Daoで検索した結果に対して、開始位置と最大取得件数を指定して結果の一部のみを取得することができます。
-	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。<br/>
-	<b>以前はS2PagerはS2Daoとは別のJARファイルとして配布されていましたが、S2Dao-1.0.31よりS2Dao本体に同梱されて配布されるようになりました。
-	以降のバージョンではS2DaoのJARファイルのみでS2Pagerを使用することができます。</b>
+	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。<br />
+	<strong>以前はS2PagerはS2Daoとは別のJARファイルとして配布されていましたが、
+	S2Dao-1.0.31よりS2Dao本体に同梱されて配布されるようになりました。
+	以降のバージョンではS2DaoのJARファイルのみでS2Pagerを使用することができます。</strong>
 </p>
 
 <h2><a name="Setup">セットアップ</a></h2>
@@ -66,28 +67,20 @@
 	</ol>
 </p>
 <p>
-	Tomcatプラグインを導入している環境であれば、EclioseのTomcatPlugin上でそのまま動作させることもできます。
+	Tomcatプラグインを導入している環境であれば、EclipseのTomcatPlugin上でそのまま動作させることもできます。
 </p>
-<h3><a name="Dicon">dao.diconの修正</a></h3>
+<h3><a name="Dicon">j2ee.diconの修正</a></h3>
 <p>
-	S2Pagerを既存のプロジェクトで使用するには、S2Daoのdao.diconをS2Pager用に修正する必要があります。
-	s2-dao-x.x.x.zipに含まれるdao-pager.diconを参考にして以下のようにdao.diconを修正します。
-	(dao-pager.diconをdao.diconにリネームする方法が簡単です。)
+	S2Pagerを既存のプロジェクトで使用するには、Seasar2のj2ee.diconをS2Pager用に修正する必要があります。
+	s2-dao-x.x.x.zipに含まれるj2ee.diconを参考にして以下のようにj2ee.diconを修正します。
 </p>
 <pre>
 &lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 	"http://www.seasar.org/dtd/components21.dtd"&gt;
-&lt;components namespace="dao"&gt;
-	&lt;include path="j2ee.dicon"/&gt;
-	&lt;component
-		name="annotationReaderFactory"
-		class="org.seasar.dao.impl.AnnotationReaderFactoryImpl"/&gt;
-	&lt;component
-		class="org.seasar.dao.impl.ValueTypeFactoryImpl"/&gt;
-	&lt;component 
-		name="stringClobType" 
-		class="org.seasar.extension.jdbc.types.StringClobType"/&gt;
+&lt;components namespace="j2ee"&gt;
+	:
+	:
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
@@ -96,49 +89,43 @@
 		&lt;/arg&gt;
 		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
 	&lt;/component&gt;
-
-&lt;!--
+	&lt;!--
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
 		&lt;/arg&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+		&lt;arg&gt;dataSource&lt;/arg&gt;
 	&lt;/component&gt;
---&gt;
+	--&gt;
 
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
 		&lt;/arg&gt;
-&lt;!--
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;!--
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		--&gt;
+	&lt;/component&gt;
+
+	&lt;!--
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
 		&lt;/arg&gt;
---&gt;
-		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
-		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;! - -
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		- - &gt;
 	&lt;/component&gt;
-
-	&lt;component name="interceptor"
-		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component name="s2dao"
-				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
-			&lt;/component&gt;
-		&lt;/arg&gt;
-	&lt;/component&gt;
-
-&lt;!--
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-	&lt;component name="interceptor"
-		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
---&gt;
-&lt;/components&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
+	--&gt;
+	:
+	:
 </pre>
 
 
@@ -575,7 +562,7 @@ System.out.println(condition.getCount()); // 35
 		<tr>
 			<td>MySQL</td>
 			<td>mysql-connector-java-3.1.8</td>
-			<td></td>
+			<td>limitを使用する場合、MySQLはサブクエリーを使えるバージョン(4.1.x以降?)が必要になります。</td>
 		</tr>
 		<tr>
 			<td>PostgreSQL</td>
@@ -594,16 +581,11 @@ System.out.println(condition.getCount()); // 35
 	以下の設定により「PagerResultSetFactoryLimitOffsetWrapper」のコメントアウトを解除することで、「limit　offset」を使用した取得が可能になります。
 <br>
 <br>
-<b>limitとoffsetを使用した高速取得の設定(dao.dicon)</b>
+<b>limitとoffsetを使用した高速取得の設定(j2ee.dicon)</b>
 <pre>
-&lt;components namespace="dao"&gt;
-	&lt;include path="j2ee.dicon"/&gt;
-	&lt;component
-		name="annotationReaderFactory"
-		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
-	/&gt;
+	:
+	:
 <font color="red">
-&lt;!--
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
@@ -612,48 +594,43 @@ System.out.println(condition.getCount()); // 35
 		&lt;/arg&gt;
 		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
 	&lt;/component&gt;
---&gt;
-
+	&lt;!--
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
 		&lt;/arg&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+		&lt;arg&gt;dataSource&lt;/arg&gt;
 	&lt;/component&gt;
+	--&gt;
 </font>
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
 		&lt;/arg&gt;
-&lt;!--
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;!--
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		--&gt;
+	&lt;/component&gt;
+
+	&lt;!--
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
 		&lt;/arg&gt;
---&gt;
-		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
-		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;! - -
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		- - &gt;
 	&lt;/component&gt;
-
-	&lt;component name="interceptor"
-		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component name="s2dao"
-				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
-			&lt;/component&gt;
-		&lt;/arg&gt;
-	&lt;/component&gt;
-
-&lt;!--
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-	&lt;component name="interceptor"
-		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
---&gt;
-&lt;/components&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
+	--&gt;
+	:
+	:
 </pre>
 </p>
 
@@ -666,68 +643,61 @@ System.out.println(condition.getCount()); // 35
 
 <br>
 <br>
-<b>スクロール可能カーソルをOFFにする設定(dao.dicon)</b>
+<b>スクロール可能カーソルをOFFにする設定(j2ee.dicon)</b>
 <pre>
-&lt;components namespace="dao"&gt;
-	&lt;include path="j2ee.dicon"/&gt;
-	&lt;component
-		name="annotationReaderFactory"
-		class="org.seasar.dao.impl.FieldAnnotationReaderFactory"
-	/&gt;
-
+	:
+	:
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
 		&lt;/arg&gt;
-<font color="red">
-		&lt;property name="useScrollCursor"&gt;false&lt;/property&gt;
-</font>
+		<font color="red">&lt;!--
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+		--&gt;
+		&lt;property name="useScrollCursor"&gt;false&lt;/property&gt;</font>
 	&lt;/component&gt;
-&lt;!--
+	&lt;!--
 	&lt;component 
 		name="resultSetFactory"
 		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
 		&lt;/arg&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
+		&lt;arg&gt;dataSource&lt;/arg&gt;
 	&lt;/component&gt;
---&gt;
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"&gt;
-		&lt;arg&gt;j2ee.dataSource&lt;/arg&gt;
-<font color="red">
-&lt;!--
+	--&gt;
+
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
+			<font color="red">&lt;!--
 			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+			--&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;</font>
 		&lt;/arg&gt;
---&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;!--
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		--&gt;
+	&lt;/component&gt;
+
+	&lt;!--
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
 			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
 		&lt;/arg&gt;
-</font>
-		&lt;arg&gt;resultSetFactory&lt;/arg&gt;
-		&lt;arg&gt;annotationReaderFactory&lt;/arg&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;! - -
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		- - &gt;
 	&lt;/component&gt;
-
-	&lt;component name="interceptor"
-		class="org.seasar.dao.pager.PagerS2DaoInterceptorWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component name="s2dao"
-				class="org.seasar.dao.interceptors.S2DaoInterceptor"&gt;
-			&lt;/component&gt;
-		&lt;/arg&gt;
-	&lt;/component&gt;
-
-&lt;!--
-	&lt;component
-		class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-	&lt;component name="interceptor"
-		class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
---&gt;
-&lt;/components&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
+	--&gt;
+	:
+	:
 </pre>
 </p>
 
