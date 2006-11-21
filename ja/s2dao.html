@@ -852,7 +852,7 @@ public int insert(Department department);
 
     <h3><a name="VersionNo">VersionNoによる排他制御 </a></h3>
 	    <p>S2Daoは排他制御も自動的に行うことができます。<br />
-		設定方法は、テーブルに排他制御用のカラムを用意し、JavaBeansにint型でversionNoと定義するだけで、versionNoによる排他制御を自動的に行ってくれます。</p>
+		設定方法は、テーブルに排他制御用のカラムを用意し、JavaBeansにint型(もしくはInteger型)でversionNoと定義するだけで、versionNoによる排他制御を自動的に行ってくれます。</p>
 		<p>例えば、2人のユーザがversionNo値0の同一データを取得して更新しようとした場合、
         先に更新したユーザは正常に登録することができます。そのとき自動でversionNoはインクリメントされ、DBのversionNoは1となります。
         次にもう１人のユーザがデータを更新しようとすると、ユーザが保持しているversionNoの値(0)と、
