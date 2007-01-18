@@ -90,7 +90,7 @@
 	<h2><a name="S2Daoリファレンス">S2Daoリファレンス</a></h2>
 	<h3><a name="SetUp">セットアップ</a></h3>
 		<p>Seasar2と同様にJDK1.4以上が必要です。Seasar2のプロジェクトをインポートした後に、s2-dao-x.x.x.zipを解凍してできたs2daoディレクトリを、Eclipseで
-		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。
+		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。Seasar2の必要なバージョンは、<a href="http://www.seasar.org/wiki/index.php?Versions#j388ac47">Wiki</a>をご覧ください。
 		s2-dao-examples/src/main/java配下にサンプルもあります。
 		</p>
 		<p>S2Daoとして必要なjarファイルは、<a href="http://s2container.seasar.org/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
@@ -104,7 +104,7 @@
 		カスタマイズした側が使用されるようにしてください。
 		</p>
 	<h4><a name="j2ee.dicon">j2ee.dicon</a></h4>
-		<p>S2Pagerの機能を使用する場合には、j2ee.diconを修正する必要があります。
+		<p>S2Pagerの機能を使用する場合には、j2ee.diconを修正する必要があります(v1.0.36以降はデフォルトで有効になっています)。
 		具体的な設定内容は<a href="s2pager.html">S2Pagerのドキュメント</a>を
 		ご覧ください。
 		</p>
@@ -470,10 +470,10 @@ public class Emp {
 }
 				</pre>
 		</ul>
-		<b>ModifyOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
+		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
 		メソッドの定義例は以下のようになります。
 <pre>
-public int updateModifyOnly(Department department);
+public int updateModifiedOnly(Department department);
 </pre>
 		</p>
 		<li>DELETE処理</li>
@@ -668,7 +668,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 				<dd>String[]</dd>
 				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
 		</dl>
-		<p>v1.0.37から1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+		<p>v1.0.37からv1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
 		<dl>
 			<dt>unlessNullSuffixes</dt>
 				<dd>String[]</dd>
