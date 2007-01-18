@@ -431,17 +431,17 @@ public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
 		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象とします。<br　/>
-		勿論、<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
+		勿論、<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		メソッドの定義例は以下のようになります。
 <pre>
 public int updateUnlessNull(Department department);
 </pre>
 		</p>
-		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly </b>が付いているUPDATE処理の場合、引数に渡されたgetModifiedPropertyNamesメソッドを実装するDTOのフィールドの内、更新されたされた(setterが呼ばれて変更された)値のみを更新対象とします。<br　/>
+		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、getModifiedPropertyNamesメソッドを実装するDTOを引数に渡すと、フィールドの内、更新された(setterが呼ばれて変更された)値のみを更新対象とします。<br />
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
 		<ul>
 			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
-			<li>DTOにgetModifiedPropertyNamesmメソッドを実装する<br/>
+			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br/>
 				この場合、DTOの定義例は以下のようになります。
 				<pre>
 public class Emp {
