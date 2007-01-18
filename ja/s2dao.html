@@ -89,13 +89,13 @@
 
 	<h2><a name="S2Daoリファレンス">S2Daoリファレンス</a></h2>
 	<h3><a name="SetUp">セットアップ</a></h3>
-		<p>Seasar2と同様にJDK1.4以上が必要です。s2-dao-x.x.x.zipを解凍してできたs2daoディレクトリを、Eclipseで
+		<p>Seasar2と同様にJDK1.4以上が必要です。Seasar2のプロジェクトをインポートした後に、s2-dao-x.x.x.zipを解凍してできたs2daoディレクトリを、Eclipseで
 		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。
 		s2-dao-examples/src/main/java配下にサンプルもあります。
 		</p>
-		<p>S2Daoとして必要なjarファイルは、s2dao/libにそろってます。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
+		<p>S2Daoとして必要なjarファイルは、<a href="http://s2container.seasar.org/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
 		lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
-		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon、dao.dicon(※後述)、log4j.propertiesをCLASSPATHにとおせば、S2Daoを実行できます。
+		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon(Seasar2.4の場合はjdbc.dicon)、<a href="#dao.dicon">dao.dicon(※後述)</a>をCLASSPATHにとおせば、S2Daoを実行できます。
 		Eclipseにインポートして使う場合は設定は不要です。</p>
 	<h4><a name="dao.dicon">dao.dicon</a></h4>
 		<p>dao.diconはS2Daoの動作を設定するファイルです。
@@ -430,11 +430,50 @@ public int update(Department department);
 public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
-		<p>更に、v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象とします。<br　/>
+		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象とします。<br　/>
 		勿論、<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
 		メソッドの定義例は以下のようになります。
 <pre>
 public int updateUnlessNull(Department department);
+</pre>
+		</p>
+		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly </b>が付いているUPDATE処理の場合、引数に渡されたgetModifiedPropertyNamesメソッドを実装するDTOのフィールドの内、更新されたされた(setterが呼ばれて変更された)値のみを更新対象とします。<br　/>
+		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
+		<ul>
+			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
+			<li>DTOにgetModifiedPropertyNamesmメソッドを実装する<br/>
+				この場合、DTOの定義例は以下のようになります。
+				<pre>
+public class Emp {
+
+    public static final String TABLE = "EMP";
+
+    private long empno;
+
+	(略)
+
+    private java.util.Set _modifiedPropertySet = new java.util.HashSet();
+
+    public long getEmpno() {
+        return this.empno;
+    }
+
+    public void setEmpno(long empno) {
+        _modifiedPropertySet.add("empno");
+        this.empno = empno;
+    }
+
+(略)
+    public java.util.Set getModifiedPropertyNames() {
+        return _modifiedPropertySet;
+    }
+}
+				</pre>
+		</ul>
+		<b>ModifyOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
+		メソッドの定義例は以下のようになります。
+<pre>
+public int updateModifyOnly(Department department);
 </pre>
 		</p>
 		<li>DELETE処理</li>
@@ -609,7 +648,12 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 		<p>&lt;component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
 		org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。
 		(<a href="#dao.dicon">セットアップの項</a>も参照)</p>
-		<p>v1.0.32よりDaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+		<p>v1.0.32以降のバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+			<dt>sqlFileEncoding</dt>
+				<dd>String</dd>
+				<dd>Sqlファイルのエンコーディングを指定します。デフォルトは"JISAutoDetect"です。</dd>
+		</p>
+		<p>v1.0.32からv1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
 		<dl>
 			<dt>daoSuffixes</dt>
 				<dd>String[]</dd>
@@ -623,17 +667,44 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 			<dt>deletePrefixes</dt>
 				<dd>String[]</dd>
 				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
-			<dt>sqlFileEncoding</dt>
-				<dd>String</dd>
-				<dd>Sqlファイルのエンコーディングを指定します。デフォルトは"JISAutoDetect"です。</dd>
 		</dl>
-		<p>v1.0.37よりDaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
+		<p>v1.0.37から1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
 		<dl>
 			<dt>unlessNullSuffixes</dt>
 				<dd>String[]</dd>
 				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
 				メソッド名デフォルトは{"UnlessNull"}です。</dd>
-		</dl>		
+		</dl>
+		<p>v1.0.40以降のバージョンは、DaoNavingConventionImplに対して以下のプロパティを設定することができます。
+		<dl>
+			<dt>daoSuffixes</dt>
+				<dd>String[]</dd>
+				<dd>Daoインターフェース名の最後に付いていなければならない名前を指定します。デフォルトは{"Dao"}です。</dd>
+			<dt>insertPrefixes</dt>
+				<dd>String[]</dd>
+				<dd>insertメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "insert","create", "add" }です。</dd>
+			<dt>updatePrefixes</dt>
+				<dd>String[]</dd>
+				<dd>updateメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "update","modify", "store" }です。</dd>
+			<dt>deletePrefixes</dt>
+				<dd>String[]</dd>
+				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
+			<dt>unlessNullSuffixes</dt>
+				<dd>String[]</dd>
+				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				メソッド名デフォルトは{"UnlessNull"}です。</dd>
+			<dt>modifiedOnlySuffixes</dt>
+				<dd>String[]</dd>
+				<dd>引数に渡されたDTOのフィールドの内、更新された値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				メソッド名デフォルトは{"ModifiedOnly"}です。</dd>
+			<dt>modifiedPropertyNamesPropertyName</dt>
+				<dd>String</dd>
+				<dd>更新された値のみを更新対象にする場合、DTOが持つべきプロパティ名を指定します。<br　/>
+				プロパティ名デフォルトは{"modifiedPropertyNames"}です。</dd>
+		</dl>
+
+		</p>
+		
     <h4><a name="SQLfile">SQLファイル</a></h4>
     	<p>検索、更新処理等を行うSQL文を記述します。
 		Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
