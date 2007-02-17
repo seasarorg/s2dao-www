@@ -521,44 +521,53 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  	S2DaoのほうでDBMSごとにサフィックスを決めているので、SQLアノテーションにサフィックスを追加します。
  	例えばオラクルの場合、サフィックスはoracleなので、「getAllEmployees_oracle_SQL」というSQLアノテーションになります。</p>
  	DBMSとサフィックスの関係は以下の通りです。
- 	<table class="main" border="1">
- 		<tbody><tr align="center" bgcolor="#d1f3f4">
- 			<th scope="col">DBMS</th>
- 			<th scope="col">サフィックス</th>
- 		</tr>
- 		<tr>
- 			<td>Oracle</td>
- 			<td>oracle</td>
- 		</tr>
- 		<tr>
- 			<td>DB2</td>
- 			<td>db2</td>
- 		</tr>
- 		<tr>
- 			<td>MSSQLServer</td>
- 			<td>mssql</td>
- 		</tr>
- 		<tr>
- 			<td>MySQL</td>
- 			<td>mysql</td>
- 		</tr>
- 		<tr>
- 			<td>PostgreSQL</td>
- 			<td>postgre</td>
- 		</tr>
- 		<tr>
- 			<td>Firebird</td>
- 			<td>firebird</td>
- 		</tr>
- 		<tr>
- 			<td>HSQL</td>
- 			<td>hsql</td>
- 		</tr>
- 		<tr>
- 			<td>Derby</td>
- 			<td>derby</td>
- 		</tr>
- 	</tbody></table>
+		<table border="1" class="main">
+			<tr bgcolor="#d1f3f4" align="center">
+				<th scope="col">DBMS</th>
+				<th scope="col">サフィックス</th>
+			</tr>
+			<tr>
+				<td>Oracle</td>
+				<td>oracle</td>
+			</tr>
+			<tr>
+				<td>DB2</td>
+				<td>db2</td>
+			</tr>
+			<tr>
+				<td>MSSQLServer</td>
+				<td>mssql</td>
+			</tr>
+			<tr>
+				<td>MySQL</td>
+				<td>mysql</td>
+			</tr>
+			<tr>
+				<td>PostgreSQL</td>
+				<td>postgre</td>
+			</tr>
+			<tr>
+				<td>Firebird</td>
+				<td>firebird</td>
+			</tr>
+			<tr>
+				<td>MaxDB</td>
+				<td>maxdb</td>
+			</tr>
+			<tr>
+				<td>HSQL</td>
+				<td>hsql</td>
+			</tr>
+			<tr>
+				<td>Derby</td>
+				<td>derby</td>
+			</tr>
+			<tr>
+				<td>H2</td>
+				<td>h2</td>
+			</tr>
+
+		</table>
  	</ul>
  	<h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
 	<p>バージョン1.0.31より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
@@ -755,8 +764,20 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 				<td>firebird</td>
 			</tr>
 			<tr>
+				<td>MaxDB</td>
+				<td>maxdb</td>
+			</tr>
+			<tr>
 				<td>HSQL</td>
 				<td>hsql</td>
+			</tr>
+			<tr>
+				<td>Derby</td>
+				<td>derby</td>
+			</tr>
+			<tr>
+				<td>H2</td>
+				<td>h2</td>
 			</tr>
 		</table>
 		</ul>
