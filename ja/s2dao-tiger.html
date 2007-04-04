@@ -105,12 +105,12 @@
 		カスタマイズした側が使用されるようにしてください。
 		</p>
 	<h4><a name="j2ee.dicon">j2ee.dicon</a></h4>
-		<p>S2Pagerの機能を使用する場合には、j2ee.diconを修正する必要があります(v1.0.36以降はデフォルトで有効になっています)。
+		<p>S2Pagerの機能を使用する場合には、j2ee.diconを修正する必要があります。
 		具体的な設定内容は<a href="s2pager.html">S2Pagerのドキュメント</a>を
 		ご覧ください。
 		</p>
     <h3><a name="DaoMakeFile">作成すべきファイル</a></h3>
-	    <p>S2Dao-tigerとはS2daoのフィールドアノテーションの変わりにJDK1.5から利用可能になったアノテーションを利用できるようにしたものです。</p>
+	    <p>S2Dao-tigerとはS2daoの定数アノテーションの変わりにJDK1.5から利用可能になったアノテーションを利用できるようにしたものです。</p>
 	    <p>従って、s2dao-tigerを利用するにあたり必要なファイルはS2Daoと変わりありません。</p>
 	    するにあたり、JavaBeans、Dao(.java)、diconファイル、SQLファイル(.sql)の作成が必要となります。
 	    <br />各ファイルの関連イメージ図は次のようになります。</p>
@@ -277,8 +277,97 @@ public long getEmpno() {
 	return this.empno;
 }
 </pre>
-
-
+	<p>IDアノテーションを、RDBMSごとに切り替えて使うことができます(1.0.41以降)。例えば、Identityにのみ対応するMySQLではIdentityを使い、SEQUENCEにのみ対応するOracleではSEQUENCEを使うことができます。</p>
+<pre>
+@Ids( {
+	@Id(value = IdType.IDENTITY, dbms = "mysql"),
+	@Id(value = IdType.SEQUENCE, sequenceName = "myseq", dbms = "oracle"),
+})
+</pre>
+	<p>指定したRDB以外のデフォルト値を指定することもできます。(1.0.41以降)</p>
+@Ids( {
+	@Id(value = IdType.IDENTITY, dbms = "oracle"),
+	@Id(value = IdType.SEQUENCE, sequenceName = "myseq") 
+})
+<pre>
+public static final String id_mysql_ID = "identity";
+public static final String id_ID = "sequence, sequenceName=myseq";
+</pre>
+	<p>RDBMSのサフィックスと、使用できるIDの取得方法は、表の通りです。</p>
+		<table border="1" class="main">
+			<tr bgcolor="#d1f3f4" align="center">
+				<th scope="col">DBMS</th>
+				<th scope="col">サフィックス</th>
+				<th scope="col">Identity</th>
+				<th scope="col">SEQUENCE</th>
+			</tr>
+			<tr>
+				<td>Oracle</td>
+				<td>oracle</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>DB2</td>
+				<td>db2</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>MSSQLServer</td>
+				<td>mssql</td>
+				<td>○</td>
+				<td>×</td>
+			</tr>
+			<tr>
+				<td>MySQL</td>
+				<td>mysql</td>
+				<td>○</td>
+				<td>×</td>
+			</tr
+			<tr>
+				<td>PostgreSQL</td>
+				<td>postgre</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>Firebird</td>
+				<td>firebird</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>MaxDB</td>
+				<td>maxdb</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>HSQL</td>
+				<td>hsql</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>Derby</td>
+				<td>derby</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>H2</td>
+				<td>h2</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>その他DB</td>
+				<td>なし</td>
+				<td>×</td>
+				<td>×</td>
+			</tr>
+		</table>
 <h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
 <p>テーブルのカラムに対応した変数を宣言します。</p>
 NUMBER型のEMPNOというカラムの場合、以下のように宣言することができます。（関連：<a href="#ColumnAnnotation">COLUMNアノテーション</a>）
@@ -451,7 +540,7 @@ public int updateUnlessNull(Department department);
 		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、getModifiedPropertyNamesメソッドを実装するDTOを引数に渡すと、フィールドの内、更新された(setterが呼ばれて変更された)値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
 		<ul>
-			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
+			<li>dao.diconでBeanEnhancerImplを指定して、Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
 			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br/>
 				この場合、DTOの定義例は以下のようになります。
 				<pre>
@@ -526,12 +615,28 @@ public int removeDept(Department department);
  WHERE emp.deptno = dept.deptno ORDER BY emp.empno;")
 public List getAllEmployees();
 </pre>
-<!--
  	<li>複数DBMS対応</li>
- 	<p>DBMSごとに使用するSQLアノテーションを指定することができます。
+ 	<p>DBMSごとに使用するSQLアノテーションを指定することができます。(1.0.41以降)
  	どのDBMSを使っているのかはjava.sql.DatabaseMetadata#getDatabaseProductName()に応じて、S2Daoが自動的に判断しています。
  	S2DaoのほうでDBMSごとにサフィックスを決めているので、SQLアノテーションにサフィックスを追加します。
- 	例えばオラクルの場合、サフィックスはoracleなので、「getAllEmployees_oracle_SQL」というSQLアノテーションになります。</p>
+ 	例えばオラクルの場合、サフィックスはoracleで、MySQLのサフィックスはmysqlなので、
+<pre>
+@Sql(value = "SELECT * FROM BBB", dbms = "oracle")}
+</pre>
+または
+<pre>
+@Sqls( { 
+	@Sql(value = "SELECT * FROM BBB", dbms = "oracle"),
+	@Sql("SELECT * FROM DDD"), dbms = "mysql" })
+</pre>
+ 	というSQLアノテーションになります。</p>
+	<p>指定したRDB以外のデフォルト値を指定することもできます。(1.0.41以降)</p>
+<pre>
+@Sqls( { 
+	@Sql(value = "SELECT * FROM BBB", dbms = "oracle"),
+    @Sql("SELECT * FROM DDD") })
+</pre>
+ 
  	DBMSとサフィックスの関係は以下の通りです。
  	<table class="main" border="1">
  		<tbody><tr align="center" bgcolor="#d1f3f4">
@@ -566,14 +671,18 @@ public List getAllEmployees();
  			<td>HSQL</td>
  			<td>hsql</td>
  		</tr>
+ 		<tr>
+ 			<td>H2</td>
+ 			<td>h2</td>
+ 		</tr>
  	</tbody></table>
--->
  	</ul>
  	<h5><a name="ProcedureAnnotation">Procedureアノテーション</a></h5>
 	<p>バージョン1.0.31より、org.seasar.dao.annotation.tiger.Procedureアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
 	<p>-  @Procedure("<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>")</p>
 	<p>-  @Procedure("<span class="italic">スキーマ名.プロシジャ名</span>")</p>
-	<p>-  @Procedure("<span class="italic">プロシジャ名</span>")</p>
+	<p>-  @Procedure("<span class="italic">パッケージ名.プロシージャ名</span>")(Oracle/1.0.41以降)</p>
+	<p>-  @Procedure("<span class="italic">スキーマ名.パッケージ名.プロシージャ名</span>")(Oracle/1.0.41以降)</p>	
  	<ul>
  	<li>サポートされるStoredProcedureの範囲について</li>
  	<p>PROCEDUREアノテーションでは、戻り値のあるStoredProcedure、IN,OUT,INOUTパラメータを複数持つプロシジャーをサポートしています。
@@ -617,7 +726,7 @@ public List getAllEmployees();
 
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
-    	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
+    	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。なお、1.0.36以降はjarファイル内にdao.diconが含まれているため、デフォルトで使用する場合はdao.diconを配置する必要はないです。
     	diconファイルの詳しい設定方法については、<a href="http://s2container.seasar.org/ja/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 		<h5>S2DaoInterceptorの適用</h5>
     	<p>Dao機能を使用するにはorg.seasar.dao.interceptors.S2DaoInterceptorを登録したDaoに対してAOPを適用します。<br />
@@ -814,6 +923,7 @@ public Employee getEmployee(int empno);
 		<p> -  /*<span class="italic">$引数名</span>*/<span class="italic">リテラル</span></p>
 		<p>引数がJavaBeansの場合は以下のように記述します。</p>
 		<p>-  /*<span class="italic">$引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></P>
+		<p>埋め込み変数コメントを使用する場合、SQLインジェクションに対する対策はDaoの呼び出し側で行う必要があります。</p>
 
 		<h4>IFコメント</h4>
 		<p>IFコメントでは、条件に応じて実行するSQL文を変えることが可能です。IFコメントは以下の形式で記述します。</p>
@@ -942,7 +1052,7 @@ public int insert(Department department);
 	    Timestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
 
 	<h3><a name="batch">バッチ更新</a></h3>
-		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。</p>
+		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。なお、バッチ更新の場合、<a href="#IDAutoGenerate">IDの自動生成</a>を行うことはできません。</p>
 		<pre>int insertBatch(Employee[] employees)</pre>
 
 	<h3><a name="AutoSelect">検索SQLの自動生成</a></h3>

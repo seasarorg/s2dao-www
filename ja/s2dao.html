@@ -89,11 +89,11 @@
 
 	<h2><a name="S2Daoリファレンス">S2Daoリファレンス</a></h2>
 	<h3><a name="SetUp">セットアップ</a></h3>
-		<p>Seasar2と同様にJDK1.4以上が必要です。Seasar2のプロジェクトをインポートした後に、s2-dao-x.x.x.zipを解凍してできたs2daoディレクトリを、Eclipseで
+		<p>Seasar2と同様にJDK1.4以上が必要です。s2-dao-x.x.x.zipを解凍してできたs2daoディレクトリを、Eclipseで
 		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。Seasar2の必要なバージョンは、<a href="http://www.seasar.org/wiki/index.php?Versions#j388ac47">Wiki</a>をご覧ください。
 		s2-dao-examples/src/main/java配下にサンプルもあります。
 		</p>
-		<p>S2Daoとして必要なjarファイルは、<a href="http://s2container.seasar.org/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
+		<p>S2Daoとして必要なjarファイルは、1.0.41以降はlib/の下に全てそろっています。それ以前のバージョンは、<a href="http://s2container.seasar.org/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体が必要です。です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
 		lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
 		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon(Seasar2.4の場合はjdbc.dicon)、<a href="#dao.dicon">dao.dicon(※後述)</a>をCLASSPATHにとおせば、S2Daoを実行できます。
 		Eclipseにインポートして使う場合は設定は不要です。</p>
@@ -235,7 +235,91 @@ public static final String id_ID = "sequence, sequenceName=myseq";
 <pre>
 public static final String id_ID = "assigned";
 </pre>
-
+	<p>IDアノテーションを、RDBMSごとに切り替えて使うことができます(1.0.41以降)。例えば、Identityにのみ対応するMySQLではIdentityを使い、SEQUENCEにのみ対応するOracleではSEQUENCEを使うことができます。</p>
+<pre>
+public static final String id_mysql_ID = "identity";
+public static final String id_oracle_ID = "sequence, sequenceName=myseq";
+</pre>
+	<p>指定したRDB以外のデフォルト値を指定することもできます。(1.0.41以降)</p>
+<pre>
+public static final String id_mysql_ID = "identity";
+public static final String id_ID = "sequence, sequenceName=myseq";
+</pre>
+	<p>RDBMSのサフィックスと、使用できるIDの取得方法は、表の通りです。</p>
+		<table border="1" class="main">
+			<tr bgcolor="#d1f3f4" align="center">
+				<th scope="col">DBMS</th>
+				<th scope="col">サフィックス</th>
+				<th scope="col">Identity</th>
+				<th scope="col">SEQUENCE</th>
+			</tr>
+			<tr>
+				<td>Oracle</td>
+				<td>oracle</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>DB2</td>
+				<td>db2</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>MSSQLServer</td>
+				<td>mssql</td>
+				<td>○</td>
+				<td>×</td>
+			</tr>
+			<tr>
+				<td>MySQL</td>
+				<td>mysql</td>
+				<td>○</td>
+				<td>×</td>
+			</tr>
+			<tr>
+				<td>PostgreSQL</td>
+				<td>postgre</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>Firebird</td>
+				<td>firebird</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>MaxDB</td>
+				<td>maxdb</td>
+				<td>×</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>HSQL</td>
+				<td>hsql</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>Derby</td>
+				<td>derby</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>H2</td>
+				<td>h2</td>
+				<td>○</td>
+				<td>○</td>
+			</tr>
+			<tr>
+				<td>その他DB</td>
+				<td>なし</td>
+				<td>×</td>
+				<td>×</td>
+			</tr>
+		</table>
 	<h5><a name="CLOBType">CLOB型とのマッピング</a></h5>
 <p>
 JavaBeansのString型プロパティをテーブルのCLOB型と対応付けるには、VALUE_TYPEアノテーションを使用します。
@@ -440,7 +524,7 @@ public int updateUnlessNull(Department department);
 		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、getModifiedPropertyNamesメソッドを実装するDTOを引数に渡すと、フィールドの内、更新された(setterが呼ばれて変更された)値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
 		<ul>
-			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
+			<li>dao.diconでBeanEnhancerImplを指定して、Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
 			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br/>
 				この場合、DTOの定義例は以下のようになります。
 				<pre>
@@ -567,13 +651,16 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 				<td>h2</td>
 			</tr>
 
-		</table>
+ 		</table>
  	</ul>
  	<h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
 	<p>バージョン1.0.31より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">パッケージ名.プロシージャ名</span>";(Oracle/1.0.41以降)</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.パッケージ名.プロシージャ名</span>";(Oracle/1.0.41以降)</p>
+
  	<ul>
  	<li>サポートされるStoredProcedureの範囲について</li>
  	<p>PROCEDUREアノテーションでは、
@@ -627,7 +714,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
-    	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。
+    	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。なお、1.0.36以降はjarファイル内にdao.diconが含まれているため、デフォルトで使用する場合はdao.diconを配置する必要はないです。
     	diconファイルの詳しい設定方法については、<a href="http://s2container.seasar.org/ja/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 		<h5>S2DaoInterceptorの適用</h5>
     	<p>Dao機能を使用するにはorg.seasar.dao.interceptors.S2DaoInterceptorを登録したDaoに対してAOPを適用します。<br />
@@ -827,6 +914,7 @@ public Employee getEmployee(int empno);
 		<p> -  /*<span class="italic">$引数名</span>*/<span class="italic">リテラル</span></p>
 		<p>引数がJavaBeansの場合は以下のように記述します。</p>
 		<p>-  /*<span class="italic">$引数名</span>.<span class="italic">プロパティ名</span>*/<span class="italic">リテラル</span></P>
+		<p>埋め込み変数コメントを使用する場合、SQLインジェクションに対する対策はDaoの呼び出し側で行う必要があります。</p>
 
 		<h4>IFコメント</h4>
 		<p>IFコメントでは、条件に応じて実行するSQL文を変えることが可能です。IFコメントは以下の形式で記述します。</p>
@@ -959,7 +1047,7 @@ public int insert(Department department);
 	    更新時にTimestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
 
 	<h3><a name="batch">バッチ更新</a></h3>
-		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。</p>
+		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。なお、バッチ更新の場合、<a href="#IDAutoGenerate">IDの自動生成</a>を行うことはできません。</a></p>
 		<pre>int insertBatch(Employee[] employees)</pre>
 
 	<h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
