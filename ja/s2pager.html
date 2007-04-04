@@ -671,6 +671,7 @@ System.out.println(condition.getCount()); // 35
 
 	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
+			&lt;!-- JDBCドライバなどの環境によってはPagerStatementFactoryを有効にする必要があるようです。 --&gt;
 			<font color="red">&lt;!--
 			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
 			--&gt;
