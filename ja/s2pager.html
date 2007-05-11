@@ -700,6 +700,25 @@ System.out.println(condition.getCount()); // 35
 	:
 	:
 </pre>
+<b>全件数取得時のorder by句削除のON/OFF</b><br>
+　S2Dao-1.0.43から、S2Pager内部で発行する全件数を取得するSQLで、元のSQLからorder by句を削除することで、さらに高速にページングできるようになりました。
+これは、全件数を取得するのに並び順は関係がないため、order by句を削除することでSQLのコストを小さくしています。<br/>
+　もしorder by句の削除を行いたくない場合や問題がある場合は、「org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper」の「chopOrderBy」プロパティをfalseにすることで、
+以前と同様にorder by句を削除せずに全件数を取得するSQLを発行することもできます。（デフォルトはtrueでorder by句が削除されます）
+<pre>
+	:
+	:
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+		:
+		:
+		<font color="red">&lt;property name="chopOrderBy"&gt;false&lt;/property&gt;</font>
+	&lt;/component&gt;
+	:
+	:
+</pre>
+
 </p>
 
 <!-- document end -->
