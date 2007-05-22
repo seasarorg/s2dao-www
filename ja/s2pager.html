@@ -33,7 +33,7 @@
 <li><a href="#Setup">セットアップ</a></li>
 <ul>
 <li><a href="#Sample">サンプルの実行</a></li>
-<li><a href="#Dicon">j2ee.diconの修正</a></li>
+<li><a href="#Dicon">j2ee.dicon（jdbc.dicon）の修正</a></li>
 </ul>
 <li><a href="#UseS2Pager">S2ページャの使い方</a></li>
 <ul>
@@ -69,10 +69,10 @@
 <p>
 	Tomcatプラグインを導入している環境であれば、EclipseのTomcatPlugin上でそのまま動作させることもできます。
 </p>
-<h3><a name="Dicon">j2ee.diconの修正</a></h3>
+<h3><a name="Dicon">j2ee.dicon（jdbc.dicon）の修正</a></h3>
 <p>
-	S2Pagerを既存のプロジェクトで使用するには、Seasar2のj2ee.diconをS2Pager用に修正する必要があります。
-	s2-dao-x.x.x.zipに含まれるj2ee.diconを参考にして以下のようにj2ee.diconを修正します。
+	S2Pagerを既存のプロジェクトで使用するには、Seasar2のj2ee.dicon（Seasar2.4ではjdbc.dicon）をS2Pager用に修正する必要があります。
+	s2-dao-x.x.x.zipに含まれるj2ee.diconを参考にして以下のようにj2ee.dicon（jdbc.dicon）を修正します。
 </p>
 <pre>
 &lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
