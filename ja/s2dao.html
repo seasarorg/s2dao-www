@@ -578,12 +578,26 @@ public int removeDept(Department department);
 </pre>
 		<li>検索(SELECT)処理</li>
 		<p>検索処理を行ないたい場合は、戻り値の型を指定します。戻り値の型がjava.util.Listを実装している場合、SELECT文でエンティティのリストを返します。
-		戻り値がエンティティ型の配列である場合、エンティティ配列を返します。戻り値の型がエンティティの型の場合、エンティティを返します。 
-		戻り値がDTO型のリスト(List&lt;Dto&gt;)である場合、DTOのリストを返します。
-		戻り値がDTO型の配列(Dto[])である場合、DTOの配列を返します。
-		戻り値がMap型のリスト(List&lt;Map&gt;)である場合、Mapのリストを返します。
-		戻り値がMap型の配列(Map[])である場合、Mapの配列を返します。
-		それ以外の場合、SELECT count(*) FROM empのように1行で1のカラムの値を返すというようにS2Daoは想定します。</p>
+		戻り値がエンティティ型の配列である場合、エンティティ配列を返します。戻り値の型がエンティティの型の場合、エンティティを返します。</p>
+<pre>
+public List selectList(int deptno);
+public Department[] selectArray(int deptno);
+</pre>
+		<p>v1.0.43からは検索処理の戻り値としてエンティティの他にDTOやMapが利用可能です。
+		戻り値がDTO型のリスト（List&lt;Dto&gt;）である場合、DTOのリストを返します。
+		戻り値がDTO型の配列（Dto[]）である場合、DTOの配列を返します。
+		戻り値がMap型のリスト（List&lt;Map&gt;）である場合、Mapのリストを返します。
+		戻り値がMap型の配列（Map[]）である場合、Mapの配列を返します。</p>
+<pre>
+public List&lt;EmpDto&gt; selectAsDtoList(int deptno);
+public EmpDto[] selectAsDtoArray(int deptno);
+public List&lt;Map&gt; selectAsMapList(int deptno);
+public Map[] selectAsMapArray(int deptno);
+</pre>
+		<p>それ以外の場合、SELECT count(*) FROM empのように1行で1のカラムの値を返すというようにS2Daoは想定します。</p>
+<pre>
+public int selectCountAll();
+</pre>
 		</ul>
 
 	<h5><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h5>
