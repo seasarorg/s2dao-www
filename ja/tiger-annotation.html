@@ -65,6 +65,7 @@ Tigerアノテーションは定数アノテーションと対になるため、
 			<li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
+			<li><a href="#SqlFileAnnotation">SQL_FILEアノテーション</a></li>
 			<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
 			<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
         </ul>
@@ -152,6 +153,10 @@ Tigerアノテーションは定数アノテーションと対になるため、
 		<tr>
 			<td>SQL</td>
 			<td>org.seasar.dao.annotation.tiger.Sql</td>
+		<tr>
+		<tr>
+			<td>SQL_FILE</td>
+			<td>org.seasar.dao.annotation.tiger.SqlFile</td>
 		<tr>
 		<tr>
 			<td>PROCEDURE</td>
@@ -298,7 +303,7 @@ public interface DepartmentDao {
 }
 </pre>
 
-<h4><a name="BeanAnnotation">ARGSアノテーション</a></h3>
+<h4><a name="ArgsAnnotation">ARGSアノテーション</a></h3>
 <p>
 ARGSアノテーションは、org.seasar.dao.annotation.tiger.Argumentsアノテーションに記述します。
 </p>
@@ -369,6 +374,23 @@ public static final String getCount_SQL = "SELECT COUNT(*) FROM emp";
 @Sql("SELECT count(*) FROM emp")
 public int getCount();
 </pre>
+
+<h4><a name="SqlFileAnnotation">SQL_FILEアノテーション</a></h3>
+<p>
+SQL_FILEアノテーションは、org.seasar.dao.annotation.tiger.SqlFileアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+String insert_SQL_FILE = null;
+int insert(Employee employee);
+</pre>
+<pre>
+// Tigerアノテーション
+@SqlFile
+int insert(Employee employee);
+</pre>
+
+
 
 <h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h3>
 <p>

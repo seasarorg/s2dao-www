@@ -59,6 +59,9 @@
 							</ul>
                 		<li type="circle"><a href="#diconfile">diconファイル</a></li>
                 		<li type="circle"><a href="#SQLfile">SQLファイル</a></li>
+							<ul>
+								<li><a href="#SqlFileAnnotation">SQL_FILEアノテーション</a></li>
+							</ul>
                 	</ul>
                 <li><a href="#SQLBind">SQLコメント</a></li>
                 <li><a href="#EntityManager">EntityManagerを使用したQueryの実行</a></li>
@@ -605,7 +608,7 @@ public int removeDept(Department department);
 	<pre>@NoPersistentProperty("deptno")</pre>
 	<p>上記のように指定すると、insertメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
 	PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
- 	<h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
+	<h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
 	<p>バージョン1.0.28より、org.seasar.dao.annotation.tiger.Sqlアノテーションを使用することが可能です。機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
  	<ul>
  	<li>SQLファイルとDaoに定義したメソッドの関連付け</li>
@@ -880,7 +883,16 @@ public List getAllEmployees();
 		</ul>
 		<h5>SQL文の記述</h5>
 		<p>SQLファイルには、”SELECT * FROM EMP”, “DELETE FROM EMP WHERE EMPNO = 7788”といった、普通のSQL文を記述することが可能です。
-		また、WHERE句の条件の値などを動的に変化させることも可能です。詳しくは、<a href="#SQLbind">SQLコメント</a>を参照して下さい。</p>
+		また、WHERE句の条件の値などを動的に変化させることも可能です。詳しくは、<a href="#SQLBind">SQLコメント</a>を参照して下さい。</p>
+
+		<h5><a name="SqlFileAnnotation">SqlFileアノテーション</a></h5>
+		<p>バージョン1.0.43よりSqlFileアノテーションが導入されました。
+		SQLファイルを利用するDaoのメソッドにこのアノテーションを付けると、対応するSQLファイルが見つからない場合にS2Daoが例外を投げます。
+		記述の不備やSQLファイルの配置し忘れなどのミスを検出するために使用してください。</p>
+		<p>例えば、DaoのgetAllEmployeesメソッドがSQLファイルを利用する場合は次のように記述します。</p>
+		<pre>
+@SqlFile
+public List&lt;Employee&gt; getAllEmployees();</pre>
 
 	<h3><a name="SQLBind">SQLコメント</a></h3>
 		<p>S2Daoでは、メソッドの引数とSQL文のバインド変数の対応付けを/**/や--などのコメントを使って行います。
