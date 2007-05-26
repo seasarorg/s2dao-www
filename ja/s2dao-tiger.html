@@ -605,7 +605,7 @@ public int removeDept(Department department);
 	<h5><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h5>
 	<p>更新するときに、このプロパティだけをSQLに含めたいという場合もあります。
 	そのような場合は、org.seasar.dao.annotation.tiger.PersistentPropertyアノテーションを使います。</p>
-	<pre>@NoPersistentProperty("deptno")</pre>
+	<pre>@PersistentProperty("deptno")</pre>
 	<p>上記のように指定すると、insertメソッドで、プライマリーキー、versionNo、timestampのプロパティに加えて、
 	PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
 	<h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
