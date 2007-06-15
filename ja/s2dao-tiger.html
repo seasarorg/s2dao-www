@@ -196,7 +196,8 @@
 		<pre>@Bean(table="EMP")</pre>
 		<p>スキーマの定義をすることも可能です。スキーマ名が"SCOTT"の場合は以下のようになります。</p>
 		<pre>@Bean(table="SCOTT.EMP")</pre>
-    	※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。
+    	※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、Beanアノテーションを定義する必要はありません。
+    	dao.diconでDecamelizeBeanMetaDataCustomizerを指定している場合、クラス名からパッケージ名を除いて、単語の区切りに_をつけて大文字にした名前がテーブル名と一致する場合は、Beanアノテーションを定義する必要はありません。(1.0.44以降)<br>
 		<p>Beanとテーブルの関連付けは以下の形式で行うことができます。</p>
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 		<p>カラムが永続化の対象かどうかという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。
@@ -223,7 +224,7 @@ public String getEmployeeNo(){
 	return employeeNo_;
 };
 </pre>
-    	※プロパティ名とカラム名が一致する場合は、Columnアノテーションを定義する必要はありません。
+    	※プロパティ名とカラム名から_(アンダースコア)を除いた名前が一致する場合は、COLUMNアノテーションを定義する必要はありません。
 		テーブルに存在しないプロパティは、自動的に無視されるので、特に何か定義する必要はありません。
 
      <h5><a name="N1Mapping">N:1マッピング</a></h5>
@@ -490,7 +491,7 @@ public Employee getEmployee(int empno);
 <p>メソッドの引数がテーブルのカラム名に対応している場合、<span class="italic">引数名</span>にはテーブルのカラム名を指定します。例えば、メソッドの引数名がempnoで、テーブルのカラム名がemployeenoの場合は、employeenoを指定するということです。
 引数が複数ある場合には、カンマで区切ります。引数が1つの場合、Argumentsアノテーションは省略できます。</p>
 <h5><a name="QueryAnnotation">Queryアノテーション</a></h5>
-	    <p>自動的に生成されるSELECT文にWHERE句やORDER BY句を追加するには、Queryアノテーションを使用します。<br />
+	    <p>自動的に生成されるSELECT文やDELETE文(DELETE文は1.0.44以降)にWHERE句やORDER BY句を追加するには、Queryアノテーションを使用します。<br />
 		QUERYアノテーションは以下の形式で定数を宣言します。</p>
 		<p>-  @Query("<span class="italic">WHERE句ORDER BY句</span>")</p>
 		<p>引数で給与の上限と下限を指定し、その間に含まれる従業員を抽出する場合、次のようにします。</p>
