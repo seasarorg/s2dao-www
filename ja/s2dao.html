@@ -524,18 +524,23 @@ public int update(Department department);
 public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
-		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br　/>
+		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドのうち、
+		nullでは無い値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
 		<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		メソッドの定義例は以下のようになります。
 <pre>
 public int updateUnlessNull(Department department);
 </pre>
 		</p>
-		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、getModifiedPropertyNamesメソッドを実装するDTOを引数に渡すと、フィールドの内、更新された(setterが呼ばれて変更された)値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
-		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
+		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、
+		引数に渡されたDTOのフィールドのうち、変更した(setterを呼んで変更した)フィールドのみが更新対象となります。(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)<br />
+		この機能を利用するには、dao.diconに記述されている org.seasar.dao.impl.NullBeanEnhancer を org.seasar.dao.impl.BeanEnhancerImpl へ入れ替えてください。<br />
+		</p>
+		<p>
+		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br />
 		<ul>
-			<li>dao.diconでBeanEnhancerImplを指定して、Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
-			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br/>
+			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
+			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br />
 				この場合、DTOの定義例は以下のようになります。
 				<pre>
 public class Emp {
@@ -544,32 +549,37 @@ public class Emp {
 
     private long empno;
 
-	(略)
+    (略)
 
-    private java.util.Set _modifiedPropertySet = new java.util.HashSet();
+    private java.util.Set modifiedPropertySet = new java.util.HashSet();
 
     public long getEmpno() {
         return this.empno;
     }
 
     public void setEmpno(long empno) {
-        _modifiedPropertySet.add("empno");
+        this.modifiedPropertySet.add("empno");
         this.empno = empno;
     }
 
-(略)
+    (略)
+
     public java.util.Set getModifiedPropertyNames() {
-        return _modifiedPropertySet;
+        return this.modifiedPropertySet;
     }
 }
 				</pre>
 		</ul>
-		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br　/>
+		</p>
+
+		<p>
+		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		メソッドの定義例は以下のようになります。
 <pre>
-public int updateModifiedOnly(Department department);
+public int updateModifiedOnly(Emp emp);
 </pre>
 		</p>
+
 		<li>DELETE処理</li>
 		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
 		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
@@ -800,7 +810,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 		<dl>
 			<dt>unlessNullSuffixes</dt>
 				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
 				メソッド名デフォルトは{"UnlessNull"}です。</dd>
 		</dl>
 		<p>v1.0.40以降のバージョンは、DaoNamingConventionImplに対して以下のプロパティを設定することができます。
@@ -819,15 +829,15 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
 			<dt>unlessNullSuffixes</dt>
 				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
 				メソッド名デフォルトは{"UnlessNull"}です。</dd>
 			<dt>modifiedOnlySuffixes</dt>
 				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、更新された値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br　/>
+				<dd>引数に渡されたDTOのフィールドの内、更新された値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
 				メソッド名デフォルトは{"ModifiedOnly"}です。</dd>
 			<dt>modifiedPropertyNamesPropertyName</dt>
 				<dd>String</dd>
-				<dd>更新された値のみを更新対象にする場合、DTOが持つべきプロパティ名を指定します。<br　/>
+				<dd>更新された値のみを更新対象にする場合、DTOが持つべきプロパティ名を指定します。<br />
 				プロパティ名デフォルトは{"modifiedPropertyNames"}です。</dd>
 		</dl>
 
