@@ -194,7 +194,7 @@
 		<p>スキーマの定義をすることも可能です。スキーマ名が"SCOTT"の場合は以下のようになります。</p>
 		<pre>public static final String TABLE = "SCOTT.EMP";</pre>
     	※クラス名からパッケージ名を除いた名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。<br>
-    	dao.diconでDecamelizeBeanMetaDataCustomizerを指定している場合、クラス名からパッケージ名を除いて、単語の区切りに_をつけて大文字にした名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。(1.0.44以降)<br>
+    	また、dao.diconでorg.seasar.dao.impl.DecamelizeTableNamingを指定している場合、クラス名からパッケージ名を除いて、単語の区切りに_をつけて大文字にした名前がテーブル名と一致する場合は、TABLEアノテーションを定義する必要はありません。(1.0.44以降)<br>
 
      <h5><a name="ColumnAnnotation">COLUMNアノテーション</a></h5>
     	<p>テーブルのカラムとの関連付けはCOLUMNアノテーションを使用します。<br />
