@@ -475,7 +475,7 @@ public class Employee {
 		<p>-  @S2Dao(<span class="italic">JavaBeans名</span>.class)</p>
 		<p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。 	</p>
 <pre>
-@S2Dao(Employee.class)
+@S2Dao(bean = Employee.class)
 public class EmployeeDao{
 }
 </pre>
