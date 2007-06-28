@@ -489,7 +489,11 @@ public class EmployeeDao{
 public Employee getEmployee(int empno);
 </pre>
 <p>メソッドの引数がテーブルのカラム名に対応している場合、<span class="italic">引数名</span>にはテーブルのカラム名を指定します。例えば、メソッドの引数名がempnoで、テーブルのカラム名がemployeenoの場合は、employeenoを指定するということです。
-引数が複数ある場合には、カンマで区切ります。引数が1つの場合、Argumentsアノテーションは省略できます。</p>
+引数が複数ある場合には、文字列の配列で指定します。引数が1つの場合、Argumentsアノテーションは省略できます。</p>
+<pre>
+@Arguments( { "job", "deptno" })
+public List getEmployeeByJobDeptno(String job, Integer deptno);
+</pre>
 <h5><a name="QueryAnnotation">Queryアノテーション</a></h5>
 	    <p>自動的に生成されるSELECT文やDELETE文(DELETE文は1.0.44以降)にWHERE句やORDER BY句を追加するには、Queryアノテーションを使用します。<br />
 		QUERYアノテーションは以下の形式で定数を宣言します。</p>
