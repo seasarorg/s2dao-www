@@ -48,6 +48,7 @@
 							</ul>
                 		<li type="circle"><a href="#Dao">Dao(Data Access Object)</a></li>
 							<ul>
+								<li><a href="#MethodNaming">メソッドの命名規則</a></li>
 								<li><a href="#S2DaoAnnotation">S2Daoアノテーション</a></li>
 								<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
 								<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
@@ -468,7 +469,30 @@ public class Employee {
 			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
 		</ul>
-
+    <h5><a name="MethodNaming">メソッドの命名規則</a></h5>
+		<p>Daoのメソッドの名前には規則があり、名前が下の表にあげた名前で始まっている必要があります。		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。</p>
+		<table border="1" class="main">
+			<tr bgcolor="#d1f3f4" align="center">
+			  <th>処理</th>
+			  <th>名称</th>
+			</tr>
+			<tr>
+			  <td>挿入</td>
+			  <td>insert,add,create</td>
+			</tr>
+			<tr>
+			  <td>更新</td>
+			  <td>update,modify,store</td>
+			</tr>
+			<tr>
+			  <td>削除</td>
+			  <td>delete,remove</td>
+			</tr>
+			<tr>
+			  <td>検索</td>
+			  <td>上記以外</td>
+			</tr>
+		</table>
     <h5><a name="S2DaoAnnotation">S2Daoアノテーション</a></h5>
 	    <p>DaoがどのJavaBeans(エンティティ)に関連付けられているのかはorg.seasar.dao.annotation.tiger.S2Daoアノテーションで指定します。<br />
 		S2Daoアノテーションは以下の形式で定数を宣言します。</p>
