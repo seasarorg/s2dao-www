@@ -270,7 +270,7 @@ public long getEmpno() {
 </pre>
 <p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
 <pre>
-@Id(IdType.SEQUENCE,sequenceName="myseq")
+@Id(value=IdType.SEQUENCE,sequenceName="myseq")
 public long getEmpno() {
 	return this.empno;
 }
