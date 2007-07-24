@@ -42,6 +42,7 @@
 <li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
 <li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a></li>
 <li><a href="#LimitOffset">limitとoffsetを使用した高速取得</a></li>
+<li><a href="#Rownum">ROWNUMを使用した高速取得</a></li>
 <li><a href="#ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></li>
 </ul>
 </ul>
@@ -99,6 +100,16 @@
 		&lt;arg&gt;dataSource&lt;/arg&gt;
 	&lt;/component&gt;
 	--&gt;
+	&lt;!--
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+	&lt;/component&gt;
+	--&gt;
 
 	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
 		&lt;arg&gt;
@@ -129,7 +140,7 @@
 </pre>
 
 
-<h2><a name="UseS2Pager">S2Pagerの使い方</h2>
+<h2><a name="UseS2Pager">S2Pagerの使い方</a></h2>
 <h3><a name="PagerCondition">PagerCondition - 検索条件を保持する</a></h3>
 <p>ページャ機能は次の手順で実現します。</p>
 <ol>
@@ -223,7 +234,7 @@ dto.setOffset(Integer.parseInt(offset));
 
 // 独自の検索条件
 String category = request.getParameter("category");
-if (category != null && category.length() != 0) {
+if (category != null &amp;&amp; category.length() != 0) {
     dto.setCategory(category);
 }
 
@@ -251,8 +262,8 @@ PagerSupportクラスのコンストラクタで次の項目を指定します�
 <table border="1">
 	<tr>
 		<th nowrap>引数</th>
-		<th>意味</hd>
-		<th>説明</hd>
+		<th>意味</th>
+		<th>説明</th>
 	</tr>
 	<tr>
 		<td nowrap>第１引数</td>
@@ -262,7 +273,7 @@ PagerSupportクラスのコンストラクタで次の項目を指定します�
 	<tr>
 		<td>第２引数</td>
 		<td>条件保持DTOのクラスオブジェクト</td>
-		<td>セッション中に>条件保持DTOが存在しかった場合、ここで指定したクラスの検索条件DTOが生成されます。</td>
+		<td>セッション中に条件保持DTOが存在しかった場合、ここで指定したクラスの検索条件DTOが生成されます。</td>
 	</tr>
 	<tr>
 		<td>第３引数</td>
@@ -338,7 +349,7 @@ public BookAction extends Action {
         // 条件保持オブジェクト中の独自の検索条件をセット
         // この場合、書籍カテゴリを表すcateogry
         String category = request.getParameter("category");
-        if (category != null && category.length() != 0) {
+        if (category != null &amp;&amp; category.length() != 0) {
             dto.setCategory(category);
         }
         
@@ -634,6 +645,120 @@ System.out.println(condition.getCount()); // 35
 </pre>
 </p>
 
+<h3><a name="Rownum">ROWNUMを使用した高速取得</a></h3>
+<p>
+S2Dao-1.0.45から、Oracle上でのみROWNUM疑似列を使ったサブクエリによりページング処理が出来るようになりました。
+これにより大量データ検索時のパフォーマンスが改善する可能性があります。ただし、必ずパフォーマンスが改善されるわけではないので、
+十分な検証をしてから、ご利用ください。
+</p>
+<p>
+以下の設定により「PagerResultSetFactoryRownumWrapper」のコメントアウトを解除することで、「ROWNUM」を使用した取得が可能になります。
+<br>
+<br>
+<b>ROWNUMを使用した高速取得の設定(j2ee.dicon)</b>
+</p>
+<pre>
+	:
+	:
+<font color="red">
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+	&lt;/component&gt;
+</font>
+	&lt;!--
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;arg&gt;dataSource&lt;/arg&gt;
+	&lt;/component&gt;
+	--&gt;
+<font color="red">
+	&lt;!--
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
+	&lt;/component&gt;
+	--&gt;
+</font>
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;!--
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		--&gt;
+	&lt;/component&gt;
+
+	&lt;!--
+	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
+		&lt;arg&gt;
+			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
+		&lt;/arg&gt;
+		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
+		&lt;! - -
+		&lt;property name="maxRows"&gt;100&lt;/property&gt;
+		- - &gt;
+	&lt;/component&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
+	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
+	--&gt;
+	:
+	:
+</pre>
+<p>
+上記のコメントアウトを外すことで発行されるSQLが以下のように自動変換されます。
+（見やすくするために、変換後のSQLに改行を加えています）
+</p>
+<p>
+<b>元のSQL</b>
+</p>
+<pre>
+SELECT * FROM EMP
+</pre>
+<p>
+<b>変換後のSQL</b>
+</p>
+<pre>
+SELECT * FROM (SELECT ROWNUM AS S2DAO_ROWNUMBER, S2DAO_ORIGINAL_DATA.* FROM (
+<font color="blue">SELECT * FROM EMP</font>
+) S2DAO_ORIGINAL_DATA) WHERE S2DAO_ROWNUMBER BETWEEN 1 AND 10
+</pre>
+
+<p>
+<b>全件数取得時のorder by句削除のON/OFF</b><br>
+　S2Dao-1.0.43から、S2Pager内部で発行する全件数を取得するSQLで、元のSQLからorder by句を削除することで、さらに高速にページングできるようになりました。
+これは、全件数を取得するのに並び順は関係がないため、order by句を削除することでSQLのコストを小さくしています。<br/>
+　もしorder by句の削除を行いたくない場合や問題がある場合は、「org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper」の「chopOrderBy」プロパティをfalseにすることで、
+以前と同様にorder by句を削除せずに全件数を取得するSQLを発行することもできます。（デフォルトはtrueでorder by句が削除されます）
+</p>
+<pre>
+	:
+	:
+	&lt;component 
+		name="resultSetFactory"
+		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
+		:
+		:
+		<font color="red">&lt;property name="chopOrderBy"&gt;false&lt;/property&gt;</font>
+	&lt;/component&gt;
+	:
+	:
+</pre>
+
 <h3><a name="ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></h3>
 <p>
 	スクロール可能カーソルを使用することで、大量データ検索時のパフォーマンスが向上します。
@@ -697,24 +822,6 @@ System.out.println(condition.getCount()); // 35
 	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
 	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
 	--&gt;
-	:
-	:
-</pre>
-<b>全件数取得時のorder by句削除のON/OFF</b><br>
-　S2Dao-1.0.43から、S2Pager内部で発行する全件数を取得するSQLで、元のSQLからorder by句を削除することで、さらに高速にページングできるようになりました。
-これは、全件数を取得するのに並び順は関係がないため、order by句を削除することでSQLのコストを小さくしています。<br/>
-　もしorder by句の削除を行いたくない場合や問題がある場合は、「org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper」の「chopOrderBy」プロパティをfalseにすることで、
-以前と同様にorder by句を削除せずに全件数を取得するSQLを発行することもできます。（デフォルトはtrueでorder by句が削除されます）
-<pre>
-	:
-	:
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-		:
-		:
-		<font color="red">&lt;property name="chopOrderBy"&gt;false&lt;/property&gt;</font>
-	&lt;/component&gt;
 	:
 	:
 </pre>
