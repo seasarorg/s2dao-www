@@ -74,9 +74,9 @@
 				<li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
 				<li><a href="#CLOBType">CLOB型とのマッピング</a></li>
 				<li><a href="#HowToRun">S2Daoの実行</a></li>
-	        	<li><a href="http://s2container.seasar.org/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
-	        	<li><a href="http://s2container.seasar.org/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
-				<li><a href="http://s2container.seasar.org/ja/s2jdbc.html#BooleanToInt">Booleanの扱い</a></li>
+	        	<li><a href="http://s2container.seasar.org/2.3/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
+	        	<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
+				<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#BooleanToInt">Booleanの扱い</a></li>
 			</ul>
 		</li>
 		<li><a href="#Example">Example</a>
@@ -85,7 +85,7 @@
         		<li><a href="#AutoUpdateExample">自動で更新用SQL文を生成する場合のExample</a></li>
                 <li><a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a></li>
         		<li><a href="#EntityManagerExample">EntityManagerを使用したExample</a></li>
-        		<li><a href="http://s2container.seasar.org/ja/testtech.html#S2DaoTestCaseExample">S2DaoTestCaseのExample</a></li>
+        		<li><a href="http://s2container.seasar.org/2.3/ja/testtech.html#S2DaoTestCaseExample">S2DaoTestCaseのExample</a></li>
             </ul>
     	</li>
     	<li><a href="s2DaoExercise.html">S2Daoエクササイズ</a></li>
@@ -97,7 +97,7 @@
 		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。Seasar2の必要なバージョンは、<a href="http://www.seasar.org/wiki/index.php?Versions#j388ac47">Wiki</a>をご覧ください。
 		s2-dao-examples/src/main/java配下にサンプルもあります。
 		</p>
-		<p>S2Daoとして必要なjarファイルは、1.0.41以降はlib/の下に全てそろっています。それ以前のバージョンは、<a href="http://s2container.seasar.org/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体が必要です。です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
+		<p>S2Daoとして必要なjarファイルは、1.0.41以降はlib/の下に全てそろっています。それ以前のバージョンは、<a href="http://s2container.seasar.org/2.3/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体が必要です。です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
 		lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
 		lib/s2-framework-2.3.xx-sources.jarとs2-extension-2.3.xx-sources.jarは、Eclipse上でソースを参照するためのもので、動作には必要ありません。
 		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon(Seasar2.4の場合はjdbc.dicon)、<a href="#dao.dicon">dao.dicon(※後述)</a>をCLASSPATHにとおせば、S2Daoを実行できます。Eclipseにインポートして使う場合は設定は不要です。</p>
@@ -781,10 +781,10 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
     	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。なお、1.0.36以降はjarファイル内にdao.diconが含まれているため、デフォルトで使用する場合はdao.diconを配置する必要はないです。
-    	diconファイルの詳しい設定方法については、<a href="http://s2container.seasar.org/ja/DIContainer.html">DIContainer</a>を参照して下さい。</p>
+    	diconファイルの詳しい設定方法については、<a href="http://s2container.seasar.org/2.3/ja/DIContainer.html">DIContainer</a>を参照して下さい。</p>
 		<h5>S2DaoInterceptorの適用</h5>
     	<p>Dao機能を使用するにはorg.seasar.dao.interceptors.S2DaoInterceptorを登録したDaoに対してAOPを適用します。<br />
-    	AOPについては、<a href="http://s2container.seasar.org/ja/aop.html">AOP</a>のページを参照して下さい。<br />
+    	AOPについては、<a href="http://s2container.seasar.org/2.3/ja/aop.html">AOP</a>のページを参照して下さい。<br />
     	以下はDao(example.dao.EmployeeDao)をコンポーネント登録するサンプル</p>
     	EmployeeDao.dicon
 <pre>
@@ -1193,7 +1193,7 @@ public interface EmployeeDao extends GenericDao {
 	<li>生成したS2ContainerからgetComponentを呼び出し、登録したDaoを取得する	</li>
 	<li>取得したDaoのメソッドを実行する</li>
 	</ol>
-	<p>S2Daoではトランザクション制御は行なっていません、トランザクションについては<a href="http://s2container.seasar.org/ja/tx.html">トランザクションの自動制御</a>を参照して下さい。</p>
+	<p>S2Daoではトランザクション制御は行なっていません、トランザクションについては<a href="http://s2container.seasar.org/2.3/ja/tx.html">トランザクションの自動制御</a>を参照して下さい。</p>
     実行クラスサンプル
 <pre>
 package examples.dao;
