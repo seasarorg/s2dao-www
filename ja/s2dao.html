@@ -1118,6 +1118,9 @@ public int insert(Department department);
         先に更新したユーザは正常に登録することができます。そのとき自動でversionNoはインクリメントされ、DBのversionNoは1となります。
         次にもう１人のユーザがデータを更新しようとすると、ユーザが保持しているversionNoの値(0)と、
         実際にDB格納されているversionNoの値(1)が異なることになり、NotSingleRowUpdatedRuntimeExceptionが発生し更新失敗することになります。</p>
+        <p>VersionNoの値によりinsertされたばかりのオブジェクトをとってきたものなのか、新規にnewされた永続化前のオブジェクトなのかを判断したい場合は、
+        JavaBeans上でversionNoを定義する時に初期値として-1を設定してください。
+        そうすることによってversionNo == -1が永続化前のオブジェクト、versionNo &gt;= 0が永続化済みのオブジェクトという風に判断できるようになります。</p>
 
     <h3><a name="Timestamp">Timestampによる排他制御 </a></h3>
 	    <p>VersionNoの他にTimestampによる排他制御もS2Daoが自動的に行うことができます。
