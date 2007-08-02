@@ -561,6 +561,12 @@ public int updateUnlessNull(Department department);
 		この機能を利用するには、dao.diconに記述されている org.seasar.dao.impl.NullBeanEnhancer を org.seasar.dao.impl.BeanEnhancerImpl へ入れ替えてください。<br />
 		</p>
 		<p>
+		ただし、BeanEnhancerImplの使用にあたってはシリアライズ/デシリアライズに関する次の制限に注意してください。
+		BeanEnhancerImplを使用すると、BeanのクラスはAOPによりエンハンスされます。エンハンスされたBeanのインスタンスはシリアライズすることができますが、デシリアライズできない場合があります。
+		たとえば、<a href="http://teeda.seasar.org/ja/teeda_extension.html">Teeda Extension</a>にオブジェクトをシリアライズ/デシリアライズする<a href="http://teeda.seasar.org/ja/extension_component_reference.html#itemsSave">ItemsSave</a>という機能がありますが、エンハンスされたBeanのインスタンスに対してこの機能は利用できません。
+		Beanをシリアライズ/デシリアライズする場合はBeanEnhancerImplを使用しないことを検討してください。
+		</p>
+		<p>
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br />
 		<ul>
 			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
