@@ -572,7 +572,11 @@ public int updateUnlessNull(Department department);
 		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、getModifiedPropertyNamesメソッドを実装するDTOを引数に渡すと、フィールドの内、更新された(setterが呼ばれて変更された)値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br/>
 		<ul>
-			<li>dao.diconでBeanEnhancerImplを指定して、Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</li>
+			<li>dao.diconでBeanEnhancerImplを指定して、Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)</br>
+			ただし、この方法を使った場合、Daoから取得したDTOのインスタンスはシリアライズできますがデシリアライズできないことがあります。
+			たとえば、<a href="http://teeda.seasar.org/ja/teeda_extension.html">Teeda Extension</a>にオブジェクトをシリアライズ/デシリアライズする<a href="http://teeda.seasar.org/ja/extension_component_reference.html#itemsSave">ItemsSave</a>という機能がありますが、エンハンスされたDTOのインスタンスに対してこの機能は利用できません。
+			DTOをシリアライズ/デシリアライズする場合はBeanEnhancerImplを使用しないことを検討してください。			
+			</li>
 			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br/>
 				この場合、DTOの定義例は以下のようになります。
 				<pre>
@@ -607,12 +611,6 @@ public class Emp {
 <pre>
 public int updateModifiedOnly(Department department);
 </pre>
-		</p>
-		<p>
-		BeanEnhancerImplの使用にあたってはシリアライズ/デシリアライズに関する次の制限に注意してください。
-		BeanEnhancerImplを使用すると、BeanのクラスはAOPによりエンハンスされます。エンハンスされたBeanのインスタンスはシリアライズすることができますが、デシリアライズできない場合があります。
-		たとえば、<a href="http://teeda.seasar.org/ja/teeda_extension.html">Teeda Extension</a>にオブジェクトをシリアライズ/デシリアライズする<a href="http://teeda.seasar.org/ja/extension_component_reference.html#itemsSave">ItemsSave</a>という機能がありますが、エンハンスされたBeanのインスタンスに対してこの機能は利用できません。
-		Beanをシリアライズ/デシリアライズする場合はBeanEnhancerImplを使用しないことを検討してください。
 		</p>		
 
 		<li>DELETE処理</li>
