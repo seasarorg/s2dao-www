@@ -494,7 +494,8 @@ public class Employee {
 			</tr>
 		</table>
     <h5><a name="S2DaoAnnotation">S2Daoアノテーション</a></h5>
-	    <p>DaoがどのJavaBeans(エンティティ)に関連付けられているのかはorg.seasar.dao.annotation.tiger.S2Daoアノテーションで指定します。<br />
+	    <p>DaoがどのJavaBeans(エンティティ)に関連付けられているのかはorg.seasar.dao.annotation.tiger.S2Daoアノテーションで指定します。
+	    バージョン1.0.46以降では、PROCEDUREアノテーションやSQLファイルを利用するメソッドのみが定義されたDaoに限りこのアノテーションの指定は不要です。<br />
 		S2Daoアノテーションは以下の形式で定数を宣言します。</p>
 		<p>-  @S2Dao(<span class="italic">JavaBeans名</span>.class)</p>
 		<p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。 	</p>
