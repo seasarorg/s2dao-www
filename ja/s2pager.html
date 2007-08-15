@@ -28,128 +28,151 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="752" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-<ul>
-<li><a href="#S2Pager">S2Pagerとは</a></li>
-<li><a href="#Setup">セットアップ</a></li>
-<ul>
-<li><a href="#Sample">サンプルの実行</a></li>
-<li><a href="#Dicon">j2ee.dicon（jdbc.dicon）の修正</a></li>
-</ul>
-<li><a href="#UseS2Pager">S2ページャの使い方</a></li>
-<ul>
-<li><a href="#PagerCondition">PagerCondition - 検索条件を保持する</a></li>
-<li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></li>
-<li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></li>
-<li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a></li>
-<li><a href="#LimitOffset">limitとoffsetを使用した高速取得</a></li>
-<li><a href="#Rownum">ROWNUMを使用した高速取得</a></li>
-<li><a href="#ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></li>
-</ul>
-</ul>
+            <ul>
+              <li><a href="#S2Pager">S2Pagerとは</a>
+              <li><a href="#Setup">セットアップ</a>
+              <ul>
+                <li><a href="#Sample">サンプルの実行</a>
+                <li><a href="#Dicon">j2ee.dicon（jdbc.dicon）の修正</a>
+              </ul>
+              <li><a href="#UseS2Pager">S2ページャの使い方</a>
+              <ul>
+                <li><a href="#PagerCondition">PagerCondition - 検索条件を保持する</a>
+                <li><a href="#PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a>
+                <li><a href="#PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a>
+                <li><a href="#PagerUtil">PagerUtil#filter - S2Daoを使わないList,Colllecitonに対するページング</a>
+                <li><a href="#LimitOffset">limitとoffsetを使用した高速取得</a>
+                <li><a href="#Rownum">ROWNUMを使用した高速取得</a>
+                <li><a href="#ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a>
+              </ul>
+            </ul>
+            <h2><a name="S2Pager">S2Pagerとは</a></h2>
+            <p>S2Daoを使ってページングをを実現する機能です。 S2Daoで検索した結果に対して、開始位置と最大取得件数を指定して結果の一部のみを取得することができます。
+            これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。<br>
+            <strong>以前はS2PagerはS2Daoとは別のJARファイルとして配布されていましたが、 S2Dao1.0.31よりS2Dao本体に同梱されて配布されるようになりました。
+            1.0.31以降のバージョンではS2DaoのJARファイルのみでS2Pagerを使用することができます。</strong></p>
+            <h2>使い方</h2>
+            <p>S2Pagerを使用するには次の手順に従ってください。</p>
+            <ol>
+              <li>ページングの方法を選択します。<br>
+              ページングの方法として次の3つが用意されています。DBMSにより使用できる方法は限られます。選択する方法に合わせてj2ee.dicon（Seasar2.4を利用の場合はjdbc.dicon）の設定を変更する必要があります。
+              <ol type="a">
+                <li>ResultSetのカーソルもしくは読み飛ばしを使用する。（すべてのDBMSで利用可）
+                <li>ROWNUMを使用する。（Oracleでのみ利用可）
+                <li>Limit/Offset句を使用する。（MySQLやPostgresSQLなどLimit/Offset句をサポートしたDBMSで利用可）
+              </ol>
+              <li>検索条件に利用するDTOを作成します。<br>
+              このDTOはorg.seasar.dao.pager.PagerConditionインターフェイスをimplementsする必要があります。DTOにはS2Pager用のプロパティ(offset,limit,count)と、WHERE句に含める検索条件を保持してください。org.seasar.dao.pager.DefaultPagerConditionを継承して作成するのがよいでしょう。次のコードはDTOの作成例です。<br>
+              <pre>public class CategoryPagerCondition extends DefaultPagerCondition {
+    private String category;
 
-</ul>
-<h2><a name="S2Pager">S2Pagerとは</a></h2>
-<p>S2Daoを使ってページャを実現する機能です。
-	S2Daoで検索した結果に対して、開始位置と最大取得件数を指定して結果の一部のみを取得することができます。
-	これにより、Googleの検索結果のように、大量の検索結果をページ単位で表示することが可能になります。<br />
-	<strong>以前はS2PagerはS2Daoとは別のJARファイルとして配布されていましたが、
-	S2Dao-1.0.31よりS2Dao本体に同梱されて配布されるようになりました。
-	以降のバージョンではS2DaoのJARファイルのみでS2Pagerを使用することができます。</strong>
-</p>
+    public String getCategory() {
+        return category;
+    }
 
-<h2><a name="Setup">セットアップ</a></h2>
-<h3><a name="Sample">サンプルの実行</a></h3>
-<p>
-	S2PagerのサンプルはJSP2.0で動作します。以下の手順でTomcat5.0.xなどJSP2.0をサポートするServletコンテナ上で動作させる必要があります。<br>
-	<ol>
-		<li>s2-dao-pager-examples-x.x.x.zipを展開し、s2dao-pager-examples.warをTomcat5.0.xのwebappsディレクトリに配置します。</li>
-		<li>Tomcat5.0.xを起動します。</li>
-		<li><a href="http://localhost:8080/s2dao-pager-examples/">http://localhost:8080/s2dao-pager-examples/</a>をブラウザで開きます。(Tomcatが8080ポートで動作している場合)</li>
-	</ol>
-</p>
-<p>
-	Tomcatプラグインを導入している環境であれば、EclipseのTomcatPlugin上でそのまま動作させることもできます。
-</p>
-<h3><a name="Dicon">j2ee.dicon（jdbc.dicon）の修正</a></h3>
-<p>
-	S2Pagerを既存のプロジェクトで使用するには、Seasar2のj2ee.dicon（Seasar2.4ではjdbc.dicon）をS2Pager用に修正する必要があります。
-	s2-dao-x.x.x.zipに含まれるj2ee.diconを参考にして以下のようにj2ee.dicon（jdbc.dicon）を修正します。
-</p>
-<pre>
-&lt;?xml version="1.0" encoding="Shift_JIS"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
-	"http://www.seasar.org/dtd/components21.dtd"&gt;
-&lt;components namespace="j2ee"&gt;
-	:
-	:
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-	&lt;/component&gt;
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;arg&gt;dataSource&lt;/arg&gt;
-	&lt;/component&gt;
-	--&gt;
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-	&lt;/component&gt;
-	--&gt;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+}</pre>
+              <li>Daoのメソッドを定義します。<br>
+              上記で作成したDTOをパラメータとして受け取るメソッドをDaoに定義します。次のコードはDaoの作成例です。
+              <pre>public interface BookDao {
+    public Class BEAN = Book.class;
 
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;!--
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		--&gt;
-	&lt;/component&gt;
+    public static final String findByCategoryPagerCondition_QUERY = &quot;ORDER BY ID&quot;;
 
-	&lt;!--
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;! - -
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		- - &gt;
-	&lt;/component&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
-	--&gt;
-	:
-	:
-</pre>
+    public List findByCategoryPagerCondition(CategoryPagerCondition dto);
+}</pre>
+              <li>開始位置(offset)と最大取得数(limit)をセットしてDaoのメソッドを呼び出します。<br>
+              次のコードはDaoのメソッドの呼び出し例です。
+              <pre>CategoryPagerCondition condition = new CategoryPagerCondition();
+condition.setLimit(10);
+condition.setOffset(20);
+condition.setCategory(&quot;Java&quot;);
+List result = bookDao.findByCategoryPagerCondition(condition);</pre>
+            </ol>
+            <h2>ページングの方法</h2>
+            <h2><a name="Setup">セットアップ</a></h2>
+            <h3><a name="Sample">サンプルの実行</a></h3>
+            <p>S2PagerのサンプルはJSP2.0で動作します。以下の手順でTomcat5.0.xなどJSP2.0をサポートするServletコンテナ上で動作させる必要があります。<br>
+            </p>
+            <ol>
+              <li>s2-dao-pager-examples-x.x.x.zipを展開し、s2dao-pager-examples.warをTomcat5.0.xのwebappsディレクトリに配置します。
+              <li>Tomcat5.0.xを起動します。
+              <li><a href="http://localhost:8080/s2dao-pager-examples/">http://localhost:8080/s2dao-pager-examples/</a>をブラウザで開きます。(Tomcatが8080ポートで動作している場合)
+            </ol>
+            <p>Tomcatプラグインを導入している環境であれば、EclipseのTomcatPlugin上でそのまま動作させることもできます。</p>
+            <h3><a name="Dicon">j2ee.dicon（jdbc.dicon）の修正</a></h3>
+            <p>S2Pagerを既存のプロジェクトで使用するには、Seasar2のj2ee.dicon（Seasar2.4ではjdbc.dicon）をS2Pager用に修正する必要があります。
+            s2-dao-x.x.x.zipに含まれるj2ee.diconを参考にして以下のようにj2ee.dicon（jdbc.dicon）を修正します。</p>
+            <pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift_JIS&quot;?&gt;
+&lt;!DOCTYPE components PUBLIC &quot;-//SEASAR2.1//DTD S2Container//EN&quot;
+        &quot;http://www.seasar.org/dtd/components21.dtd&quot;&gt;
+&lt;components namespace=&quot;j2ee&quot;&gt;
+        :
+        :
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+        &lt;/component&gt;
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;arg&gt;dataSource&lt;/arg&gt;
+        &lt;/component&gt;
+        --&gt;
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+        &lt;/component&gt;
+        --&gt;
 
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.dao.pager.PagerStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;!--
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                --&gt;
+        &lt;/component&gt;
 
-<h2><a name="UseS2Pager">S2Pagerの使い方</a></h2>
-<h3><a name="PagerCondition">PagerCondition - 検索条件を保持する</a></h3>
-<p>ページャ機能は次の手順で実現します。</p>
-<ol>
-<li>
-PagerConditionインターフェイスをimplementsする検索条件DTOを作成します。
-デフォルトの実装として、org.seasar.dao.pager.DefaultPagerConditionクラスが用意されています。
-検索条件DTOはS2Pager用のプロパティ(offset,limit,count)と、検索条件(下記の例ではcategory)を保持します。
-<pre>
-/**
+        &lt;!--
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;! - -
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                - - &gt;
+        &lt;/component&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.OracleResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory&quot;/&gt;
+        --&gt;
+        :
+        :</pre>
+            <h2><a name="UseS2Pager">S2Pagerの使い方</a></h2>
+            <h3><a name="PagerCondition">PagerCondition - 検索条件を保持する</a></h3>
+            <p>ページャ機能は次の手順で実現します。</p>
+            <ol>
+              <li>PagerConditionインターフェイスをimplementsする検索条件DTOを作成します。 デフォルトの実装として、org.seasar.dao.pager.DefaultPagerConditionクラスが用意されています。
+              検索条件DTOはS2Pager用のプロパティ(offset,limit,count)と、検索条件(下記の例ではcategory)を保持します。
+              <pre>/**
  * ページャ条件オブジェクトのインターフェイス
  * @author Toshitaka Agata
  */
@@ -192,11 +215,8 @@ public interface PagerCondition {
      * @return 取得開始位置
      */
     public int getOffset();
-}
-</pre>
-
-<pre>
-/**
+}</pre>
+              <pre>/**
  * 検索条件DTO。
  * 独自の検索条件はこのクラスのようにPagerConditionインターフェイスを実装する
  * クラスで実現します。通常はDefaultPagerConditionを継承するとよいでしょう。
@@ -211,29 +231,20 @@ public class CategoryPagerCondition extends DefaultPagerCondition {
     public void setCategory(String category) {
         this.category = category;
     }
-}
-</pre>
-</li>
-<li>
-検索条件DTOを引数に持つDaoの検索メソッドを作成します。
-<pre>
-public interface BookDao {
+}</pre>
+              <li>検索条件DTOを引数に持つDaoの検索メソッドを作成します。
+              <pre>public interface BookDao {
     public List findByCategoryPagerCondition(CategoryPagerCondition dto);
-}
-</pre>
-</li>
-<li>
-検索条件DTOに開始位置(offset)と最大取得数(limit)をセットしてDaoのメソッドを呼び出します。
-<pre>
-
-// offsetとlimitをセット
+}</pre>
+              <li>検索条件DTOに開始位置(offset)と最大取得数(limit)をセットしてDaoのメソッドを呼び出します。
+              <pre>// offsetとlimitをセット
 CategoryPagerCondition dto = new CategoryPagerCondition();
 dto.setLimit(10);
-String offsetStr = request.getParameter("offset");
+String offsetStr = request.getParameter(&quot;offset&quot;);
 dto.setOffset(Integer.parseInt(offset));
 
 // 独自の検索条件
-String category = request.getParameter("category");
+String category = request.getParameter(&quot;category&quot;);
 if (category != null &amp;&amp; category.length() != 0) {
     dto.setCategory(category);
 }
@@ -241,99 +252,67 @@ if (category != null &amp;&amp; category.length() != 0) {
 // ページャ対応の検索を実行
 BookDao bookDao = (BookDao) container.getComponent(BookDao.class);
    List books = bookDao.findByCategoryPagerCondition(dto);
-request.setAttribute("books", books);
+request.setAttribute(&quot;books&quot;, books);
 
 // countには検索結果の総数がセットされている。
-System.out.println("count=" + dto.getCount());
-
-</pre>
-</li>
-</ol>
-
-
-<h3><a name="PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></h3>
-<p>通常、検索条件オブジェクトはHttpSessionのアトリビュートに格納します。
-S2Pagerでは検索条件オブジェクトのHttpSessionへの格納などをサポートする
-ユーティリィ的なクラスとしてorg.seasar.dao.pager.PagerSupportクラスを用意しています。
-</p>
-<p>
-PagerSupportクラスのコンストラクタで次の項目を指定します。
-
-<table border="1">
-	<tr>
-		<th nowrap>引数</th>
-		<th>意味</th>
-		<th>説明</th>
-	</tr>
-	<tr>
-		<td nowrap>第１引数</td>
-		<td>最大取得数</td>
-		<td>PagerConditionのlimitに使用されます。</td>
-	</tr>
-	<tr>
-		<td>第２引数</td>
-		<td>条件保持DTOのクラスオブジェクト</td>
-		<td>セッション中に条件保持DTOが存在しかった場合、ここで指定したクラスの検索条件DTOが生成されます。</td>
-	</tr>
-	<tr>
-		<td>第３引数</td>
-		<td>属性名</td>
-		<td>セッションの属性名を指定します。ここで指定した名前で検索条件DTOがセッション中に格納されます。</td>
-	</tr>
-</table>
-<pre>
-	/** ページャサポートクラス */
-	private PagerSupport pager = 
-		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
-</pre>
-</p>
-
-<p>
-セッション中の検索条件DTOの取得開始位置(offset)の更新は、パラメータ名"offset"が取得開始位置を意味する場合次のコードで可能です。
-<pre>
-        // パラメータoffsetを元にページャのoffset位置を更新
-        pager.updateOffset(request);
-</pre>
-</p>
-
-<p>
-また、任意のパラメータ名で更新をしたい場合、次のようなコードになります。
-<pre>
-        // パラメータ"hoge"を元にページャのoffset位置を更新
-        pager.updateOffset(request, "hoge");
-</pre>
-</p>
-
-<p>
-セッション中の検索条件DTOを取得するには、次のようなコードになります。
-<pre>
-        // ページャの条件保持オブジェクトをセッションから取得
+System.out.println(&quot;count=&quot; + dto.getCount());</pre>
+            </ol>
+            <h3><a name="PagerSupport">PagerSupport - セッションへの検索条件の格納をサポート</a></h3>
+            <p>通常、検索条件オブジェクトはHttpSessionのアトリビュートに格納します。 S2Pagerでは検索条件オブジェクトのHttpSessionへの格納などをサポートする
+            ユーティリィ的なクラスとしてorg.seasar.dao.pager.PagerSupportクラスを用意しています。</p>
+            <p>PagerSupportクラスのコンストラクタで次の項目を指定します。</p>
+            <table border="1">
+              <tbody>
+                <tr>
+                  <th nowrap>引数</th>
+                  <th>意味</th>
+                  <th>説明</th>
+                </tr>
+                <tr>
+                  <td nowrap>第１引数</td>
+                  <td>最大取得数</td>
+                  <td>PagerConditionのlimitに使用されます。</td>
+                </tr>
+                <tr>
+                  <td>第２引数</td>
+                  <td>条件保持DTOのクラスオブジェクト</td>
+                  <td>セッション中に条件保持DTOが存在しかった場合、ここで指定したクラスの検索条件DTOが生成されます。</td>
+                </tr>
+                <tr>
+                  <td>第３引数</td>
+                  <td>属性名</td>
+                  <td>セッションの属性名を指定します。ここで指定した名前で検索条件DTOがセッション中に格納されます。</td>
+                </tr>
+              </tbody>
+            </table>
+            <pre>        /** ページャサポートクラス */
+        private PagerSupport pager = 
+                new PagerSupport(10, CategoryPagerCondition.class, &quot;categoryPagerCondition&quot;);</pre>
+            <p>セッション中の検索条件DTOの取得開始位置(offset)の更新は、パラメータ名&quot;offset&quot;が取得開始位置を意味する場合次のコードで可能です。</p>
+            <pre>        // パラメータoffsetを元にページャのoffset位置を更新
+        pager.updateOffset(request);</pre>
+            <p>また、任意のパラメータ名で更新をしたい場合、次のようなコードになります。</p>
+            <pre>        // パラメータ&quot;hoge&quot;を元にページャのoffset位置を更新
+        pager.updateOffset(request, &quot;hoge&quot;);</pre>
+            <p>セッション中の検索条件DTOを取得するには、次のようなコードになります。</p>
+            <pre>        // ページャの条件保持オブジェクトをセッションから取得
         // 存在しない場合は、PagerSupportのコンストラクタで
         // 渡されたクラスが新規に作成されます。
         CategoryPagerCondition dto = 
-            (CategoryPagerCondition) pager.getPagerCondition(request);
-</pre>
-</p>
-
-
-<p>
-以上のPagerSupportの使い方をまとめると、次のようなコードになります。
-Actionクラスのインスタンス変数としてPagerSupportを保持していますが、
-PagerSupportはスレッドセーフです。複数ユーザで共有して安全に使用することができます。
-ただし、最大取得数(limit)をユーザごとに切り替えたい場合は、PagerSupport自体をセッションに格納するなど工夫が必要でしょう。
-
-<pre>
-public BookAction extends Action {
-	/** ページャサポートクラス */
-	private PagerSupport pager =
-		new PagerSupport(10, CategoryPagerCondition.class, "categoryPagerCondition");
-	
-	private BookDao bookDao;
-	
-	public void setBookDao(BookDao bookDao) {
-		this.bookDao = bookDao;
-	}
-	
+            (CategoryPagerCondition) pager.getPagerCondition(request);</pre>
+            <p>以上のPagerSupportの使い方をまとめると、次のようなコードになります。 Actionクラスのインスタンス変数としてPagerSupportを保持していますが、
+            PagerSupportはスレッドセーフです。複数ユーザで共有して安全に使用することができます。 ただし、最大取得数(limit)をユーザごとに切り替えたい場合は、PagerSupport自体をセッションに格納するなど工夫が必要でしょう。</p>
+            <pre>public BookAction extends Action {
+        /** ページャサポートクラス */
+        private PagerSupport pager =
+                new PagerSupport(10, CategoryPagerCondition.class, &quot;categoryPagerCondition&quot;);
+        
+        private BookDao bookDao;
+        
+        public void setBookDao(BookDao bookDao) {
+                this.bookDao = bookDao;
+        }
+        
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -348,48 +327,37 @@ public BookAction extends Action {
         
         // 条件保持オブジェクト中の独自の検索条件をセット
         // この場合、書籍カテゴリを表すcateogry
-        String category = request.getParameter("category");
+        String category = request.getParameter(&quot;category&quot;);
         if (category != null &amp;&amp; category.length() != 0) {
             dto.setCategory(category);
         }
         
         // ページャ対応の検索を実行
         List books = bookDao.findByCategoryPagerCondition(dto);
-        request.setAttribute("books", books);
+        request.setAttribute(&quot;books&quot;, books);
         
         // 結果ページにフォワード
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        request.getRequestDispatcher(&quot;/result.jsp&quot;).forward(request, response);
         
     }
-}
-</pre>
-</p>
-
-<h3><a name="PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></h3>
-<p>
-	S2Pagerではページリンクを表示するビューの部品は用意していません。
-	これは、ページリンクの表示形式は、プロジェクトによって異なるためです。
-	ただ、サンプルは用意しています。
-	サンプルではJSTL版とJSP2.0のタグファイルによるページリンクの２パターンがあります。
-	カスタムタグでのサンプルはありません。作成された方はソースの提供お待ちしております;-)
-	
-</p>
-	また、PagerConditionの情報を元にビューでリンクを生成するためのビューヘルパークラスとして、
-	org.seasar.dao.pager.PagerViewHelperクラスがあります。
-	PagerViewHelperクラスを使うとビューで（特にJSTLのELやVelocityで）ページリンクを作成するのが楽になります。
-	<br/><br/>
-	PagerViewHelperは以下のメソッドを持っています。
-<pre>
-/**
+}</pre>
+            <h3><a name="PagerViewHelper">PagerViewHelper - ビューの作成を助ける</a></h3>
+            <p>S2Pagerではページリンクを表示するビューの部品は用意していません。 これは、ページリンクの表示形式は、プロジェクトによって異なるためです。
+            ただ、サンプルは用意しています。 サンプルではJSTL版とJSP2.0のタグファイルによるページリンクの２パターンがあります。 カスタムタグでのサンプルはありません。作成された方はソースの提供お待ちしております;-)</p>
+            また、PagerConditionの情報を元にビューでリンクを生成するためのビューヘルパークラスとして、 org.seasar.dao.pager.PagerViewHelperクラスがあります。
+            PagerViewHelperクラスを使うとビューで（特にJSTLのELやVelocityで）ページリンクを作成するのが楽になります。 <br>
+            <br>
+            PagerViewHelperは以下のメソッドを持っています。
+            <pre>/**
  * ページャのビューヘルパークラスです。
  * @author Toshitaka Agata
  */
 public class PagerViewHelper implements PagerCondition {
-	// コンストラクタ
+        // コンストラクタ
     public PagerViewHelper(PagerCondition condition) { ... }
     public PagerViewHelper(PagerCondition condition, int displayPageMax) { ... }
 
-	// PagerConditionへの委譲メソッド
+        // PagerConditionへの委譲メソッド
     public int getCount() { ... }
     public void setCount(int count) { ... }
     public int getLimit() { ... }
@@ -397,7 +365,7 @@ public class PagerViewHelper implements PagerCondition {
     public int getOffset() { ... }
     public void setOffset(int offset) { ... }
 
-	// ヘルパーメソッド
+        // ヘルパーメソッド
 
     /**
      * 前へのリンクが表示できるかどうかを判定します。
@@ -457,378 +425,320 @@ public class PagerViewHelper implements PagerCondition {
      * ページリンクの表示上限を元に、ページ番号リンクの表示終了位置を返します。
      * @return ページ番号リンクの表示終了位置
      */
-    public int getDisplayPageIndexEnd() { ... }
-
-</pre>
-
-</p>
-<p>
-以下はサンプルにあるJSTLによるページリンクの実装例です。
-<br/>
-<b>呼び出し側：result.jsp</b>
-<pre>
-&lt;!--ページャー(件数表示あり)--&gt;
-&lt;c:import url="tags/pager.jsp"&gt;
-	&lt;c:param name="condition" value="categoryPagerCondition"/&gt;・・・検索条件DTOのセッション中の属性名を指定
-&lt;/c:import&gt;
-</pre>
-
-<b>ページャリンクの部品：pager.jsp</b>
-<pre>
-&lt;%@ page contentType="text/html; charset=Windows-31J" %&gt;
-&lt;%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %&gt;
+    public int getDisplayPageIndexEnd() { ... }</pre>
+            <p>以下はサンプルにあるJSTLによるページリンクの実装例です。 <br>
+            <b>呼び出し側：result.jsp</b></p>
+            <pre>&lt;!--ページャー(件数表示あり)--&gt;
+&lt;c:import url=&quot;tags/pager.jsp&quot;&gt;
+        &lt;c:param name=&quot;condition&quot; value=&quot;categoryPagerCondition&quot;/&gt;・・・検索条件DTOのセッション中の属性名を指定
+&lt;/c:import&gt;</pre>
+            <b>ページャリンクの部品：pager.jsp</b>
+            <pre>&lt;%@ page contentType=&quot;text/html; charset=Windows-31J&quot; %&gt;
+&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
 
 &lt;%
-	// パラメータの取得
-	String conditionName = request.getParameter("condition");
-	String counter = request.getParameter("counter");
-	String href = request.getParameter("href");
-	
-	// PagerViewHelperの作成
-	org.seasar.dao.pager.PagerCondition condition =
-		(org.seasar.dao.pager.PagerCondition)pageContext.findAttribute(conditionName);
-	org.seasar.dao.pager.PagerViewHelper helperCondition = 
-		new org.seasar.dao.pager.PagerViewHelper(condition);
+        // パラメータの取得
+        String conditionName = request.getParameter(&quot;condition&quot;);
+        String counter = request.getParameter(&quot;counter&quot;);
+        String href = request.getParameter(&quot;href&quot;);
+        
+        // PagerViewHelperの作成
+        org.seasar.dao.pager.PagerCondition condition =
+                (org.seasar.dao.pager.PagerCondition)pageContext.findAttribute(conditionName);
+        org.seasar.dao.pager.PagerViewHelper helperCondition = 
+                new org.seasar.dao.pager.PagerViewHelper(condition);
 
-	// 属性をセット
-	pageContext.setAttribute("counter", counter);
-	pageContext.setAttribute("href", href);
-	pageContext.setAttribute("helperCondition", helperCondition);
+        // 属性をセット
+        pageContext.setAttribute(&quot;counter&quot;, counter);
+        pageContext.setAttribute(&quot;href&quot;, href);
+        pageContext.setAttribute(&quot;helperCondition&quot;, helperCondition);
 %&gt;
 
 
 &lt;%-- メイン --%&gt;
-&lt;table border="0" cellpadding="0" cellspacing="0"&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
 &lt;tr&gt;
-&lt;c:if test="${counter != 'false'}"&gt;
-	&lt;td width="200" align="left" valign="center"&gt;
-		該当件数：&lt;c:out value="${helperCondition.count}"/&gt;件
-		(&lt;c:out value="${helperCondition.offset + 1}"/&gt;
-		-&lt;c:out value="${helperCondition.currentLastOffset + 1}"/&gt;)		
-	&lt;/td&gt;
+&lt;c:if test=&quot;${counter != 'false'}&quot;&gt;
+        &lt;td width=&quot;200&quot; align=&quot;left&quot; valign=&quot;center&quot;&gt;
+                該当件数：&lt;c:out value=&quot;${helperCondition.count}&quot;/&gt;件
+                (&lt;c:out value=&quot;${helperCondition.offset + 1}&quot;/&gt;
+                -&lt;c:out value=&quot;${helperCondition.currentLastOffset + 1}&quot;/&gt;)             
+        &lt;/td&gt;
 &lt;/c:if&gt;
 
-	&lt;td align="right" valign="center"&gt;
-&lt;c:if test="${helperCondition.prev}"&gt;
-		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
-		&lt;c:out value="${helperCondition.prevOffset}"/&gt;"&gt;&lt; 前の
-		&lt;c:out value="${helperCondition.limit}"/&gt;件&lt;/a&gt;
+        &lt;td align=&quot;right&quot; valign=&quot;center&quot;&gt;
+&lt;c:if test=&quot;${helperCondition.prev}&quot;&gt;
+                &lt;a href=&quot;&lt;c:out value=&quot;${href}&quot;/&gt;?offset=
+                &lt;c:out value=&quot;${helperCondition.prevOffset}&quot;/&gt;&quot;&gt;&lt; 前の
+                &lt;c:out value=&quot;${helperCondition.limit}&quot;/&gt;件&lt;/a&gt;
 &lt;/c:if&gt;
-			&nbsp;
-&lt;c:forEach begin="0"
-	end="${helperCondition.lastPageIndex}"
-	step="1"
-	varStatus="status"&gt;
-	&lt;c:if test="${status.index != helperCondition.pageIndex}"&gt;
-			&nbsp;&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
-			&lt;c:out value="${status.index * helperCondition.limit}"/&gt;"&gt;
-			&lt;c:out value="${status.count}"/&gt;&lt;/a&gt;
-	&lt;/c:if&gt;
-	&lt;c:if test="${status.index == helperCondition.pageIndex}"&gt;
-			&nbsp;[&lt;c:out value="${status.count}"/&gt;]
-	&lt;/c:if&gt;
+                        &nbsp;
+&lt;c:forEach begin=&quot;0&quot;
+        end=&quot;${helperCondition.lastPageIndex}&quot;
+        step=&quot;1&quot;
+        varStatus=&quot;status&quot;&gt;
+        &lt;c:if test=&quot;${status.index != helperCondition.pageIndex}&quot;&gt;
+                        &nbsp;&lt;a href=&quot;&lt;c:out value=&quot;${href}&quot;/&gt;?offset=
+                        &lt;c:out value=&quot;${status.index * helperCondition.limit}&quot;/&gt;&quot;&gt;
+                        &lt;c:out value=&quot;${status.count}&quot;/&gt;&lt;/a&gt;
+        &lt;/c:if&gt;
+        &lt;c:if test=&quot;${status.index == helperCondition.pageIndex}&quot;&gt;
+                        &nbsp;[&lt;c:out value=&quot;${status.count}&quot;/&gt;]
+        &lt;/c:if&gt;
 &lt;/c:forEach&gt;
-			&nbsp;&nbsp;&nbsp;
-&lt;c:if test="${helperCondition.next}"&gt;
-		&lt;a href="&lt;c:out value="${href}"/&gt;?offset=
-		&lt;c:out value="${helperCondition.nextOffset}"/&gt;"&gt;次の
-		&lt;c:out value="${helperCondition.limit}"/&gt;件 &gt;&lt;/a&gt;&lt;/td&gt;
+                        &nbsp;&nbsp;&nbsp;
+&lt;c:if test=&quot;${helperCondition.next}&quot;&gt;
+                &lt;a href=&quot;&lt;c:out value=&quot;${href}&quot;/&gt;?offset=
+                &lt;c:out value=&quot;${helperCondition.nextOffset}&quot;/&gt;&quot;&gt;次の
+                &lt;c:out value=&quot;${helperCondition.limit}&quot;/&gt;件 &gt;&lt;/a&gt;&lt;/td&gt;
 &lt;/c:if&gt;
-&lt;c:if test="${!helperCondition.next}"&gt;
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;c:if test=&quot;${!helperCondition.next}&quot;&gt;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &lt;/c:if&gt;
 
 &lt;/tr&gt;
-&lt;/table&gt;
-</pre>
-</p>
-<h3><a name="PagerUtil">PagerUtil - S2Daoを使わないList,Colllecitonに対するページング</a></h3>
-<p>
-	S2Daoを使わないList,Colllecitonに対してページングを行いたいときはPagerUtil#filterを使用します。
-<pre>
-List list = getItems(); // フィルタリング前のリスト
+&lt;/table&gt;</pre>
+            <h3><a name="PagerUtil">PagerUtil - S2Daoを使わないList,Colllecitonに対するページング</a></h3>
+            <p>S2Daoを使わないList,Colllecitonに対してページングを行いたいときはPagerUtil#filterを使用します。</p>
+            <pre>List list = getItems(); // フィルタリング前のリスト
 DefaultPagerCondition condition = new DefaultPagerCondition();
 condition.setLimit(10);
 condition.setOffset(10);
 List result = PagerUtil.filter(list, condition);
 System.out.println(result.size()); // 10
-System.out.println(condition.getCount()); // 35
-</pre>
-</p>
+System.out.println(condition.getCount()); // 35</pre>
+            <h3><a name="LimitOffset">limitとoffsetを使用した高速取得</a></h3>
+            <p>PosgreSQLやMySQLのように「limit　offset」が使用できるDBMSでは、大量データ検索時のパフォーマンスが大幅に向上します。
+            現在までに動作が確認できているのはPostgreSQL、MySQLの以下のJDBCドライバのバージョンです。 <br>
+            <br>
+            <b>動作確認されたJDBC Driverのバージョン</b></p>
+            <table border="1">
+              <tbody>
+                <tr>
+                  <th>DBの種類</th>
+                  <th>動作確認されたJDBC Driverのバージョン</th>
+                  <th>備考</th>
+                </tr>
+                <tr>
+                  <td>MySQL</td>
+                  <td>mysql-connector-java-3.1.8</td>
+                  <td>limitを使用する場合、MySQLはサブクエリーを使えるバージョン(4.1.x以降?)が必要になります。</td>
+                </tr>
+                <tr>
+                  <td>PostgreSQL</td>
+                  <td>8.1-404-jdbc3</td>
+                  <td><b>接続文字列にオプション「protocolVersion=2」を付ける必要があります。</b><br>
+                  <pre>jdbc:postgresql://localhost:5432/postgres?protocolVersion=2</pre>
+                  通常、PostgreSQL の Version8 のドライバを使用する際、それまでのバージョ ンと比べ、型などについての挙動がかなり異なる為、オプション「protocolVersion=2」を付けて利用します。
+                  オプション「protocolVersion=2」がない場合、PareparedStatement.toStringメソッドの挙動が変わるため、
+                  S2Pagerは動作しません。</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            以下の設定により「PagerResultSetFactoryLimitOffsetWrapper」のコメントアウトを解除することで、「limit　offset」を使用した取得が可能になります。
+            <br>
+            <br>
+            <b>limitとoffsetを使用した高速取得の設定(j2ee.dicon)</b>
+            <pre>        :
+        :
 
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+        &lt;/component&gt;
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;arg&gt;dataSource&lt;/arg&gt;
+        &lt;/component&gt;
+        --&gt;
 
-<h3><a name="LimitOffset">limitとoffsetを使用した高速取得</a></h3>
-<p>
-	PosgreSQLやMySQLのように「limit　offset」が使用できるDBMSでは、大量データ検索時のパフォーマンスが大幅に向上します。
-	現在までに動作が確認できているのはPostgreSQL、MySQLの以下のJDBCドライバのバージョンです。
-<br>
-<br>
-<b>動作確認されたJDBC Driverのバージョン</b>
-	<table border="1">
-		<tr>
-			<th>DBの種類</th>
-			<th>動作確認されたJDBC Driverのバージョン</th>
-			<th>備考</th>
-		</tr>
-		<tr>
-			<td>MySQL</td>
-			<td>mysql-connector-java-3.1.8</td>
-			<td>limitを使用する場合、MySQLはサブクエリーを使えるバージョン(4.1.x以降?)が必要になります。</td>
-		</tr>
-		<tr>
-			<td>PostgreSQL</td>
-			<td>8.1-404-jdbc3</td>
-			<td>
-				<b>接続文字列にオプション「protocolVersion=2」を付ける必要があります。</b><br>
-				<pre>jdbc:postgresql://localhost:5432/postgres?protocolVersion=2</pre>
-				通常、PostgreSQL の Version8 のドライバを使用する際、それまでのバージョ
-				ンと比べ、型などについての挙動がかなり異なる為、オプション「protocolVersion=2」を付けて利用します。
-				オプション「protocolVersion=2」がない場合、PareparedStatement.toStringメソッドの挙動が変わるため、
-				S2Pagerは動作しません。
-			</td>
-		</tr>
-	</table>	
-<br>
-	以下の設定により「PagerResultSetFactoryLimitOffsetWrapper」のコメントアウトを解除することで、「limit　offset」を使用した取得が可能になります。
-<br>
-<br>
-<b>limitとoffsetを使用した高速取得の設定(j2ee.dicon)</b>
-<pre>
-	:
-	:
-<font color="red">
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-	&lt;/component&gt;
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;arg&gt;dataSource&lt;/arg&gt;
-	&lt;/component&gt;
-	--&gt;
-</font>
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;!--
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		--&gt;
-	&lt;/component&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.dao.pager.PagerStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;!--
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                --&gt;
+        &lt;/component&gt;
 
-	&lt;!--
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;! - -
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		- - &gt;
-	&lt;/component&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
-	--&gt;
-	:
-	:
-</pre>
-</p>
+        &lt;!--
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;! - -
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                - - &gt;
+        &lt;/component&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.OracleResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory&quot;/&gt;
+        --&gt;
+        :
+        :</pre>
+            <h3><a name="Rownum">ROWNUMを使用した高速取得</a></h3>
+            <p>S2Dao-1.0.45から、Oracle上でのみROWNUM疑似列を使ったサブクエリによりページング処理が出来るようになりました。 これにより大量データ検索時のパフォーマンスが改善する可能性があります。ただし、必ずパフォーマンスが改善されるわけではないので、
+            十分な検証をしてから、ご利用ください。</p>
+            <p>以下の設定により「PagerResultSetFactoryRownumWrapper」のコメントアウトを解除することで、「ROWNUM」を使用した取得が可能になります。
+            <br>
+            <br>
+            <b>ROWNUMを使用した高速取得の設定(j2ee.dicon)</b></p>
+            <pre>        :
+        :
 
-<h3><a name="Rownum">ROWNUMを使用した高速取得</a></h3>
-<p>
-S2Dao-1.0.45から、Oracle上でのみROWNUM疑似列を使ったサブクエリによりページング処理が出来るようになりました。
-これにより大量データ検索時のパフォーマンスが改善する可能性があります。ただし、必ずパフォーマンスが改善されるわけではないので、
-十分な検証をしてから、ご利用ください。
-</p>
-<p>
-以下の設定により「PagerResultSetFactoryRownumWrapper」のコメントアウトを解除することで、「ROWNUM」を使用した取得が可能になります。
-<br>
-<br>
-<b>ROWNUMを使用した高速取得の設定(j2ee.dicon)</b>
-</p>
-<pre>
-	:
-	:
-<font color="red">
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-	&lt;/component&gt;
-</font>
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;arg&gt;dataSource&lt;/arg&gt;
-	&lt;/component&gt;
-	--&gt;
-<font color="red">
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-	&lt;/component&gt;
-	--&gt;
-</font>
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;!--
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		--&gt;
-	&lt;/component&gt;
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+        &lt;/component&gt;
 
-	&lt;!--
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;! - -
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		- - &gt;
-	&lt;/component&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
-	--&gt;
-	:
-	:
-</pre>
-<p>
-上記のコメントアウトを外すことで発行されるSQLが以下のように自動変換されます。
-（見やすくするために、変換後のSQLに改行を加えています）
-</p>
-<p>
-<b>元のSQL</b>
-</p>
-<pre>
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;arg&gt;dataSource&lt;/arg&gt;
+        &lt;/component&gt;
+        --&gt;
+
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryRownumWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+        &lt;/component&gt;
+        --&gt;
+
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.dao.pager.PagerStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;!--
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                --&gt;
+        &lt;/component&gt;
+
+        &lt;!--
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;! - -
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                - - &gt;
+        &lt;/component&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.OracleResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory&quot;/&gt;
+        --&gt;
+        :
+        :</pre>
+            <p>上記のコメントアウトを外すことで発行されるSQLが以下のように自動変換されます。 （見やすくするために、変換後のSQLに改行を加えています）</p>
+            <p><b>元のSQL</b></p>
+            <pre>SELECT * FROM EMP</pre>
+            <p><b>変換後のSQL</b></p>
+            <pre>SELECT * FROM (SELECT ROWNUM AS S2DAO_ROWNUMBER, S2DAO_ORIGINAL_DATA.* FROM (
 SELECT * FROM EMP
-</pre>
-<p>
-<b>変換後のSQL</b>
-</p>
-<pre>
-SELECT * FROM (SELECT ROWNUM AS S2DAO_ROWNUMBER, S2DAO_ORIGINAL_DATA.* FROM (
-<font color="blue">SELECT * FROM EMP</font>
 ) S2DAO_ORIGINAL_DATA) WHERE S2DAO_ROWNUMBER BETWEEN 1 AND 10
- AND ROWNUM &lt;= 10 ORDER BY S2DAO_ROWNUMBER
-</pre>
+ AND ROWNUM &lt;= 10 ORDER BY S2DAO_ROWNUMBER</pre>
+            <p><b>全件数取得時のorder by句削除のON/OFF</b><br>
+            　S2Dao-1.0.43から、S2Pager内部で発行する全件数を取得するSQLで、元のSQLからorder by句を削除することで、さらに高速にページングできるようになりました。
+            これは、全件数を取得するのに並び順は関係がないため、order by句を削除することでSQLのコストを小さくしています。<br>
+            　もしorder by句の削除を行いたくない場合や問題がある場合は、「org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper」の「chopOrderBy」プロパティをfalseにすることで、
+            以前と同様にorder by句を削除せずに全件数を取得するSQLを発行することもできます。（デフォルトはtrueでorder by句が削除されます）</p>
+            <pre>        :
+        :
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper&quot;&gt;
+                :
+                :
+                &lt;property name=&quot;chopOrderBy&quot;&gt;false&lt;/property&gt;
+        &lt;/component&gt;
+        :
+        :</pre>
+            <h3><a name="ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></h3>
+            <p>スクロール可能カーソルを使用することで、大量データ検索時のパフォーマンスが向上します。 ただし、DBやJDBCドライバの実装によっては、スクロール可能カーソルが使用できない場合があります。
+            その場合、スクロール可能カーソルを使用しない設定にすることができます。 スクロール可能カーソルを使用しない場合は、ResultSetの空回しによりカーソルの移動を行います。
+            <br>
+            <br>
+            <b>スクロール可能カーソルをOFFにする設定(j2ee.dicon)</b></p>
+            <pre>        :
+        :
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;!--
+                &lt;property name=&quot;useScrollCursor&quot;&gt;true&lt;/property&gt;
+                --&gt;
+                &lt;property name=&quot;useScrollCursor&quot;&gt;false&lt;/property&gt;
+        &lt;/component&gt;
+        &lt;!--
+        &lt;component 
+                name=&quot;resultSetFactory&quot;
+                class=&quot;org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;arg&gt;dataSource&lt;/arg&gt;
+        &lt;/component&gt;
+        --&gt;
 
-<p>
-<b>全件数取得時のorder by句削除のON/OFF</b><br>
-　S2Dao-1.0.43から、S2Pager内部で発行する全件数を取得するSQLで、元のSQLからorder by句を削除することで、さらに高速にページングできるようになりました。
-これは、全件数を取得するのに並び順は関係がないため、order by句を削除することでSQLのコストを小さくしています。<br/>
-　もしorder by句の削除を行いたくない場合や問題がある場合は、「org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper」の「chopOrderBy」プロパティをfalseにすることで、
-以前と同様にorder by句を削除せずに全件数を取得するSQLを発行することもできます。（デフォルトはtrueでorder by句が削除されます）
-</p>
-<pre>
-	:
-	:
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
-		:
-		:
-		<font color="red">&lt;property name="chopOrderBy"&gt;false&lt;/property&gt;</font>
-	&lt;/component&gt;
-	:
-	:
-</pre>
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;!-- JDBCドライバなどの環境によってはPagerStatementFactoryを有効にする必要があるようです。 --&gt;
+                        &lt;!--
+                        &lt;component class=&quot;org.seasar.dao.pager.PagerStatementFactory&quot;/&gt;
+                        --&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;!--
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                --&gt;
+        &lt;/component&gt;
 
-<h3><a name="ScrollCursor">スクロール可能カーソル - スクロール可能カーソルのON/OFF</a></h3>
-<p>
-	スクロール可能カーソルを使用することで、大量データ検索時のパフォーマンスが向上します。
-	ただし、DBやJDBCドライバの実装によっては、スクロール可能カーソルが使用できない場合があります。
-	その場合、スクロール可能カーソルを使用しない設定にすることができます。
-	スクロール可能カーソルを使用しない場合は、ResultSetの空回しによりカーソルの移動を行います。	
-
-<br>
-<br>
-<b>スクロール可能カーソルをOFFにする設定(j2ee.dicon)</b>
-<pre>
-	:
-	:
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		<font color="red">&lt;!--
-		&lt;property name="useScrollCursor"&gt;true&lt;/property&gt;
-		--&gt;
-		&lt;property name="useScrollCursor"&gt;false&lt;/property&gt;</font>
-	&lt;/component&gt;
-	&lt;!--
-	&lt;component 
-		name="resultSetFactory"
-		class="org.seasar.dao.pager.PagerResultSetFactoryLimitOffsetWrapper"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;arg&gt;dataSource&lt;/arg&gt;
-	&lt;/component&gt;
-	--&gt;
-
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;!-- JDBCドライバなどの環境によってはPagerStatementFactoryを有効にする必要があるようです。 --&gt;
-			<font color="red">&lt;!--
-			&lt;component class="org.seasar.dao.pager.PagerStatementFactory"/&gt;
-			--&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;</font>
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;!--
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		--&gt;
-	&lt;/component&gt;
-
-	&lt;!--
-	&lt;component class="org.seasar.extension.jdbc.impl.BasicResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.ConfigurableStatementFactory"&gt;
-		&lt;arg&gt;
-			&lt;component class="org.seasar.extension.jdbc.impl.BasicStatementFactory"/&gt;
-		&lt;/arg&gt;
-		&lt;property name="fetchSize"&gt;100&lt;/property&gt;
-		&lt;! - -
-		&lt;property name="maxRows"&gt;100&lt;/property&gt;
-		- - &gt;
-	&lt;/component&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.OracleResultSetFactory"/&gt;
-	&lt;component class="org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory"/&gt;
-	--&gt;
-	:
-	:
-</pre>
-
-</p>
-
+        &lt;!--
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+                &lt;arg&gt;
+                        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicStatementFactory&quot;/&gt;
+                &lt;/arg&gt;
+                &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+                &lt;! - -
+                &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+                - - &gt;
+        &lt;/component&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.OracleResultSetFactory&quot;/&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BooleanToIntStatementFactory&quot;/&gt;
+        --&gt;
+        :
+        :</pre>
 <!-- document end -->
 <!-- don't edit start -->
 </td>
