@@ -142,14 +142,14 @@ List result = bookDao.findByCategoryPagerCondition(condition);</pre>
             <li><code>PreparedStatement</code>が開放されない</li>
             <li>実際には実行されないSQLがログ出力される</li>
             </ol>
-            <h4>j2ee.diconの設定：<code>LimitOffsetPagingSQLRewriter</code>を使う場合（推奨）</h4>
+            <h4>j2ee.diconの設定：<code>LimitOffsetPagingSqlRewriter</code>を使う場合（推奨）</h4>
             <p>
             この設定を有効にするには、他のページング用の設定はコメントアウトしてください。
             </p>
 <pre>
 ...
 &lt;!-- LIMIT OFFSET句を使ったSQL書き換えによるページング処理用設定 --&gt;
-&lt;component name=&quot;pagingSQLRewriter&quot; class=&quot;org.seasar.dao.pager.LimitOffsetPagingSQLRewriter&quot;/&gt;
+&lt;component name=&quot;pagingSqlRewriter&quot; class=&quot;org.seasar.dao.pager.LimitOffsetPagingSqlRewriter&quot;/&gt;
 &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
 &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
     &lt;arg&gt;
@@ -232,7 +232,7 @@ SELECT * FROM DEPARTMENT ORDER BY DEPTNO LIMIT 10 OFFSET 55
 <pre>
 ...
 &lt;!-- ORACLE ROWNUM句を使ったSQL書き換えによるページング処理用設定 --&gt;
-&lt;component name=&quot;pagingSQLRewriter&quot; class=&quot;org.seasar.dao.pager.OracleRownumPagingSQLRewriter&quot;/&gt;
+&lt;component name=&quot;pagingSqlRewriter&quot; class=&quot;org.seasar.dao.pager.OracleRownumPagingSqlRewriter&quot;/&gt;
 &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
 &lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
     &lt;arg&gt;
