@@ -95,12 +95,12 @@ List result = bookDao.findByCategoryPagerCondition(condition);</pre>
             </ol>
             <h2><a name="Strategy">ページングの方法</a></h2>
             <p>
-            使用するページングの方法ごとにj2ee.diconを変更する必要があります。
+            使用するページングの方法ごとにj2ee.dicon（Seasar2.4を利用の場合はjdbc.dicon）を変更する必要があります。
             </p>
             <h3><a name="ResultSet">ResultSetの機能を使用する方法（すべてのDBMSで利用可）</a></h3>
             <p>
             ResultSetのスクロール可能カーソル、もしくは空回しを使用することでページングを実現する方法です。<br/>
-            S2Daoの配布ファイルに含まれるj2ee.diconではこの方法を使用するための設定があらかじめ有効になっています。
+            S2Daoの配布ファイルに含まれるj2ee.dicon（Seasar2.4を利用の場合はjdbc.dicon）ではこの方法を使用するための設定があらかじめ有効になっています。
             したがって設定を変更しない限りこの方法が使用されます。
             </p>
             <h4>j2ee.diconの設定</h4>
