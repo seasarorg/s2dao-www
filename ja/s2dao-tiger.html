@@ -1100,9 +1100,15 @@ public int insert(Department department);
 	    <p>VersionNoの他にTimestampによる排他制御もS2Daoが自動的に行うことができます。Timestamp型でtimestampという名前のプロパティを定義するだけで、自動的に行ってくれます。
 	    Timestamp用のカラムの値にnullが設定されていると比較に失敗するので注意してください。</p>
 
-	<h3><a name="batch">バッチ更新</a></h3>
-		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。なお、バッチ更新の場合、<a href="#IDAutoGenerate">IDの自動生成</a>を行うことはできません。</p>
+	<h3><a name="Batch">バッチ更新</a></h3>
+		<p>更新系のメソッドで次のように引数をエンティティのクラスの配列またはListにすると自動的に更新用のSQL文を生成し、バッチ更新をすることができます。
+		なお、バッチ更新の場合、<a href="#IDAutoGenerate">IDの自動生成</a>を行うことはできません。</a></p>
+		<p>また、<a href="#VersionNo">versionNo</a>や<a href="#Timestamp">timestamp</a>の設定がしてあっても、エンティティの値は更新後のデータベースと同じ値にはなりません。
+		バッチ更新後は、最新のエンティティをデータベースから再取得するようにしてください。</p>
 		<pre>int insertBatch(Employee[] employees)</pre>
+		<p>バージョン1.0.47から以下のように戻り値の型をint[]にすることで、エンティティ毎に更新したレコード数を取得できます。
+		ただし、この戻り値はJDBCドライバが返す値そのものなので、ドライバによってはjava.sql.Statement#SUCCESS_NO_INFOしか取れないこともあります。</p>
+		<pre>int[] insertBatch2(Employee[] employees)</pre>
 
 	<h3><a name="AutoSelect">検索SQLの自動生成</a></h3>
     	<p>メソッドのsignatueより、 S2Daoに自動的にSELECT文を生成させることもできます。ARGSアノテーションにカラム名を指定することで、引数の値によってWHERE句が変わるような動的なSQL文も自動生成できます。</p>
