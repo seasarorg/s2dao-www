@@ -259,9 +259,15 @@ public String getEmployeeNo(){
 <p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
 <h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
-<p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。
+<p>
+ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。
 そのために使うのが、org.seasar.dao.annotation.tiger.Idアノテーションです。
-IDアノテーションは、自動生成するカラムのGetterかSetterに@Id(&quot;idtype&quot;)のように指定します。 </p>
+バージョン1.0.47からは複数のプロパティにIDアノテーションを指定できるようになりました。
+複数の指定をした場合、、Beanは複合主キーを持ったテーブルと関連づいているとみなされます。
+</p>
+<p>
+IDアノテーションは、自動生成するカラムのGetterかSetterに@Id(&quot;idtype&quot;)のように指定します。 
+</p>
 <p>idtypeはenumのorg.seasar.dao.annotation.tiger.IdTypeのうちから1つ選んで指定します。</p>
 <p>IdType.IDENTITYを指定するとID(プライマリーキー)をRDBMSに自動生成させてBeanに自動的に設定します。</p>
 <pre>

@@ -232,7 +232,15 @@ public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
 		<p>また1側のテーブルのカラム名とN側のテーブルのカラム名に等しく、1側のテーブルのカラム名がプライマリーキーの場合、RELKEYS定数を省略することができます。</p>
 
 	<h5><a name="IDAutoGenerate">IDの自動生成</a></h5>
-	<p>ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。そのために使うのが、IDアノテーションです。IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 </p>
+	<p>
+	ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。
+	そのために使うのが、IDアノテーションです。
+	バージョン1.0.47からは複数のプロパティにIDアノテーションを指定できるようになりました。
+	複数の指定をした場合、、Beanは複合主キーを持ったテーブルと関連づいているとみなされます。
+	</p>
+	<p>
+	IDアノテーションは、プロパティ名_ID = &quot;identity&quot;のように指定します。 
+	</p>
 <pre>public static final String id_ID = "identity";</pre>
 	<p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
 <pre>
