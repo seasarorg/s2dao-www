@@ -55,6 +55,7 @@ Tigerアノテーションは定数アノテーションと対になるため、
 			<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
 			<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
 			<li><a href="#TimestampPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
 		</ul>
 	</li>
 	<li><a href="#Dao">Daoアノテーション</a>
@@ -67,7 +68,12 @@ Tigerアノテーションは定数アノテーションと対になるため、
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
 			<li><a href="#SqlFileAnnotation">SQL_FILEアノテーション</a></li>
 			<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
-			<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
+			<li><a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></li>
+        </ul>
+	</li>
+	<li><a href="#DTO">DTOアノテーション</a>
+		<ul>
+			<li><a href="#ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></li>
         </ul>
 	</li>
 </ul>
@@ -116,6 +122,10 @@ Tigerアノテーションは定数アノテーションと対になるため、
 			<td>NO_PERSISTENT_PROPS</td>
 			<td>org.seasar.dao.annotation.tiger.Bean</td>
 		<tr>
+		<tr>
+			<td>VALUE_TYPE</td>
+			<td>org.seasar.dao.annotation.tiger.ValueType</td>
+		<tr>
 	</tbody>
 </table>
 </p>
@@ -163,15 +173,33 @@ Tigerアノテーションは定数アノテーションと対になるため、
 			<td>org.seasar.dao.annotation.tiger.Procedure</td>
 		<tr>
 		<tr>
-			<td>VALUE_TYPE</td>
-			<td>org.seasar.dao.annotation.tiger.ValueType</td>
+			<td>PROCEDURE_CALL</td>
+			<td>org.seasar.dao.annotation.tiger.ProcedureCall</td>
+		<tr>
+	</tbody>
+</table>
+</p>
+
+<h4><a name="DtoAnnotationList">DTOアノテーション一覧</a></h4>
+<p>
+<table border="1">
+	<thead>
+		<tr>
+			<th>定数アノテーション</th>
+			<th>Tigerアノテーション</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>PROCEDURE_PARAMETER</td>
+			<td>org.seasar.dao.annotation.tiger.ProcedureParameter</td>
 		<tr>
 	</tbody>
 </table>
 </p>
 
 <h3><a name="JavaBeans">JavaBeans</a></h3>
-<h4><a name="IdAnnotation">IDアノテーション</a></h3>
+<h4><a name="IdAnnotation">IDアノテーション</a></h4>
 <p>
 IDアノテーションは、org.seasar.dao.annotation.tiger.Idアノテーションに記述します。DBごとに切り替える場合は、org.seasar.dao.annotation.tiger.Idsアノテーションで囲みます。
 </p>
@@ -189,7 +217,7 @@ public void setId(Integer id) {
 IdTypeはorg.seasar.dao.annotation.tiger.IdType列挙型です。
 IDENTITY, SEQUENCE, ASSIGNEDの3種類があります。
 
-<h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h3>
+<h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h4>
 <p>
 RELNO, RELKEYSアノテーションは、org.seasar.dao.annotation.tiger.Relationアノテーションに記述します。
 </p>
@@ -206,7 +234,7 @@ public void setDepartment(Department department) {
 }
 </pre>
 
-<h4><a name="TableAnnotation">TABLEアノテーション</a></h3>
+<h4><a name="TableAnnotation">TABLEアノテーション</a></h4>
 <p>
 TABLEアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
@@ -222,7 +250,7 @@ public class Department implements Serializable {
 }
 </pre>
 
-<h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h3>
+<h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h4>
 <p>
 COLUMNアノテーションは、org.seasar.dao.annotation.tiger.Columnアノテーションに記述します。
 </p>
@@ -238,7 +266,7 @@ public Timestamp getTimestamp() {
 }
 </pre>
 
-<h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h3>
+<h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h4>
 <p>
 VERSION_NO_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
@@ -254,7 +282,7 @@ public class Foo {
 }
 </pre>
 
-<h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h3>
+<h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h4>
 <p>
 TIMESTAMP_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
@@ -270,7 +298,7 @@ public class Foo {
 }
 </pre>
 
-<h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
+<h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
 </p>
@@ -286,8 +314,24 @@ public class Foo {
 }
 </pre>
 
+<h4><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h4>
+<p>
+VALUE_TYPEアノテーションは、org.seasar.dao.annotation.tiger.ValueTypeアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static String bbb_VALUE_TYPE = "stringClobType";
+</pre>
+<pre>
+// Tigerアノテーション
+@ValueType("stringClobType")
+public void setBbb(String bbb) {
+    // ...
+}
+</pre>
+
 <h3><a name="Dao">Dao(Data Access Object)</a></h3>
-<h4><a name="BeanAnnotation">BEANアノテーション</a></h3>
+<h4><a name="BeanAnnotation">BEANアノテーション</a></h4>
 <p>
 BEANアノテーションは、org.seasar.dao.annotation.tiger.S2Daoアノテーションに記述します。
 </p>
@@ -303,7 +347,7 @@ public interface DepartmentDao {
 }
 </pre>
 
-<h4><a name="ArgsAnnotation">ARGSアノテーション</a></h3>
+<h4><a name="ArgsAnnotation">ARGSアノテーション</a></h4>
 <p>
 ARGSアノテーションは、org.seasar.dao.annotation.tiger.Argumentsアノテーションに記述します。
 </p>
@@ -319,7 +363,7 @@ public List getEmployees(String ename) {
 }
 </pre>
 
-<h4><a name="QueryAnnotation">QUERYアノテーション</a></h3>
+<h4><a name="QueryAnnotation">QUERYアノテーション</a></h4>
 <p>
 QUERYアノテーションは、org.seasar.dao.annotation.tiger.Queryアノテーションに記述します。
 </p>
@@ -333,7 +377,7 @@ public String getAaa_QUERY = "A > B";
 public Aaa getAaa(int id);
 </pre>
 
-<h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h3>
+<h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.NoPersistentPropertyアノテーションに記述します。
 </p>
@@ -347,7 +391,7 @@ public static final String insert_NO_PERSISTENT_PROPS = "sal, comm";
 public void insert(Employee employee);
 </pre>
 
-<h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h3>
+<h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h4>
 <p>
 PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.PersistentPropertyアノテーションに記述します。
 </p>
@@ -361,7 +405,7 @@ public static final String insert_PERSISTENT_PROPS = "deptno";
 public void insert(Employee employee);
 </pre>
 
-<h4><a name="SqlAnnotation">SQLアノテーション</a></h3>
+<h4><a name="SqlAnnotation">SQLアノテーション</a></h4>
 <p>
 SQLアノテーションは、org.seasar.dao.annotation.tiger.Sqlアノテーションに記述します。DBごとに切り替える場合は、org.seasar.dao.annotation.tiger.Sqlsアノテーションで囲みます。
 </p>
@@ -375,7 +419,7 @@ public static final String getCount_SQL = "SELECT COUNT(*) FROM emp";
 public int getCount();
 </pre>
 
-<h4><a name="SqlFileAnnotation">SQL_FILEアノテーション</a></h3>
+<h4><a name="SqlFileAnnotation">SQL_FILEアノテーション</a></h4>
 <p>
 SQL_FILEアノテーションは、org.seasar.dao.annotation.tiger.SqlFileアノテーションに記述します。
 </p>
@@ -390,9 +434,7 @@ int insert(Employee employee);
 int insert(Employee employee);
 </pre>
 
-
-
-<h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h3>
+<h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h4>
 <p>
 PROCEDUREアノテーションは、org.seasar.dao.annotation.tiger.Procedureアノテーションに記述します。
 </p>
@@ -406,21 +448,36 @@ public String getSalesTax_PROCEDURE = "SALES_TAX";
 public double getSalesTax(double subtotal);
 </pre>
 
-<h4><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h3>
+<h4><a name="ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></h4>
 <p>
-VALUE_TYPEアノテーションは、org.seasar.dao.annotation.tiger.ValueTypeアノテーションに記述します。
+PROCEDURE_CALLアノテーションは、org.seasar.dao.annotation.tiger.ProcedureCallアノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
-public static String bbb_VALUE_TYPE = "stringClobType";
+public String getSalesTax_PROCEDURE_CALL = "SALES_TAX";
 </pre>
 <pre>
 // Tigerアノテーション
-@ValueType("stringClobType")
-public void setBbb(String bbb) {
-    // ...
-}
+@ProcedureCall("SALES_TAX")
+public void getSalesTax(SalesTaxDto salesTaxDto);
 </pre>
+
+<h3><a name="DTO">DTO</a></h3>
+<h4><a name="ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></h4>
+<p>
+PROCEDURE_PARAMETERアノテーションは、org.seasar.dao.annotation.tiger.ProcedureParameterアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String hoge_PROCEDURE_PARAMETER = "inout";
+</pre>
+<pre>
+// Tigerアノテーション
+@ProcedureParameter(ParameterType.INOUT)
+public String hoge;
+</pre>
+ParameterTypeはorg.seasar.dao.annotation.tiger.ParameterType列挙型です。
+RETURN、IN、INOUT、OUTの4種類があります。
 
 <!-- document end -->
 <!-- don't edit start -->

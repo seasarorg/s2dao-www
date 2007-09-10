@@ -57,6 +57,8 @@
 								<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 								<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
 								<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
+								<li><a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></li>
+								<li><a href="#ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></li>
 							</ul>
                 		<li type="circle"><a href="#diconfile">diconファイル</a></li>
                 		<li type="circle"><a href="#SQLfile">SQLファイル</a></li>
@@ -725,7 +727,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  		</table>
  	</ul>
  	<h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
-	<p>バージョン1.0.31より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
+	<p>バージョン1.0.31より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます（バージョン1.0.47以降では代わりに<a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a>を使用することをお勧めします）。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
@@ -782,7 +784,64 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  		</tr>
  	</tbody></table>
  	</ul>
+ 	<h5><a name="ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></h5>
+ 	<p>
+ 	バージョン1.0.47で導入されました。このアノテーションはPROCEDUREアノテーションを使用したプロシージャ呼び出しの問題点を解消しています。
+ 	</p>
+	<p>
+	PROCEDUREアノテーションを使用したプロシージャ呼び出しには次の問題点がありました。
+	</p>
+	<ul>
+		<li>データベースのメタデータを元にプロシージャを実行しているため、RDBMSがメタデータが正しく返さない場合に呼び出しができない。</li>
+		<li>OUTパラメータやINOUTパラメータなどプロシージャからの戻り値が複数ある場合、これらの値をMapに詰めるため型情報が失われる。取り出すには明示的にキャストが必要になる。</li>
+	</ul>
+	<p>
+	PROCEDURE_CALLアノテーションを使用したプロシージャ呼び出しは上記の問題に対し次のように対応しています。
+	</p>
+	<ul>
+		<li>データベースのメタデータは使用しない。プロシージャの名前とパラメータの型の情報を使いプロシージャを呼び出す。基本的にRDBMSがCallableStatementによる呼び出しを認めていれば実行可能である。</li>
+		<li>プロシージャへのパラメータはINパラメータでもOUTパラメータでもDTOのフィールドに記述する。戻り値はDTOのフィールドに戻されるため型情報は失われない。</li>
+	</ul>
+	<p>
+	PROCEDURE_CALLアノテーションは次のように指定してください。
+	</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE_CALL = "<span class="italic">プロシジャ名</span>";
+	</p>
+<pre>
+public static String hoge_PROCEDURE_CALL = "hogeProcedure";
+public static String foo_PROCEDURE_CALL = "fooProcedure";
 
+public Map hoge();
+public void foo(FooDto dto);
+</pre>
+	<p>
+	メソッドの引数は「なし」もしくは「DTOひとつ」でなければいけません。プロシージャがResultSetを返す場合には、戻り値を任意のDTOやDTOのList、Map等にすることができます。
+	ResultSetが返されない場合はvoidにしてください。
+	引数のDTOにはプロシージャのパラメータに対応するフィールドとパラメータのタイプを示す<a href="#ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a>を指定する必要があります。
+	</p>
+
+ 	<h5><a name="ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></h5>
+ 	<p>
+ 	バージョン1.0.47で導入されました。このアノテーションは<a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a>が指定されたメソッドの引数として使用されるDTO内に指定します。PROCEDURE_PARAMETERアノテーションは次のように指定してください。
+	</p>
+	<p>-  public static final String <span class="italic">フィールド名</span>_PROCEDURE_PARAMETER = "<span class="italic">パラメータのタイプ名</span>";
+	</p>
+<pre>
+public static class FooDto {
+  public static String aaa_PROCEDURE_PARAMETER = "return";
+  public static String bbb_PROCEDURE_PARAMETER = "in";
+  public static String ccc_PROCEDURE_PARAMETER = "inout";
+
+  private double aaa;
+  private double bbb;
+  private double ccc;
+  //...
+}
+</pre>
+	<p>
+	PROCEDURE_PARAMETERのタイプ名に指定できる値は<code>return</code>、<code>in</code>、<code>out</code>、<code>inout</code>のいずれかです。
+	フィールドの定義順序はプロシージャのパラメータのインデックスに合わせなければいけません。
+	</p>
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
     	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。なお、1.0.36以降はjarファイル内にdao.diconが含まれているため、デフォルトで使用する場合はdao.diconを配置する必要はないです。
