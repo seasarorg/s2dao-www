@@ -76,8 +76,9 @@
 				<li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
 				<li><a href="#HowToRun">S2Daoの実行</a></li>
 	        	<li><a href="http://s2container.seasar.org/2.3/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
-	        	<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
-				<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#BooleanToInt">Booleanの扱い</a></li>
+			<li><a href="#S2DaoAssert">S2DaoAssert</a></li>	        	
+			<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
+			<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#BooleanToInt">Booleanの扱い</a></li>
 			</ul>
 		</li>
 		<li><a href="#Example">Example</a>
@@ -1241,6 +1242,56 @@ public class EmployeeDaoClient {
     }
 }
 </pre>
+
+<h3><a name="S2DaoAssert">S2DaoAssert</a></h3>
+<p>
+<code>org.seasar.dao.unit.S2DaoAssert</code>は、<a href="http://s2container.seasar.org/2.4/ja/S2JUnit4.html#assert">S2JUnit4</a>を使ってDataSetとS2Dao用のBeanやBeanのListが等しいことを表明（アサート）するためのクラスです。
+<code>org.seasar.dao.unit.S2DaoTestCase</code>に定義された<code>assertBeanEquals</code>メソッドや<code>assertBeanListEquals</code>メソッドに相当するメソッドを持ちます。
+</p>
+<p>
+<code>S2DaoAssert</code>はS2JUnit4を使用してS2DaoのDaoをテストする場合に使用してください。このクラスに定義されたメソッドはテストメソッド以外から呼び出してはいけません。また、メソッドを呼び出す前にdao.diconがS2コンテナに読み込まれている必要があります。dao.diconはS2JUnit4の<a href="http://s2container.seasar.org/2.4/ja/S2JUnit4.html#including">自動インクルード</a>機能を使用してインクルードするのが簡単です。
+</p>
+<ul>
+<li>S2DaoAssertを利用したテストコード例<br/>
+<code>S2DaoAssert</code>はstatic import宣言をして使用してください。
+</li>
+<pre>
+import static org.seasar.dao.unit.S2DaoAssert.assertBeanEquals;
+
+@RunWith(Seasar2.class)
+public class EmployeeDaoTest {
+
+  TestContext context;
+
+  EmployeeDao dao;
+
+  public void getAllEmployees() throws Exception {
+    DataSet expected = context.getExpected();
+    assertBeanEquals(expected, dao.getAllEmployees());
+  }
+}
+</pre>
+<li>これまでのS2DaoTestCaseを利用したテストコード例</br>
+上記のコードはS2DaoTestCaseを利用した次のような記述に相当します。
+</li>
+<pre>
+public class EmployeeDaoTest extends S2DaoTestCase {
+
+  EmployeeDao dao;
+
+  protected void setUp() throws Exception {
+    super.setUp();
+    include("app.dicon");
+  }
+
+  public void testGetAllEmployeesTx() throws Exception {
+    readXlsWriteDb("EmployeeDaoTest_getAllEmployees.xls");
+    DataSet expected = readXls("EmployeeDaoTest_getAllEmployees_Expected.xls");
+    assertBeanListEquals("", expected, dao.getAllEmployees());
+  }
+}
+</pre>
+</ul>
 
     <h2><a name="Example">Example</a></h2>
     <p>このExampleは前提条件として以下のテーブル、JavaBeans、dao.diconを使用します。</p>
