@@ -29,43 +29,47 @@
 <!-- don't edit end -->
 <!-- document start -->
 <ul>
-	<li><a href="#daoDicon">dao.diconとは</a>
-		<ul>
-			<li><a href="#customization">カスタマイズの方法</a></li>
-		</ul>
-	</li>
-	<li><a href="#customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a>
-		<ul>
-			<li><a href="#DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a>
-				<ul>
-					<li>ログのカテゴリをDaoクラスで振り分ける</li>
-					<li>SQLファイルのエンコーディング名を指定する</li>
-				</ul>
-			</li>			
-			<li><a href="#DaoNamingConventionImpl">DaoNamingConventionImpl</a>
-				<ul>
-					<li>バージョン番号のプロパティ名を変更する</li>
-					<li>タイムスタンプのプロパティ名を変更する</li>
-					<li>Daoインターフェースのサフィックスを変更する</li>
-					<li>追加のメソッド名のプレフィックスを変更する</li>
-					<li>更新のメソッド名のプレフィックスを変更する</li>
-					<li>削除のメソッド名のプレフィックスを変更する</li>
-					<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
-					<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
-					<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
-				</ul>
-			</li>
-		</ul>
-	</li>
-	<li><a href="#customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a>
-		<ul>
-			<li><a href="#FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></li>
-			<li><a href="#DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></li>
-			<li><a href="#DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></li>
-			<li><a href="#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></li>					
-		</ul>
-	</li>
-	</li>
+<li><a href="#daoDicon">dao.diconとは</a>
+<ul>
+<li><a href="#configurationChange">設定の変更</a></li>
+</ul>
+</li>
+<li><a href="#customization">S2Daoのカスタマイズ</a>
+<ul>
+<li><a href="#customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a>
+<ul>
+<li><a href="#DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a>
+<ul>
+<li>ログのカテゴリをDaoクラスで振り分ける</li>
+<li>SQLファイルのエンコーディング名を指定する</li>
+</ul>
+</li>			
+<li><a href="#DaoNamingConventionImpl">DaoNamingConventionImpl</a>
+<ul>
+<li>バージョン番号のプロパティ名を変更する</li>
+<li>タイムスタンプのプロパティ名を変更する</li>
+<li>Daoインターフェースのサフィックスを変更する</li>
+<li>追加のメソッド名のプレフィックスを変更する</li>
+<li>更新のメソッド名のプレフィックスを変更する</li>
+<li>削除のメソッド名のプレフィックスを変更する</li>
+<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
+<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
+<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a>
+<ul>
+<li><a href="#FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></li>
+<li><a href="#DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></li>
+<li><a href="#DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></li>
+<li><a href="#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></li>					
+</ul>
+</li>
+</li>
+</ul>
+</li>
 </ul>
 
 <h2><a name="daoDicon">dao.diconとは</a></h2>
@@ -74,7 +78,7 @@ dao.diconはS2Daoの動作を設定するファイルです。
 このファイルはs2-dao-x.x.x.jar内に含まれているため自動で読み込まれます。
 </p>
 <p>
-dao.diconは次のように定義されています。
+dao.diconは次のように記述されています。
 </p>
 <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift_JIS&quot;?&gt;
@@ -108,23 +112,51 @@ dao.diconは次のように定義されています。
     &lt;component class=&quot;org.seasar.dao.impl.ProcedureMetaDataFactoryImpl&quot;/&gt;
 &lt;/components&gt;
 </pre>
-<h3><a name="customization">カスタマイズの方法</a></h3>
+
+<h3><a name="configurationChange">設定の変更</a></h3>
 <p>
-S2Daoの振る舞いをカスタマイズする場合には、dao.diconをコピーし変更を加え、s2-dao-x.x.x.jarより優先度の高いclasspathへ配置する必要があります。
-jarに含まれるdao.diconと変更を加えたdao.diconのどちらがclasspathの先になるか確定できない場合はコピーしたdao.diconを任意の名称に変更し、dao.diconの参照元をコピーしたdiconの名前に変更するといったことも有効です。
+dao.diconに記述された設定を変更することでS2Daoの振る舞いをカスタマイズできます。
+ただし、dao.diconはjarファイルに含まれるので直接編集することができません。
+次の方法のいずれかを使用し変更を加えた設定が有効になるようにしてください。
 </p>
+<ul>
+<li>dao.diconをコピーしコピーしたファイルに変更を加え、s2-dao-x.x.x.jarより優先度の高いclasspathへ配置する<br/>
+Seasar2.3とSeasar2.4の両方で使用可能です。
+オリジナルのdao.diconとコピーしたdao.diconのどちらがclasspathで優先されるのか確定できない場合には使用しないでください。
+</li>
+<li>dao.diconを新しい名前でコピーしコピーしたファイルに変更を加え、他の定義ファイルからは新しい名前で参照する<br/>
+Seasar2.3とSeasar2.4の両方で使用可能です。
+</li>
+<li>定義ファイルの差し替え機能を利用する<br/>
+Seasar2.4でのみ使用可能です。s2container.diconに次のように設定してください。
+<pre>
+&lt;component class=&quot;org.seasar.framework.container.factory.SimplePathResolver&quot;&gt;
+  &lt;initMethod name=&quot;addRealPath&quot;&gt;
+    &lt;arg&gt;&quot;dao.dicon&lt;/arg&gt;
+    &lt;arg&gt;&quot;my-dao.dicon&quot;&lt;/arg&gt;&lt;!-- 実際に使用する定義ファイル --&gt;
+  &lt;/initMethod&gt;
+&lt;/component&gt;
+</pre>
+この設定により，ある定義ファイルが'<code>dao.dicon</code>&quot;という名前でdiconファイルをインクルードすると，実際には'<code>my-dao.dicon</code>'がインクルードされます。詳細は「<a href="DIContainer.html">DIContainer</a>」－「<a href="DIContainer.html#ConfigFileReplacement">定義ファイルの差し替え</a>」を参照してください。
+</li>
+</ul>
+
+<h2><a name="customization">S2Daoのカスタマイズ</a></h2>
 <p>
-カスタマイズの方法は2種類に大別できます。
+カスタマイズの方法は2種類あります。
 </p>
 <p>
 1つ目は、dao.diconに登録されているコンポーネントのプロパティに特定の値を設定することでコンポーネントの振る舞いを変化させる方法です。
 2つ目は、dao.diconに登録されているコンポーネントを別のコンポーネントに差し替える方法です。
-dao.diconに登録されているコンポーネントはすべてインタフェースの実装であるため、同じインタフェースをもつ別の実装に用意に差し替えることができます。
+dao.diconに登録されているコンポーネントはすべてインタフェースの実装であるため、同じインタフェースをもつ別の実装に容易に差し替えることができます。
 </p>
 
-<h2><a name="customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a></h2>
+<h3><a name="customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a></h3>
+<p>
+dao.diconに定義されたコンポーネントには設定が可能なプロパティを提供しているものがあります。
+</p>
 
-<h3><a name="DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a></h3>
+<h4><a name="DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a></h4>
 <p>
 <code>org.seasar.dao.impl.DaoMetaDataFactoryImpl</code>のプロパティの変更により次のことが可能になります。
 </p>
@@ -157,21 +189,21 @@ dao.diconに登録されているコンポーネントはすべてインタフ�
 </tr>
 </tbody></table>
 
-<h3><a name="DaoNamingConventionImpl">DaoNamingConventionImpl</a></h3>
+<h4><a name="DaoNamingConventionImpl">DaoNamingConventionImpl</a></h4>
 <p>
 <code>org.seasar.dao.impl.DaoNamingConventionImpl</code>はS2Dao全体の命名規約を管理するコンポーネントです。
 プロパティの変更により次のことが可能です。
 </p>
 <ul>
-	<li>バージョン番号のプロパティ名を変更する</li>
-	<li>タイムスタンプのプロパティ名を変更する</li>
-	<li>Daoインターフェースのサフィックスを変更する</li>
-	<li>追加のメソッド名のプレフィックスを変更する</li>
-	<li>更新のメソッド名のプレフィックスを変更する</li>
-	<li>削除のメソッド名のプレフィックスを変更する</li>
-	<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
-	<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
-	<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
+<li>バージョン番号のプロパティ名を変更する</li>
+<li>タイムスタンプのプロパティ名を変更する</li>
+<li>Daoインターフェースのサフィックスを変更する</li>
+<li>追加のメソッド名のプレフィックスを変更する</li>
+<li>更新のメソッド名のプレフィックスを変更する</li>
+<li>削除のメソッド名のプレフィックスを変更する</li>
+<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
+<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
+<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
 </ul>
 <p>
 設定可能なプロパティは次の通りです。
@@ -238,13 +270,13 @@ dao.diconに登録されているコンポーネントはすべてインタフ�
 </tr>
 </tbody></table>
 
-<h2><a name="customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a></h2>
+<h3><a name="customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a></h3>
 <p>
 dao.diconに定義されたコンポーネントはインタフェースの定義に従う限りすべて任意のコンポーネントに差し替えることが可能です。
 いくつかのコンポーネントについてはS2Daoが代替の実装をあらかじめ提供しています。以下では、S2Daoが提供するコンポーネントを説明します。
 </p>
 
-<h3><a name="FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></h3>
+<h4><a name="FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></h4>
 <p>
 S2Daoのデフォルトの振る舞いでは、Daoの初期化時に、どのプロパティが永続的であるのか
 どのプロパティが主キーであるのかといった情報をBeanに指定されたアノテーションとデータベースのメタデータから判定していますが、
@@ -261,7 +293,7 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 <code>FastPropertyTypeFactoryBuilder</code>を使用する場合は、カラム名や主キーの情報などをデータベースに一致するようにアノテーションを指定してください。
 </p>
 
-<h3><a name="DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></h3>
+<h4><a name="DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></h4>
 <p>
 アノテーションで明示しない場合、デフォルトの規約では、BeanはBeanの名前と同じ名前のテーブルに対応付けられます。
 しかし、Javaのクラス名は単語の区切りをキャメルケースで表すがテーブル名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
@@ -274,7 +306,7 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 <code>org.seasar.dao.impl.DecamelizeTableNaming</code>に差し替えてください。
 </p>
 
-<h3><a name="DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></h3>
+<h4><a name="DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></h4>
 <p>
 アノテーションで明示しない場合、デフォルトの規約では、Beanのプロパティはプロパティの名前と同じ名前のカラムに対応付けられます。
 しかし、Javaのプロパティ名は単語の区切りをキャメルケースで表すがカラム名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
@@ -287,7 +319,7 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 <code>org.seasar.dao.impl.DecamelizeColumnNaming</code>に差し替えてください。
 </p>
 
-<h3><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h3>
+<h4><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h4>
 S2Daoは、通常の更新ではBeanの永続的なプロパティすべてをUPDATE文のSET句に設定して更新を行います。
 <p>
 修正したプロパティのみを変更するための<b>前提</b>として、
