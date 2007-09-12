@@ -48,7 +48,7 @@
 							</ul>
                 		<li type="circle"><a href="#Dao">Dao(Data Access Object)</a></li>
 							<ul>
-								<li><a href="#MethodNaming">メソッドの命名規則</a></li>
+								<li><a href="#MethodNaming">メソッドの命名規約</a></li>
 								<li><a href="#BeanAnnotation">BEANアノテーション</a></li>
 								<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
 								<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
@@ -99,15 +99,13 @@
 		｢ファイル→インポート→既存のプロジェクトをワークスペースへ｣でインポートしてください。Seasar2の必要なバージョンは、<a href="http://www.seasar.org/wiki/index.php?Versions#j388ac47">Wiki</a>をご覧ください。
 		s2-dao-examples/src/main/java配下にサンプルもあります。
 		</p>
-		<p>S2Daoとして必要なjarファイルは、1.0.41以降はlib/の下に全てそろっています。それ以前のバージョンは、<a href="http://s2container.seasar.org/2.3/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体が必要です。です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
+		<p>S2Daoとして必要なjarファイルは、1.0.41以降はlib/の下に全てそろっています。それ以前のバージョンは、<a href="http://s2container.seasar.org/2.3/ja/setup.html">Seasar2で必要なjarファイル全て</a>とSeasar2の(s2-framework/s2-extension)本体が必要です。簡単に機能を試すことができるように、RDBMSとしてHSQLDBを用意しています。
 		lib/hsqldb.jarはHSQLDBを実行する上では必要ですが、本番では必要ありません。
 		lib/s2-framework-2.3.xx-sources.jarとs2-extension-2.3.xx-sources.jarは、Eclipse上でソースを参照するためのもので、動作には必要ありません。
-		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon(Seasar2.4の場合はjdbc.dicon)、<a href="#dao.dicon">dao.dicon(※後述)</a>をCLASSPATHにとおせば、S2Daoを実行できます。Eclipseにインポートして使う場合は設定は不要です。</p>
+		libのjarファイル(hsqldb.jar以外)とsrcのj2ee.dicon(Seasar2.4の場合はjdbc.dicon)をCLASSPATHにとおせば、S2Daoを実行できます。Eclipseにインポートして使う場合は設定は不要です。</p>
 	<h4><a name="dao.dicon">dao.dicon</a></h4>
 		<p>dao.diconはS2Daoの動作を設定するファイルです。
-		1.0.36からはs2-dao-x.x.x.jarへ含まれるようになるので、明示的に配置する必要はなくなります。
-		dao.diconをカスタマイズする場合は、カスタマイズしたdao.diconをs2-dao-x.x.x.jarより優先度の高いclasspathへ配置するなどして、
-		カスタマイズした側が使用されるようにしてください。
+		設定を変更したい場合は<a href="daoDicon.html"><a href="daoDicon.html">dao.diconのリファレンス</a></a>を参照してください。
 		</p>
 	<h4><a name="j2ee.dicon">j2ee.dicon</a></h4>
 		<p>S2Pagerの機能を使用する場合には、j2ee.diconを修正する必要があります(v1.0.36以降はデフォルトで有効になっています)。
@@ -385,7 +383,7 @@ public static final String NO_PERSISTENT_PROPS = "dummy1, dummy2";
 	     <p>※カラムがNull可の場合、プリミティブ型を指定するとNullの際、0(ゼロ)が返されるのでNullを扱う場合は、
 	     ラッパークラス(intならjava.lang.Integer)を指定して下さい。</p>
      <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
-    	<p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規則は以下の形式になります。</p>
+    	<p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規約は以下の形式になります。</p>
 		getterメソッド
 		<p>-  public <span class="italic">型</span> get<span class="italic">プロパティ名</span>()</p>
 		setterメソッド
@@ -475,8 +473,9 @@ public class Employee implements Serializable {
 			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
 			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
 		</ul>
-    <h5><a name="MethodNaming">メソッドの命名規則</a></h5>
-		<p>Daoのメソッドの名前には規則があり、名前が下の表にあげた名前で始まっている必要があります。		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。</p>
+    <h5><a name="MethodNaming">メソッドの命名規約</a></h5>
+		<p>Daoのメソッドの名前は下の表にあげた名前で始まっている必要があります。		
+		命名規約を変更したい場合は、<a href="daoDicon.html">dao.diconのリファレンス</a>の「<a href="daoDicon.html#DaoNamingConventionImpl">DaoNamingConventionImpl</a>」を参照してください。
 		<table border="1" class="main">
 			<tr bgcolor="#d1f3f4" align="center">
 			  <th>処理</th>
@@ -535,13 +534,13 @@ public List getEmployeesBySal(Float minSal, Float maxSal);
 
 	<h5><a name="DefMethod">メソッドの定義</a></h5>
 	    <p>Daoに定義したメソッドを呼ぶことにより、対応するSQLファイルに記述されているSQLが実行されますが、
-		更新(INSERT, UPDATE, DELETE)、検索処理ごとにメソッドの命名規則があります。S2Daoではメソッドの命名規則よりSQL文の中身を自動的に決定しています。
+		更新(INSERT, UPDATE, DELETE)、検索処理ごとに<a href="#MethodNaming">メソッドの命名規約</a>があります。
+		S2Daoではメソッドの命名規約よりSQL文の中身を自動的に決定しています。
 		また、定義するメソッドのオーバーロードはサポートしていません。
 		</p>
 		<ul>
 		<li>INSERT処理</li>
 		<p>INSERT処理を行なうメソッドの名前が、insert,add,createではじまる必要があります。
-		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		戻り値はvoidあるいはintを指定してください。
 		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
@@ -551,7 +550,6 @@ public void createDept(Department department);
 </pre>
 		<li>UPDATE処理</li>
 		<p>UPDATE処理を行うメソッドの名前が、update,modify,storeではじまる必要があります。
-		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		戻り値はvoidあるいはintです。intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 メソッドの定義例は以下のようになります。</p>
 <pre>
@@ -561,7 +559,8 @@ public void storeDept(Department department);
 </pre>
 		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドのうち、
 		nullでは無い値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
-		<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
+		<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。
+		設定を変更するには<a href="daoDicon.html">dao.diconのリファレンス</a>の「<a href="daoDicon.html#DaoNamingConventionImpl">DaoNamingConventionImpl</a>」を参照してください。<br/>
 		メソッドの定義例は以下のようになります。
 <pre>
 public int updateUnlessNull(Department department);
@@ -612,7 +611,8 @@ public class Emp {
 		</p>
 
 		<p>
-		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
+		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。
+		設定を変更するには<a href="daoDicon.html">dao.diconのリファレンス</a>の「<a href="daoDicon.html#DaoNamingConventionImpl">DaoNamingConventionImpl</a>」を参照してください。<br />
 		メソッドの定義例は以下のようになります。
 <pre>
 public int updateModifiedOnly(Emp emp);
@@ -621,7 +621,6 @@ public int updateModifiedOnly(Emp emp);
 
 		<li>DELETE処理</li>
 		<p>DELETE処理を行うメソッドの名前が、delete,removeではじまる必要があります。
-		ただし、v1.0.32からdao.diconファイルの設定により変更することができます。<a href="#diconfile">diconファイル</a>をご覧ください。<br />
 		戻り値はvoidあるいはintです。
 		intの場合、更新した行数が戻り値となります。引数の型はエンティティの型と一致させます。<br />
 		メソッドの定義例は以下のようになります。</p>
@@ -667,7 +666,7 @@ public int selectCountAll();
 	PERSISTENT_PROPSアノテーションで指定したプロパティが永続化の対象になります。</p>
 	<h5><a name="SqlAnnotation">SQLアノテーション</a></h5>
 	<p>バージョン1.0.28より、SQLアノテーションを使用することが可能です。機能はSQLファイルと同様で、アノテーションにてSQL及びSQLコメントを使用することが可能です。</p>
- 	<p>SQLアノテーションに命名規則があります。</p>
+ 	<p>SQLアノテーションに命名規約があります。</p>
  	<ul>
  	<li>SQLファイルとDaoに定義したメソッドの関連付け</li>
  	<p>SQLアノテーションとDaoに定義したメソッドの関連付けをするには、SQLアノテーションを以下の形式にする必要があります。</p>
@@ -736,9 +735,9 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
  	</ul>
  	<h5><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h5>
 	<p>バージョン1.0.31より、PROCEDUREアノテーションを使用することによりStoredProcedureやStoredFunctionを実行することができます（バージョン1.0.47以降では代わりに<a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a>を使用することをお勧めします）。PROCEDUREアノテーションは以下の形式のうちいずれかを指定します。</p>
-	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシジャ名</span>";</p>
-	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシジャ名</span>";</p>
-	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシジャ名</span>";</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">カタログ名.スキーマ名.プロシージャ名</span>";</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.プロシージャ名</span>";</p>
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">プロシージャ名</span>";</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">パッケージ名.プロシージャ名</span>";(Oracle/1.0.41以降)</p>
 	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE = "<span class="italic">スキーマ名.パッケージ名.プロシージャ名</span>";(Oracle/1.0.41以降)</p>
 
@@ -813,7 +812,7 @@ emp.*, dept.dname dname_0, dept.loc loc_0 FROM emp, dept
 	<p>
 	PROCEDURE_CALLアノテーションは次のように指定してください。
 	</p>
-	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE_CALL = "<span class="italic">プロシジャ名</span>";
+	<p>-  public static final String <span class="italic">メソッド名</span>_PROCEDURE_CALL = "<span class="italic">プロシージャ名</span>";
 	</p>
 <pre>
 public static String hoge_PROCEDURE_CALL = "hogeProcedure";
@@ -832,7 +831,7 @@ public void foo(FooDto dto);
  	<p>
  	バージョン1.0.47で導入されました。このアノテーションは<a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a>が指定されたメソッドの引数として使用されるDTO内に指定します。PROCEDURE_PARAMETERアノテーションは次のように指定してください。
 	</p>
-	<p>-  public static final String <span class="italic">フィールド名</span>_PROCEDURE_PARAMETER = "<span class="italic">パラメータのタイプ名</span>";
+	<p>-  public static final String <span class="italic">フィールド名</span>_PROCEDURE_PARAMETER = "<span class="italic">プロシージャのパラメータのタイプ名</span>";
 	</p>
 <pre>
 public static class FooDto {
@@ -848,7 +847,7 @@ public static class FooDto {
 </pre>
 	<p>
 	PROCEDURE_PARAMETERのタイプ名に指定できる値は<code>return</code>、<code>in</code>、<code>out</code>、<code>inout</code>のいずれかです。
-	フィールドの定義順序はプロシージャのパラメータのインデックスに合わせなければいけません。
+	アノテーションを指定するフィールドの数と定義順序はプロシージャのパラメータと一致させる必要があります。
 	</p>
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
@@ -867,85 +866,18 @@ public static class FooDto {
     &lt;/component&gt;
 &lt;/components&gt;
 </pre>
-        dao.dicon
-<pre>
-&lt;components namespace="dao"&gt;
-    &lt;include path="j2ee.dicon"/&gt;
-    [...]
-    &lt;component
-        class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;
-    &lt;component name="interceptor"
-        class="org.seasar.dao.interceptors.S2DaoInterceptor"/&gt;
-    [...]
-&lt;/components&gt;
-</pre>
-		<p>&lt;component class="org.seasar.dao.impl.DaoMetaDataFactoryImpl"/&gt;はS2DaoInterceptorのコンストラクタの引数となるので、
-		org.seasar.dao.impl.DaoMetaDataFactoryImplも記述しておきます。
-		(<a href="#dao.dicon">セットアップの項</a>も参照)</p>
-		<p>v1.0.32以降のバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
-			<dt>sqlFileEncoding</dt>
-				<dd>String</dd>
-				<dd>Sqlファイルのエンコーディングを指定します。デフォルトは"JISAutoDetect"です。</dd>
-		</p>
-		<p>v1.0.32からv1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
-		<dl>
-			<dt>daoSuffixes</dt>
-				<dd>String[]</dd>
-				<dd>Daoインターフェース名の最後に付いていなければならない名前を指定します。デフォルトは{"Dao"}です。</dd>
-			<dt>insertPrefixes</dt>
-				<dd>String[]</dd>
-				<dd>insertメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "insert","create", "add" }です。</dd>
-			<dt>updatePrefixes</dt>
-				<dd>String[]</dd>
-				<dd>updateメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "update","modify", "store" }です。</dd>
-			<dt>deletePrefixes</dt>
-				<dd>String[]</dd>
-				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
-		</dl>
-		<p>v1.0.37からv1.0.39までのバージョンは、DaoMetaDataFactoryImplに対して以下のプロパティを設定することができます。</p>
-		<dl>
-			<dt>unlessNullSuffixes</dt>
-				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
-				メソッド名デフォルトは{"UnlessNull"}です。</dd>
-		</dl>
-		<p>v1.0.40以降のバージョンは、DaoNamingConventionImplに対して以下のプロパティを設定することができます。
-		<dl>
-			<dt>daoSuffixes</dt>
-				<dd>String[]</dd>
-				<dd>Daoインターフェース名の最後に付いていなければならない名前を指定します。デフォルトは{"Dao"}です。</dd>
-			<dt>insertPrefixes</dt>
-				<dd>String[]</dd>
-				<dd>insertメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "insert","create", "add" }です。</dd>
-			<dt>updatePrefixes</dt>
-				<dd>String[]</dd>
-				<dd>updateメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "update","modify", "store" }です。</dd>
-			<dt>deletePrefixes</dt>
-				<dd>String[]</dd>
-				<dd>deleteメソッドの最初に付いていなければならない名前を指定します。デフォルトは{ "delete","remove" }です。</dd>
-			<dt>unlessNullSuffixes</dt>
-				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、nullでは無い値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
-				メソッド名デフォルトは{"UnlessNull"}です。</dd>
-			<dt>modifiedOnlySuffixes</dt>
-				<dd>String[]</dd>
-				<dd>引数に渡されたDTOのフィールドの内、更新された値のみを更新対象にする場合、メソッドの最後に付いていなければならない名前を指定します。<br />
-				メソッド名デフォルトは{"ModifiedOnly"}です。</dd>
-			<dt>modifiedPropertyNamesPropertyName</dt>
-				<dd>String</dd>
-				<dd>更新された値のみを更新対象にする場合、DTOが持つべきプロパティ名を指定します。<br />
-				プロパティ名デフォルトは{"modifiedPropertyNames"}です。</dd>
-		</dl>
+	<p>dao.diconはS2Daoの動作を設定するファイルです。
+	詳細は<a href="daoDicon.html">dao.diconのリファレンス</a>を参照してください。
+	</p>
 
-		</p>
-		
+
     <h4><a name="SQLfile">SQLファイル</a></h4>
     	<p>検索、更新処理等を行うSQL文を記述します。
 		Daoに定義したメソッドを呼び出すと、対応するSQLファイルに記述されているSQL文が発行されます。
 		作成したSQLファイルはDaoと同じ場所に配置してください。
 		※S2DaoにはSQLを<a href="#AutoUpdate">自動で生成する機能</a>が用意されているので、SQLファイルがない場合、S2DaoがSQL文を自動生成します。</p>
 		<h5>SQLファイル名</h5>
-		<p>S2DaoにはSQLのファイル名にも命名規則があります。</p>
+		<p>S2DaoにはSQLのファイル名にも命名規約があります。</p>
 
 		<ul>
 		<li>SQLファイルとDaoに定義したメソッドの関連付け</li>
@@ -1177,8 +1109,8 @@ public class Employee2DaoImpl extends AbstractDao implements Employee2Dao {
 	<p>詳しい使用方法は<a href="#EntityManagerExample">EntityManagerを使用したExample</a>を参照して下さい。</p>
 
     <h3><a name="AutoUpdate">更新SQLの自動生成</a></h3>
-	    <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規則</a>にあわせ、JavaBeansを1つ引数に持つメソッドを定義するだけです。
-	    SQLファイルの作成は不要です。例としてInsertの場合、命名規則に合わせ、以下のように定義します。</p>
+	    <p>更新SQL文を自動生成させるには、メソッド名を<a href="#DefMethod">命名規約</a>にあわせ、JavaBeansを1つ引数に持つメソッドを定義するだけです。
+	    SQLファイルの作成は不要です。例としてInsertの場合、命名規約に合わせ、以下のように定義します。</p>
 <pre>
 public int insert(Department department);
 </pre>

@@ -48,13 +48,10 @@
 <ul>
 <li>バージョン番号のプロパティ名を変更する</li>
 <li>タイムスタンプのプロパティ名を変更する</li>
-<li>Daoインターフェースのサフィックスを変更する</li>
-<li>追加のメソッド名のプレフィックスを変更する</li>
-<li>更新のメソッド名のプレフィックスを変更する</li>
-<li>削除のメソッド名のプレフィックスを変更する</li>
-<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
-<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
-<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
+<li>Daoインターフェースの命名規約を変更する</li>
+<li>メソッドの命名規約を変更する</li>
+<li>UnlessNull機能に関する規約を変更する</li>
+<li>ModifiedOnly機能に関する規約を変更する</li>
 </ul>
 </li>
 </ul>
@@ -66,7 +63,6 @@
 <li><a href="#DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></li>
 <li><a href="#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></li>					
 </ul>
-</li>
 </li>
 </ul>
 </li>
@@ -197,13 +193,10 @@ dao.diconに定義されたコンポーネントには設定が可能なプロ�
 <ul>
 <li>バージョン番号のプロパティ名を変更する</li>
 <li>タイムスタンプのプロパティ名を変更する</li>
-<li>Daoインターフェースのサフィックスを変更する</li>
-<li>追加のメソッド名のプレフィックスを変更する</li>
-<li>更新のメソッド名のプレフィックスを変更する</li>
-<li>削除のメソッド名のプレフィックスを変更する</li>
-<li>nullを更新対象外とする更新メソッドのサフィックスを変更する</li>
-<li>変更したプロパティのみを更新対象とする更新メソッドのサフィックスを変更する</li>
-<li>変更したプロパティを管理するSetのプロパティ名を変更する</li>
+<li>Daoインターフェースの命名規約を変更する</li>
+<li>メソッドの命名規約を変更する</li>
+<li>UnlessNull機能に関する規約を変更する</li>
+<li>ModifiedOnly機能に関する規約を変更する</li>
 </ul>
 <p>
 設定可能なプロパティは次の通りです。
@@ -253,19 +246,19 @@ dao.diconに定義されたコンポーネントには設定が可能なプロ�
 <tr>
 <td>String[]</td>
 <td>unlessNullSuffixes</td>
-<td>nullを更新対象外とする更新メソッドのサフィックスの配列です。</td>
+<td>UnlessNull機能をもつ更新メソッドのサフィックスの配列です。</td>
 <td>"UnlessNull"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>modifiedOnlySuffixes</td>
-<td>変更したプロパティのみを更新対象とする更新メソッドのサフィックスです。</td>
+<td>ModifiedOnly機能をもつ更新メソッドのサフィックスです。</td>
 <td>"ModifiedOnly"</td>
 </tr>
 <tr>
 <td>String</td>
 <td>modifiedPropertyNamesPropertyName</td>
-<td>変更したプロパティを管理するSetのプロパティ名です。</td>
+<td>ModifiedOnly機能で使用するプロパティの名前です。</td>
 <td>"modifiedPropertyNames"</td>
 </tr>
 </tbody></table>
@@ -301,6 +294,9 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 この変換によりS2Daoはキャメルケースで表されたJavaのクラス名をアンダースコア区切りで表されたテーブル名に対応付けることができます。
 </p>
 <p>
+例えば、<code>hoge.foo.BarBaz</code>というBeanクラスが<code>BAR_BAZ</code>テーブルに対応します。
+</p>
+<p>
 このコンポーネントを利用するには
 <code>org.seasar.dao.impl.DefaultTableNaming</code>を
 <code>org.seasar.dao.impl.DecamelizeTableNaming</code>に差し替えてください。
@@ -314,20 +310,27 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 この変換によりS2Daoはキャメルケースで表されたJavaのプロパティ名をアンダースコア区切りで表されたカラム名に対応付けることができます。
 </p>
 <p>
+例えば、<code>barBaz</code>というプロパティが<code>BAR_BAZ</code>カラムに対応します。
+</p>
+<p>
 このコンポーネントを利用するには
 <code>org.seasar.dao.impl.DefaultColumnNaming</code>を
 <code>org.seasar.dao.impl.DecamelizeColumnNaming</code>に差し替えてください。
 </p>
 
 <h4><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h4>
-S2Daoは、通常の更新ではBeanの永続的なプロパティすべてをUPDATE文のSET句に設定して更新を行います。
 <p>
-修正したプロパティのみを変更するための<b>前提</b>として、
+S2Daoは、通常の更新ではBeanの永続的なプロパティすべてをUPDATE文のSET句に設定して更新を行います。しかし、変更したプロパティのみをSET句に含めたい場合があります。
+</p>
+<p>
+そのためには、
 <code>org.seasar.dao.impl.NullBeanEnhancer</code>を
 <code>org.seasar.dao.impl.BeanEnhancerImpl</code>に差し替えてください。
 </p>
-
-修正したプロパティのみを更新対象としたUPDATE文を発行するには、さらに<a href="s2dao.html#DefMethod">ModifiedOnlyの機能</a>を利用する必要があります。
+<p>
+<b>ModifiedOnly</b>というサフィックスがついた更新メソッドを呼び出すと、変更したプロパティのみがSET句に含まれるようになります。
+詳しくは<a href="s2dao.html#DefMethod">メソッドの定義</a>を参照してください。
+</p>
 
 <!-- document end -->
 <!-- don't edit start -->
