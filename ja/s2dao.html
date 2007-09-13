@@ -557,8 +557,8 @@ public int update(Department department);
 public int modifyDept(Department department);
 public void storeDept(Department department);
 </pre>
-		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたDTOのフィールドのうち、
-		nullでは無い値のみを更新対象とします(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
+		<p>v1.0.37からはメソッド名の末尾に<b>UnlessNull</b>が付いているUPDATE処理の場合、引数に渡されたBeanのフィールドのうち、
+		nullでは無い値のみを更新対象とします(<a href="#Batch">バッチ処理</a>の場合はこの機能は使えません)。<br />
 		<b>UnlessNull</b>は、dao.diconファイルの設定により変更することができます。
 		設定を変更するには<a href="daoDicon.html">dao.diconのリファレンス</a>の「<a href="daoDicon.html#DaoNamingConventionImpl">DaoNamingConventionImpl</a>」を参照してください。<br/>
 		メソッドの定義例は以下のようになります。
@@ -567,19 +567,21 @@ public int updateUnlessNull(Department department);
 </pre>
 		</p>
 		<p>v1.0.40からはメソッド名の末尾に<b>ModifiedOnly</b>が付いているUPDATE処理の場合、
-		引数に渡されたDTOのフィールドのうち、変更した(setterを呼んで変更した)フィールドのみが更新対象となります。(<a href="#batch">バッチ処理</a>の場合はこの機能は使えません)<br />
-		この機能を利用するには、dao.diconに記述されている org.seasar.dao.impl.NullBeanEnhancer を org.seasar.dao.impl.BeanEnhancerImpl へ入れ替えてください。<br />
-		</p>
-		<p>
+		引数に渡されたBeanのフィールドのうち、変更した(setterを呼んで変更した)フィールドのみが更新対象となります。(<a href="#Batch">バッチ処理</a>の場合はこの機能は使えません)<br />
+		この機能を利用するには、ModifiedOnlyを使うメソッドに渡すBeanがgetModifiedPropertyNamesを実装している必要があります。
 		getModifiedPropertyNamesメソッドを実装する方法は、以下の二通りがあります。<br />
+		</p>
 		<ul>
-			<li>Daoの検索メソッドからDTOを取得する(S2Daoがメソッドを埋め込みます)<br/>
-			ただし、この方法を使った場合、Daoから取得したDTOのインスタンスはシリアライズできますがデシリアライズできないことがあります。
-			たとえば、<a href="http://teeda.seasar.org/ja/teeda_extension.html">Teeda Extension</a>にオブジェクトをシリアライズ/デシリアライズする<a href="http://teeda.seasar.org/ja/extension_component_reference.html#itemsSave">ItemsSave</a>という機能がありますが、エンハンスされたDTOのインスタンスに対してこの機能は利用できません。
-			DTOをシリアライズ/デシリアライズする場合はBeanEnhancerImplを使用しないことを検討してください。
+			<li>Daoの検索メソッドからBeanを取得する<br/>
+			S2Daoが戻り値のBeanに対してAOPを使ってメソッドを自動的に実装します。
+			この方法を使うには、dao.diconに記述されているorg.seasar.dao.impl.NullBeanEnhancerをorg.seasar.dao.impl.BeanEnhancerImplへ入れ替える必要があります。
+			カスタマイズの仕方は、<a href="daoDicon.html">dao.diconのリファレンス</a>の「<a href="daoDicon.html#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a>」を参照してください。<br /><br />
+			ただし、この方法を使った場合、Daoから取得したBeanのインスタンスはシリアライズできますがデシリアライズできないことがあります。
+			たとえば、<a href="http://teeda.seasar.org/ja/teeda_extension.html">Teeda Extension</a>にオブジェクトをシリアライズ/デシリアライズする<a href="http://teeda.seasar.org/ja/extension_component_reference.html#itemsSave">ItemsSave</a>という機能がありますが、エンハンスされたBeanのインスタンスに対してこの機能は利用できません。
+			Beanをシリアライズ/デシリアライズする場合はBeanEnhancerImplを使用しないことを検討してください。
 			</li>
-			<li>DTOにgetModifiedPropertyNamemメソッドを直に実装する<br />
-				この場合、DTOの定義例は以下のようになります。
+			<li>BeanにgetModifiedPropertyNamesメソッドを直に実装する<br />
+				この場合、Beanの定義例は以下のようになります。
 				<pre>
 public class Emp {
 
@@ -608,7 +610,6 @@ public class Emp {
 }
 				</pre>
 		</ul>
-		</p>
 
 		<p>
 		<b>ModifiedOnly</b>は、dao.diconファイルの設定により変更することができます。

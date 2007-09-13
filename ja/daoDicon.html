@@ -320,16 +320,15 @@ RDBMSによってはデータベースのメタデータの取得にとても時
 
 <h4><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h4>
 <p>
-S2Daoは、通常の更新ではBeanの永続的なプロパティすべてをUPDATE文のSET句に設定して更新を行います。しかし、変更したプロパティのみをSET句に含めたい場合があります。
+S2DaoのModifiedOnly機能を使って変更した（setterを呼び出した）プロパティのみをUPDATE文のSET句に指定されるようにする場合、getModifiedPropertyNamesというメソッドを実装する必要があります。これを検索メソッドからの戻り値に対してAOPを使って自動的に実装するのがBeanEnhancerImplです。
 </p>
 <p>
-そのためには、
+このコンポーネントを利用するには、
 <code>org.seasar.dao.impl.NullBeanEnhancer</code>を
 <code>org.seasar.dao.impl.BeanEnhancerImpl</code>に差し替えてください。
 </p>
 <p>
-<b>ModifiedOnly</b>というサフィックスがついた更新メソッドを呼び出すと、変更したプロパティのみがSET句に含まれるようになります。
-詳しくは<a href="s2dao.html#DefMethod">メソッドの定義</a>を参照してください。
+ただし、この機能はシリアライズ/デシリアライズとの相性が悪いことがありますので、そういった機能を利用する場合には、使用しないようにしてください。詳しくは<a href="s2dao.html#DefMethod">メソッドの定義</a>を参照してください。
 </p>
 
 <!-- document end -->
