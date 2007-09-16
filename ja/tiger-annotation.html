@@ -214,8 +214,13 @@ public void setId(Integer id) {
     // ...
 }
 </pre>
+<p>
 IdTypeはorg.seasar.dao.annotation.tiger.IdType列挙型です。
 IDENTITY, SEQUENCE, ASSIGNEDの3種類があります。
+</p>
+<p>
+バージョン1.0.47以降では、<code>@Id</code>をフィールドに指定することも可能です。
+</p>
 
 <h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h4>
 <p>
@@ -233,6 +238,9 @@ public void setDepartment(Department department) {
     // ...
 }
 </pre>
+<p>
+バージョン1.0.47以降では、<code>@Relation</code>をフィールドに指定することも可能です。
+</p>
 
 <h4><a name="TableAnnotation">TABLEアノテーション</a></h4>
 <p>
@@ -265,6 +273,9 @@ public Timestamp getTimestamp() {
     // ...
 }
 </pre>
+<p>
+バージョン1.0.47以降では、<code>@Column</code>をフィールドに指定することも可能です。
+</p>
 
 <h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h4>
 <p>
@@ -329,6 +340,9 @@ public void setBbb(String bbb) {
     // ...
 }
 </pre>
+<p>
+バージョン1.0.47以降では、<code>@ValueType</code>をフィールドに指定することも可能です。
+</p>
 
 <h3><a name="Dao">Dao(Data Access Object)</a></h3>
 <h4><a name="BeanAnnotation">BEANアノテーション</a></h4>
@@ -450,7 +464,7 @@ public double getSalesTax(double subtotal);
 
 <h4><a name="ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></h4>
 <p>
-PROCEDURE_CALLアノテーションは、org.seasar.dao.annotation.tiger.ProcedureCallアノテーションに記述します。
+PROCEDURE_CALLアノテーションは、<code>org.seasar.dao.annotation.tiger.ProcedureCall</code>アノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -465,7 +479,7 @@ public void getSalesTax(SalesTaxDto salesTaxDto);
 <h3><a name="DTO">DTO</a></h3>
 <h4><a name="ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></h4>
 <p>
-PROCEDURE_PARAMETERアノテーションは、org.seasar.dao.annotation.tiger.ProcedureParameterアノテーションに記述します。
+PROCEDURE_PARAMETERアノテーションは、<code>org.seasar.dao.annotation.tiger.ProcedureParameter</code>アノテーションに記述します。
 </p>
 <pre>
 // 定数アノテーション
@@ -474,10 +488,17 @@ public static final String hoge_PROCEDURE_PARAMETER = "inout";
 <pre>
 // Tigerアノテーション
 @ProcedureParameter(ParameterType.INOUT)
-public String hoge;
+public String getHoge() {
+    return hoge;
+}
 </pre>
-ParameterTypeはorg.seasar.dao.annotation.tiger.ParameterType列挙型です。
-RETURN、IN、INOUT、OUTの4種類があります。
+<p>
+<code>ParameterType</code>は<code>org.seasar.dao.annotation.tiger.ParameterType</code>列挙型です。
+<code>RETURN</code>、<code>IN</code>、<code>INOUT</code>、<code>OUT</code>の4種類があります。
+</p>
+<p>
+<code>@ParameterType</code>はフィールドに指定することも可能です。
+</p>
 
 <!-- document end -->
 <!-- don't edit start -->

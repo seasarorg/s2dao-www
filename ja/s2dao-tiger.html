@@ -43,8 +43,12 @@
 								<li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
 								<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
 								<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
-								<li><a href="#property">カラムに対応するプロパティの宣言</a></li>
-								<li><a href="#GetterSetterMethod">getter/setterメソッドの実装</a></li>
+								<li><a href="#instanceVariable">カラムに対応するインスタンス変数の宣言</a>
+								<ul>
+									<li><a href="#property">プロパティの宣言</a></li>
+									<li><a href="#publicField">publicフィールドの宣言</a></li>
+								</ul>
+								</li>
 							</ul>
                 		<li type="circle"><a href="#Dao">Dao(Data Access Object)</a></li>
 							<ul>
@@ -217,7 +221,7 @@
 <pre>@Bean(versionNoProperty="myTimestamp")</pre>
 
      <h5><a name="ColumnAnnotation">COLUMNアノテーション</a></h5>
-    	<p>テーブルのカラムとの関連付けはプロパティのGetterかSetterに対して、org.seasar.dao.annotation.tiger.Columnアノテーションを使用します。<br />
+    	<p>テーブルのカラムとインスタンス変数の関連付けにはorg.seasar.dao.annotation.tiger.Columnアノテーションを使用します。<br />
 		Columnアノテーションは以下の形式で定数を宣言します。</p>
 		<p>	@Column(<span class="italic">カラム名</span>)</p>
 		employeeNoというプロパティにEMPNOカラムを関連付けする場合以下のようになります。
@@ -262,12 +266,13 @@ public String getEmployeeNo(){
 ID(プライマリーキー)をRDBMSに自動生成させて、自動生成された値をBeanに自動的に設定することが出来ます。
 そのために使うのが、org.seasar.dao.annotation.tiger.Idアノテーションです。
 バージョン1.0.47からは複数のプロパティにIDアノテーションを指定できるようになりました。
-複数の指定をした場合、、Beanは複合主キーを持ったテーブルと関連づいているとみなされます。
+複数の指定をした場合、Beanは複合主キーを持ったテーブルと関連づいているとみなされます。
 </p>
 <p>
-IDアノテーションは、自動生成するカラムのGetterかSetterに@Id(&quot;idtype&quot;)のように指定します。 
+IDアノテーションは、次のように指定します。 
 </p>
-<p>idtypeはenumのorg.seasar.dao.annotation.tiger.IdTypeのうちから1つ選んで指定します。</p>
+<p>	@Id(<span class="italic">IdType</span>)</p>
+<p>IdTypeはenumのorg.seasar.dao.annotation.tiger.IdTypeのうちから1つ選んで指定します。</p>
 <p>IdType.IDENTITYを指定するとID(プライマリーキー)をRDBMSに自動生成させてBeanに自動的に設定します。</p>
 <pre>
 @Id(IdType.IDENTITY)
@@ -297,13 +302,11 @@ public long getEmpno() {
 })
 </pre>
 	<p>指定したRDB以外のデフォルト値を指定することもできます。(1.0.41以降)</p>
+<pre>
 @Ids( {
 	@Id(value = IdType.IDENTITY, dbms = "oracle"),
 	@Id(value = IdType.SEQUENCE, sequenceName = "myseq") 
 })
-<pre>
-public static final String id_mysql_ID = "identity";
-public static final String id_ID = "sequence, sequenceName=myseq";
 </pre>
 	<p>RDBMSのサフィックスと、使用できるIDの取得方法は、表の通りです。</p>
 		<table border="1" class="main">
@@ -380,20 +383,25 @@ public static final String id_ID = "sequence, sequenceName=myseq";
 				<td>×</td>
 			</tr>
 		</table>
-<h5><a name="property">カラムに対応するプロパティの宣言</a></h5>
-<p>テーブルのカラムに対応した変数を宣言します。</p>
-NUMBER型のEMPNOというカラムの場合、以下のように宣言することができます。（関連：<a href="#ColumnAnnotation">COLUMNアノテーション</a>）
-<pre>private long empno;</pre>
-<p>※カラムがNull可の場合、プリミティブ型を指定するとNullの際、0(ゼロ)が返されるのでNullを扱う場合は、
-  ラッパークラス(intならjava.lang.Integer)を指定して下さい。</p>
-     <h5><a name="GetterSetterMethod">getter/setterメソッド</a></h5>
-    	<p>テーブルのカラムに対応した各プロパティのgetter/setterメソッドを実装します。メソッドの命名規約は以下の形式になります。</p>
-		getterメソッド
-		<p>-  public <span class="italic">型</span> get<span class="italic">プロパティ名</span>()</p>
-		setterメソッド
-		<p>-  public void set<span class="italic">プロパティ名(引数)</span></p>
-		private long empnoというプロパティの場合は以下のようになります。
 
+<h5><a name="instanceVariable">カラムに対応するインスタンス変数の宣言</a></h5>
+カラムの値はBeanのインスタンス変数で表します。インスタンス変数の宣言の方法には2種類あります。
+<ul>
+<li><a href="#property">JavaBeansのプロパティとして宣言する方法</a></li>
+<li><a href="#publicField">publicフィールドとして宣言する方法</a></li>
+</ul>
+
+<h6><a name="property">JavaBeansのプロパティとして宣言する方法</a></h6>
+
+<p>テーブルのカラムに対応したインスタンス変数とアクセッサメソッドが必要です。
+アクセッサメソッドの名前はJavaBeansの命名規約に従い以下の形式になります。
+</p>
+getterメソッド
+<p>-  public <span class="italic">型</span> get<span class="italic">プロパティ名</span>()</p>
+setterメソッド
+<p>-  public void set<span class="italic">プロパティ名(引数)</span></p>
+
+NUMBER型のEMPNOというカラムの場合、プロパティとアクセッサは以下のように記述できます。（関連：<a href="#ColumnAnnotation">COLUMNアノテーション</a>）
 <pre>private long empno;
 
 public long getEmpno() {
@@ -404,12 +412,13 @@ public void setEmpno(long empno) {
     this.empno = empno;
 }
 </pre>
-		<p>以上の設定を行ったEMPテーブルに関連付くJavaBeansは次のようになります。</p>
-<pre>
+<p>※カラムがNull可の場合、プリミティブ型を指定するとNullの際、0(ゼロ)が返されるのでNullを扱う場合は、
+ラッパークラス(intならjava.lang.Integer)を指定して下さい。</p>
 
+<p>以上の設定を行ったEMPテーブルに関連付くBeanは次のようになります。</p>
+<pre>
 @Bean(table="EMP")
 public class Employee {
-
     private long empno;
 
     private String ename;
@@ -420,11 +429,11 @@ public class Employee {
 
     public Employee() {
     }
-    
-	@Relation(
-		relationNo = 0,
-		relationKey = "DEPTNUM:DEPTNO"
-	)
+
+    @Relation(
+        relationNo = 0,
+        relationKey = "DEPTNUM:DEPTNO"
+    )
     public Department getDepartment() {
         return department;
     }
@@ -459,6 +468,30 @@ public class Employee {
 }
 </pre>
 
+<h6><a name="publicField">publicフィールドとして宣言する方法</a></h6>
+<p>
+バージョン1.0.47から、カラムに対応したインスタンス変数をpublicフィールドとして宣言できるようになりました。
+アクセッサが不要になるため、Beanの記述が簡単になります。
+</p>
+<p>
+この方法を使用した場合、EMPテーブルに関連付くBeanは次のように記述できます。
+</p>
+<pre>
+@Bean(table="EMP")
+public class Employee {
+    public long empno;
+
+    public String ename;
+
+    public Short deptnum;
+
+    @Relation(
+        relationNo = 0,
+        relationKey = "DEPTNUM:DEPTNO"
+    )
+    public Department department;
+}
+</pre>
     <h4><a name="Dao">Dao(Data Access Object)</a></h4>
 	    <p>Daoはインターフェースとして作成します。永続化されるデータとロジックを分離して、Dao本来の目的であるBeanの永続化を行います。
 	    JavaBeansとは1：1の関係にあるので、一つのJavaBeansに対して一つのDaoを作成することになります。
@@ -1230,7 +1263,8 @@ app.diconが存在する場合は、app.diconを<a href="http://s2container.seas
 
     &lt;component class=&quot;org.seasar.framework.unit.impl.ExpectedDataReaderImpl&quot;&gt;
         &lt;initMethod name=&quot;addExpectedDataXlsPath&quot;&gt;
-            &lt;arg&gt;context.testClassShortName + &quot;_&quot; + context.testMethodName + &quot;_Expected&quot; + &quot;.xls&quot;&lt;/arg&gt;
+            &lt;arg&gt;context.testClassShortName + &quot;_&quot; + context.testMethodName 
+            + &quot;_Expected&quot; + &quot;.xls&quot;&lt;/arg&gt;
         &lt;/initMethod&gt;
     &lt;/component&gt;
 &lt;/components&gt;
