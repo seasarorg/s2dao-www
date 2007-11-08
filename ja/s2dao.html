@@ -63,6 +63,7 @@
 								<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
 								<li><a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></li>
 								<li><a href="#ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></li>
+								<li><a href="#CheckSingleRowUpdateAnnotation">CHECK_SINGLE_ROW_UPDATEアノテーション</a></li>
 							</ul>
                 		<li type="circle"><a href="#diconfile">diconファイル</a></li>
                 		<li type="circle"><a href="#SQLfile">SQLファイル</a></li>
@@ -885,6 +886,29 @@ public static class FooDto {
 	PROCEDURE_PARAMETERのタイプ名に指定できる値は<code>return</code>、<code>in</code>、<code>out</code>、<code>inout</code>のいずれかです。
 	アノテーションを指定するフィールドの数と定義順序はプロシージャのパラメータと一致させる必要があります。
 	</p>
+
+ 	<h5><a name="CheckSingleRowUpdateAnnotation">CHECK_SINGLE_ROW_UPDATEアノテーション</a></h5>
+ 	<p>バージョン1.0.47からCHECK_SINGLE_ROW_UPDATEアノテーションを使うことで、<a href="#AutoUpdate">自動生成した更新SQL</a>の実行後に、
+ 	更新行数のチェックをするかしないか選択できます。
+ 	CHECK_SINGLE_ROW_UPDATEアノテーションにfalseを指定すると、１行も更新できなかったとしてもNotSingleRowUpdateRuntimeExceptionを発生させないように設定できます。
+ 	CHECK_SINGLE_ROW_UPDATEアノテーションは、Dao全体またはメソッド単位に指定可能です。</p>
+<pre>
+// Dao全体の更新行数チェックをoffにする例
+
+public interface HogeDao {
+
+    public static final boolean CHECK_SINGLE_ROW_UPDATE = false;
+    // ...</pre>
+    
+<pre>
+public interface FugaDao {
+
+    // メソッド単位で更新行数チェックをoffにする例
+    
+    public static final boolean insert_CHECK_SINGLE_ROW_UPDATE = false;
+    insert(Fuga fuga);
+    // ...</pre>
+
     <h4><a name="diconfile">diconファイル</a></h4>
     	<p>diconファイルはDaoをコンテナにコンポーネント登録します。Dao機能を使用するには、登録したDaoに対して、AOPを適用する必要があります。
     	diconファイルはどこに配置してもいいのですが、通常Daoと同じ場所に配置します。なお、1.0.36以降はjarファイル内にdao.diconが含まれているため、デフォルトで使用する場合はdao.diconを配置する必要はないです。
