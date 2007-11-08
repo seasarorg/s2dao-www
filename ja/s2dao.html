@@ -992,6 +992,21 @@ public static class FooDto {
 		<pre>
 public String getAllEmployees_SQL_FILE = null;
 public List getAllEmployees();</pre>
+		<h5>SQLファイルのパス指定</h5>
+		<p>
+		バージョン1.0.47よりSQL_FILEアノテーションにSQLファイルのパスを指定できるようになりました。
+		これにより、Daoとは別の場所にファイルを配置することが出来るようになります。
+		パスは、絶対パスではなくクラスパス配下の相対パスを指定してください。
+		</p>
+		<pre>
+public String getAllEmployees_SQL_FILE = "resource/sqlfile/employee_all.sql";
+public List getAllEmployees();</pre>
+		<p>
+		また、SQLファイルの複数DBMS対応もそのまま使えます。
+		例えば上の例でOracleに接続している場合、
+		Oracle用のSQLファイルである"resource/sqlfile/employee_all_oracle.sql"があれば、
+		そちらが優先的に利用されます。
+		</p>
 
 	<h3><a name="SQLBind">SQLコメント</a></h3>
 		<p>S2Daoでは、メソッドの引数とSQL文のバインド変数の対応付けを/**/や--などのコメントを使って行います。

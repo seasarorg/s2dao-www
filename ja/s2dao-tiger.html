@@ -957,7 +957,7 @@ public static class FooDto {
 		<p>SQLファイルには、”SELECT * FROM EMP”, “DELETE FROM EMP WHERE EMPNO = 7788”といった、普通のSQL文を記述することが可能です。
 		また、WHERE句の条件の値などを動的に変化させることも可能です。詳しくは、<a href="#SQLBind">SQLコメント</a>を参照して下さい。</p>
 
-		<h5><a name="SqlFileAnnotation">SqlFileアノテーション</a></h5>
+		<h5><a name="SqlFileAnnotation">SQL_FILEアノテーション</a></h5>
 		<p>バージョン1.0.43よりSqlFileアノテーションが導入されました。
 		SQLファイルを利用するDaoのメソッドにこのアノテーションを付けると、対応するSQLファイルが見つからない場合にS2Daoが例外を投げます。
 		記述の不備やSQLファイルの配置し忘れなどのミスを検出するために使用してください。</p>
@@ -965,6 +965,21 @@ public static class FooDto {
 		<pre>
 @SqlFile
 public List&lt;Employee&gt; getAllEmployees();</pre>
+		<h5>SQLファイルのパス指定</h5>
+		<p>
+		バージョン1.0.47よりSqlFileアノテーションにSQLファイルのパスを指定できるようになりました。
+		これにより、Daoとは別の場所にファイルを配置することが出来るようになります。
+		パスは、絶対パスではなくクラスパス配下の相対パスを指定してください。
+		</p>
+		<pre>
+@SqlFile("resource/sqlfile/employee_all.sql")
+public List getAllEmployees();</pre>
+		<p>
+		また、SQLファイルの複数DBMS対応もそのまま使えます。
+		例えば上の例でOracleに接続している場合、
+		Oracle用のSQLファイルである"resource/sqlfile/employee_all_oracle.sql"があれば、
+		そちらが優先的に利用されます。
+		</p>
 
 	<h3><a name="SQLBind">SQLコメント</a></h3>
 		<p>S2Daoでは、メソッドの引数とSQL文のバインド変数の対応付けを/**/や--などのコメントを使って行います。
