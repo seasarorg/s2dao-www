@@ -283,7 +283,18 @@ public long getEmpno() {
 </pre>
 <p>SEQUENCEを使うことも出来ます。myseqの部分は、実際のSEQUENCEに置き換えてください。</p>
 <pre>
-@Id(value=IdType.SEQUENCE,sequenceName="myseq")
+@Id(value=IdType.SEQUENCE,　sequenceName="myseq")
+public long getEmpno() {
+	return this.empno;
+}
+</pre>
+<p>
+SEQUENCEを使う場合、バージョン1.0.47以降では<code>allocationSize</code>を指定することもできます。
+<code>allocationSize</code>を指定すると、SEQUENCEにアクセスする回数が減るためINSERTのパフォーマンスが向上します。
+<code>allocationSize</code>に指定する値はSEQUENCEの増分値より小さいか同じ値でなければいけません。
+</p>
+<pre>
+@Id(value=IdType.SEQUENCE, sequenceName="myseq", allocationSize=50)
 public long getEmpno() {
 	return this.empno;
 }

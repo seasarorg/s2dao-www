@@ -249,6 +249,14 @@ public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
 <pre>
 public static final String id_ID = "sequence, sequenceName=myseq";
 </pre>
+	<p>
+	SEQUENCEを使う場合、バージョン1.0.47以降では<code>allocationSize</code>を指定することもできます。
+	<code>allocationSize</code>を指定すると、SEQUENCEにアクセスする回数が減るためINSERTのパフォーマンスが向上します。
+	<code>allocationSize</code>に指定する値はSEQUENCEの増分値より小さいか同じ値でなければいけません。
+	</p>
+<pre>
+public static final String id_ID = "sequence, sequenceName=myseq, allocationSize=10";
+</pre>
 	<p>手動でIDを設定する場合は、何も指定する必要がありません。テーブルのプライマリーキーだという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にassignedを指定することもできます。</p>
 <pre>
 public static final String id_ID = "assigned";
