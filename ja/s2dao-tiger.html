@@ -276,7 +276,7 @@ IDアノテーションは、次のように指定します。
 <p>IdTypeはenumのorg.seasar.dao.annotation.tiger.IdTypeのうちから1つ選んで指定します。</p>
 <p>IdType.IDENTITYを指定するとID(プライマリーキー)をRDBMSに自動生成させてBeanに自動的に設定します。</p>
 <pre>
-@Id(IdType.IDENTITY)
+@Id(value=IdType.IDENTITY)
 public long getEmpno() {
 	return this.empno;
 }
@@ -301,7 +301,7 @@ public long getEmpno() {
 </pre>
 <p>手動でIDを設定する場合は、何も指定する必要がありません。テーブルのプライマリーキーだという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にassignedを指定することもできます。</p>
 <pre>
-@Id(IdType.ASSIGNED)
+@Id(value=IdType.ASSIGNED)
 public long getEmpno() {
 	return this.empno;
 }
@@ -554,7 +554,7 @@ public class Employee {
 		<p>EmployeeDaoクラスがEmployeeエンティティに関連付けられる場合は次のように定義します。 	</p>
 <pre>
 @S2Dao(bean = Employee.class)
-public class EmployeeDao{
+public interface EmployeeDao{
 }
 </pre>
     <h5><a name="ArgsAnnotation">Argumentsアノテーション</a></h5>
@@ -1635,7 +1635,7 @@ package examples.dao;
 
 import java.io.Serializable;
 
-@S2Dao(table="DEPT")
+@Bean(table="DEPT")
 public class Department implements Serializable {
 
     private int deptno;
