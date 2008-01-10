@@ -1019,7 +1019,7 @@ public interface FugaDao {
 		SQLファイルを利用するDaoのメソッドにこのアノテーションを付けると、対応するSQLファイルが見つからない場合にS2Daoが例外を投げます。
 		記述の不備やSQLファイルの配置し忘れなどのミスを検出するために使用してください。</p>
 		<p>SQL_FILEアノテーションの書式は</p>
-		<p>-  public static final String <span class="italic">メソッド名</span>_QUERY = null;</p>
+		<p>-  public static final String <span class="italic">メソッド名</span>_SQL_FILE = null;</p>
 		<p>となります。例えば、DaoのgetAllEmployeesメソッドがSQLファイルを利用する場合は次のように記述します。</p>
 		<pre>
 public String getAllEmployees_SQL_FILE = null;
