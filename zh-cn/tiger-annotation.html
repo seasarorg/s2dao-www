@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>S2Dao - アノテーション一覧</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('ja')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+
+<h2>S2Dao Tigerアノテーション</h2>
+<p>
+S2Dao Tigerでは、S2DaoのアノテーションをTigerアノテーションで記述できます。
+Tigerアノテーションは定数アノテーションと対になるため、
+定数アノテーションとTigerアノテーションの対応について下記に記載します。
+</p>
+<p>
+個々のアノテーションについての詳細は、<a href="s2dao.html">S2Daoリファレンス</a>を
+参照してください。
+</p>
+
+<ul>
+	<li><a href="#AnnotationList">アノテーション一覧表</a>
+    	<ul>
+			<li><a href="#JavaBeansAnnotationList">JavaBeansアノテーション一覧</a></li>
+			<li><a href="#DaoAnnotationList">Daoアノテーション一覧</a></li>
+		</ul>
+	<li><a href="#JavaBeans">JavaBeansアノテーション</a>
+    	<ul>
+			<li><a href="#IdAnnotation">IDアノテーション</a></li>
+			<li><a href="#RelationAnnotation">RELNO, RELKEYSアノテーション</a></li>
+			<li><a href="#TableAnnotation">TABLEアノテーション</a></li>
+			<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
+			<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
+			<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
+			<li><a href="#TimestampPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
+		</ul>
+	</li>
+	<li><a href="#Dao">Daoアノテーション</a>
+		<ul>
+			<li><a href="#BeanAnnotation">BEANアノテーション</a></li>
+			<li><a href="#ArgsAnnotation">ARGSアノテーション</a></li>
+			<li><a href="#QueryAnnotation">QUERYアノテーション</a></li>
+			<li><a href="#NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></li>
+			<li><a href="#SqlAnnotation">SQLアノテーション</a></li>
+			<li><a href="#SqlFileAnnotation">SQL_FILEアノテーション</a></li>
+			<li><a href="#ProcedureAnnotation">PROCEDUREアノテーション</a></li>
+			<li><a href="#ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></li>
+        </ul>
+	</li>
+	<li><a href="#DTO">DTOアノテーション</a>
+		<ul>
+			<li><a href="#ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></li>
+        </ul>
+	</li>
+</ul>
+
+<h3><a name="AnnotationList">アノテーション一覧</a></h3>
+
+<h4><a name="JavaBeansAnnotationList">JavaBeansアノテーション一覧</a></h4>
+<p>
+<table border="1">
+	<thead>
+		<tr>
+			<th>定数アノテーション</th>
+			<th>Tigerアノテーション</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>ID</td>
+			<td>org.seasar.dao.annotation.tiger.Id</td>
+		<tr>
+		<tr>
+			<td>RELNO</td>
+			<td>org.seasar.dao.annotation.tiger.Relation</td>
+		<tr>
+		<tr>
+			<td>RELKEYS</td>
+			<td>org.seasar.dao.annotation.tiger.Relation</td>
+		<tr>
+		<tr>
+			<td>TABLE</td>
+			<td>org.seasar.dao.annotation.tiger.Bean</td>
+		<tr>
+		<tr>
+			<td>COLUMN</td>
+			<td>org.seasar.dao.annotation.tiger.Column</td>
+		<tr>
+		<tr>
+			<td>VERSION_NO_PROPERTY</td>
+			<td>org.seasar.dao.annotation.tiger.Bean</td>
+		<tr>
+		<tr>
+			<td>TIMESTAMP_PROPERTY</td>
+			<td>org.seasar.dao.annotation.tiger.Bean</td>
+		<tr>
+		<tr>
+			<td>NO_PERSISTENT_PROPS</td>
+			<td>org.seasar.dao.annotation.tiger.Bean</td>
+		<tr>
+		<tr>
+			<td>VALUE_TYPE</td>
+			<td>org.seasar.dao.annotation.tiger.ValueType</td>
+		<tr>
+	</tbody>
+</table>
+</p>
+
+<h4><a name="DaoAnnotationList">Daoアノテーション一覧</a></h4>
+<p>
+<table border="1">
+	<thead>
+		<tr>
+			<th>定数アノテーション</th>
+			<th>Tigerアノテーション</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>BEAN</td>
+			<td>org.seasar.dao.annotation.tiger.S2Dao</td>
+		<tr>
+		<tr>
+			<td>ARGS</td>
+			<td>org.seasar.dao.annotation.tiger.Arguments</td>
+		<tr>
+		<tr>
+			<td>QUERY</td>
+			<td>org.seasar.dao.annotation.tiger.Query</td>
+		<tr>
+		<tr>
+			<td>NO_PERSISTENT_PROPS</td>
+			<td>org.seasar.dao.annotation.tiger.NoPersistentProperty</td>
+		<tr>
+		<tr>
+			<td>PERSISTENT_PROPS</td>
+			<td>org.seasar.dao.annotation.tiger.PersistentProperty</td>
+		<tr>
+		<tr>
+			<td>SQL</td>
+			<td>org.seasar.dao.annotation.tiger.Sql</td>
+		<tr>
+		<tr>
+			<td>SQL_FILE</td>
+			<td>org.seasar.dao.annotation.tiger.SqlFile</td>
+		<tr>
+		<tr>
+			<td>PROCEDURE</td>
+			<td>org.seasar.dao.annotation.tiger.Procedure</td>
+		<tr>
+		<tr>
+			<td>PROCEDURE_CALL</td>
+			<td>org.seasar.dao.annotation.tiger.ProcedureCall</td>
+		<tr>
+	</tbody>
+</table>
+</p>
+
+<h4><a name="DtoAnnotationList">DTOアノテーション一覧</a></h4>
+<p>
+<table border="1">
+	<thead>
+		<tr>
+			<th>定数アノテーション</th>
+			<th>Tigerアノテーション</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>PROCEDURE_PARAMETER</td>
+			<td>org.seasar.dao.annotation.tiger.ProcedureParameter</td>
+		<tr>
+	</tbody>
+</table>
+</p>
+
+<h3><a name="JavaBeans">JavaBeans</a></h3>
+<h4><a name="IdAnnotation">IDアノテーション</a></h4>
+<p>
+IDアノテーションは、org.seasar.dao.annotation.tiger.Idアノテーションに記述します。DBごとに切り替える場合は、org.seasar.dao.annotation.tiger.Idsアノテーションで囲みます。
+</p>
+<pre>
+// 定数アノテーション
+public static final String id_ID = "sequence, sequenceName=myseq";
+</pre>
+<pre>
+// Tigerアノテーション
+@Id(value = IdType.SEQUENCE, sequenceName = "myseq")
+public void setId(Integer id) {
+    // ...
+}
+</pre>
+<p>
+IdTypeはorg.seasar.dao.annotation.tiger.IdType列挙型です。
+IDENTITY, SEQUENCE, ASSIGNEDの3種類があります。
+</p>
+<p>
+バージョン1.0.47以降では、<code>@Id</code>をフィールドに指定することも可能です。
+</p>
+
+<h4><a name="RelationAnnotation">RELNO, RELKEYSアノテーション</a></h4>
+<p>
+RELNO, RELKEYSアノテーションは、org.seasar.dao.annotation.tiger.Relationアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final int department_RELNO = 0;
+public static final String department_RELKEYS = "DEPTNUM:DEPTNO";
+</pre>
+<pre>
+// Tigerアノテーション
+@Relation(relationNo = 0, relationKey = "DEPTNUM:DEPTNO")
+public void setDepartment(Department department) {
+    // ...
+}
+</pre>
+<p>
+バージョン1.0.47以降では、<code>@Relation</code>をフィールドに指定することも可能です。
+</p>
+
+<h4><a name="TableAnnotation">TABLEアノテーション</a></h4>
+<p>
+TABLEアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String TABLE = "DEPT";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(table="DEPT")
+public class Department implements Serializable {
+    // ...
+}
+</pre>
+
+<h4><a name="ColumnAnnotation">COLUMNアノテーション</a></h4>
+<p>
+COLUMNアノテーションは、org.seasar.dao.annotation.tiger.Columnアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String timestamp_COLUMN = "tstamp";
+</pre>
+<pre>
+// Tigerアノテーション
+@Column("tstamp")
+public Timestamp getTimestamp() {
+    // ...
+}
+</pre>
+<p>
+バージョン1.0.47以降では、<code>@Column</code>をフィールドに指定することも可能です。
+</p>
+
+<h4><a name="VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></h4>
+<p>
+VERSION_NO_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String VERSION_NO_PROPERTY = "myVersionNo";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(versionNoProperty = "myVersionNo")
+public class Foo {
+    // ...
+}
+</pre>
+
+<h4><a name="TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></h4>
+<p>
+TIMESTAMP_PROPERTYアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String TIMESTAMP_PROPERTY = "myTimestamp";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(timeStampProperty = "myTimestamp")
+public class Foo {
+    // ...
+}
+</pre>
+
+<h4><a name="NoPersistentPropertyAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
+<p>
+NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.Beanアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String NO_PERSISTENT_PROPS = "fooProperty";
+</pre>
+<pre>
+// Tigerアノテーション
+@Bean(noPersistentProperty = "fooProperty")
+public class Foo {
+    // ...
+}
+</pre>
+
+<h4><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h4>
+<p>
+VALUE_TYPEアノテーションは、org.seasar.dao.annotation.tiger.ValueTypeアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static String bbb_VALUE_TYPE = "stringClobType";
+</pre>
+<pre>
+// Tigerアノテーション
+@ValueType("stringClobType")
+public void setBbb(String bbb) {
+    // ...
+}
+</pre>
+<p>
+バージョン1.0.47以降では、<code>@ValueType</code>をフィールドに指定することも可能です。
+</p>
+
+<h3><a name="Dao">Dao(Data Access Object)</a></h3>
+<h4><a name="BeanAnnotation">BEANアノテーション</a></h4>
+<p>
+BEANアノテーションは、org.seasar.dao.annotation.tiger.S2Daoアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final Class BEAN = Employee.class;
+</pre>
+<pre>
+// Tigerアノテーション
+@S2Dao(bean=Employee.class)
+public interface DepartmentDao {
+    // ...
+}
+</pre>
+
+<h4><a name="ArgsAnnotation">ARGSアノテーション</a></h4>
+<p>
+ARGSアノテーションは、org.seasar.dao.annotation.tiger.Argumentsアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String getEmployees_ARGS = "ename";
+</pre>
+<pre>
+// Tigerアノテーション
+@Arguments("ename")
+public List getEmployees(String ename) {
+    // ...
+}
+</pre>
+
+<h4><a name="QueryAnnotation">QUERYアノテーション</a></h4>
+<p>
+QUERYアノテーションは、org.seasar.dao.annotation.tiger.Queryアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public String getAaa_QUERY = "A > B";
+</pre>
+<pre>
+// Tigerアノテーション
+@Query("A > B")
+public Aaa getAaa(int id);
+</pre>
+
+<h4><a name="NoPersistentPropsAnnotation">NO_PERSISTENT_PROPSアノテーション</a></h4>
+<p>
+NO_PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.NoPersistentPropertyアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String insert_NO_PERSISTENT_PROPS = "sal, comm";
+</pre>
+<pre>
+// Tigerアノテーション
+@NoPersistentProperty("sal, comm")
+public void insert(Employee employee);
+</pre>
+
+<h4><a name="PersistentPropsAnnotation">PERSISTENT_PROPSアノテーション</a></h4>
+<p>
+PERSISTENT_PROPSアノテーションは、org.seasar.dao.annotation.tiger.PersistentPropertyアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String insert_PERSISTENT_PROPS = "deptno";
+</pre>
+<pre>
+// Tigerアノテーション
+@PersistentProperty("deptno")
+public void insert(Employee employee);
+</pre>
+
+<h4><a name="SqlAnnotation">SQLアノテーション</a></h4>
+<p>
+SQLアノテーションは、org.seasar.dao.annotation.tiger.Sqlアノテーションに記述します。DBごとに切り替える場合は、org.seasar.dao.annotation.tiger.Sqlsアノテーションで囲みます。
+</p>
+<pre>
+// 定数アノテーション
+public static final String getCount_SQL = "SELECT COUNT(*) FROM emp";
+</pre>
+<pre>
+// Tigerアノテーション
+@Sql("SELECT count(*) FROM emp")
+public int getCount();
+</pre>
+
+<h4><a name="SqlFileAnnotation">SQL_FILEアノテーション</a></h4>
+<p>
+SQL_FILEアノテーションは、org.seasar.dao.annotation.tiger.SqlFileアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+String insert_SQL_FILE = null;
+int insert(Employee employee);
+</pre>
+<pre>
+// Tigerアノテーション
+@SqlFile
+int insert(Employee employee);
+</pre>
+
+<h4><a name="ProcedureAnnotation">PROCEDUREアノテーション</a></h4>
+<p>
+PROCEDUREアノテーションは、org.seasar.dao.annotation.tiger.Procedureアノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public String getSalesTax_PROCEDURE = "SALES_TAX";
+</pre>
+<pre>
+// Tigerアノテーション
+@Procedure("SALES_TAX")
+public double getSalesTax(double subtotal);
+</pre>
+
+<h4><a name="ProcedureCallAnnotation">PROCEDURE_CALLアノテーション</a></h4>
+<p>
+PROCEDURE_CALLアノテーションは、<code>org.seasar.dao.annotation.tiger.ProcedureCall</code>アノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public String getSalesTax_PROCEDURE_CALL = "SALES_TAX";
+</pre>
+<pre>
+// Tigerアノテーション
+@ProcedureCall("SALES_TAX")
+public void getSalesTax(SalesTaxDto salesTaxDto);
+</pre>
+
+<h3><a name="DTO">DTO</a></h3>
+<h4><a name="ProcedureParameterAnnotation">PROCEDURE_PARAMETERアノテーション</a></h4>
+<p>
+PROCEDURE_PARAMETERアノテーションは、<code>org.seasar.dao.annotation.tiger.ProcedureParameter</code>アノテーションに記述します。
+</p>
+<pre>
+// 定数アノテーション
+public static final String hoge_PROCEDURE_PARAMETER = "inout";
+</pre>
+<pre>
+// Tigerアノテーション
+@ProcedureParameter(ParameterType.INOUT)
+public String getHoge() {
+    return hoge;
+}
+</pre>
+<p>
+<code>ParameterType</code>は<code>org.seasar.dao.annotation.tiger.ParameterType</code>列挙型です。
+<code>RETURN</code>、<code>IN</code>、<code>INOUT</code>、<code>OUT</code>の4種類があります。
+</p>
+<p>
+<code>@ParameterType</code>はフィールドに指定することも可能です。
+</p>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2005, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr>
+</table>
+</body>
+<!-- document end -->
+</html>

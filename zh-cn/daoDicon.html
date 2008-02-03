@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>dao.dicon - リファレンス</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('ja')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="752" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+<li><a href="#daoDicon">dao.diconとは</a>
+<ul>
+<li><a href="#configurationChange">設定の変更</a></li>
+</ul>
+</li>
+<li><a href="#customization">S2Daoのカスタマイズ</a>
+<ul>
+<li><a href="#customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a>
+<ul>
+<li><a href="#DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a>
+<ul>
+<li>ログのカテゴリをDaoクラスで振り分ける</li>
+<li>SQLファイルのエンコーディング名を指定する</li>
+</ul>
+</li>			
+<li><a href="#DaoNamingConventionImpl">DaoNamingConventionImpl</a>
+<ul>
+<li>バージョン番号のプロパティ名を変更する</li>
+<li>タイムスタンプのプロパティ名を変更する</li>
+<li>Daoインターフェースの命名規約を変更する</li>
+<li>メソッドの命名規約を変更する</li>
+<li>UnlessNull機能に関する規約を変更する</li>
+<li>ModifiedOnly機能に関する規約を変更する</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a>
+<ul>
+<li><a href="#FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></li>
+<li><a href="#DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></li>
+<li><a href="#DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></li>
+<li><a href="#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></li>					
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2><a name="daoDicon">dao.diconとは</a></h2>
+<p>
+dao.diconはS2Daoの動作を設定するファイルです。
+このファイルはs2-dao-x.x.x.jar内に含まれているため自動で読み込まれます。
+</p>
+<p>
+dao.diconは次のように記述されています。
+</p>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift_JIS&quot;?&gt;
+&lt;!DOCTYPE components PUBLIC &quot;-//SEASAR2.1//DTD S2Container//EN&quot;
+  &quot;http://www.seasar.org/dtd/components21.dtd&quot;&gt;
+&lt;components namespace=&quot;dao&quot;&gt;
+    &lt;include path=&quot;j2ee.dicon&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.AnnotationReaderFactoryImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.DaoMetaDataFactoryImpl&quot;/&gt;
+    &lt;component
+        name=&quot;interceptor&quot;
+        class=&quot;org.seasar.dao.pager.PagerS2DaoInterceptorWrapper&quot;&gt;
+        &lt;arg&gt;
+            &lt;component class=&quot;org.seasar.dao.interceptors.S2DaoInterceptor&quot;/&gt;
+        &lt;/arg&gt;
+    &lt;/component&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.ValueTypeFactoryImpl&quot;/&gt;
+    &lt;component 
+        name=&quot;stringClobType&quot; 
+        class=&quot;org.seasar.extension.jdbc.types.StringClobType&quot;
+    /&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.BeanMetaDataFactoryImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.DaoNamingConventionImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.NullBeanEnhancer&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.ResultSetHandlerFactoryImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.DtoMetaDataFactoryImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.PropertyTypeFactoryBuilderImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.RelationPropertyTypeFactoryBuilderImpl&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.DefaultTableNaming&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.DefaultColumnNaming&quot;/&gt;
+    &lt;component class=&quot;org.seasar.dao.impl.ProcedureMetaDataFactoryImpl&quot;/&gt;
+&lt;/components&gt;
+</pre>
+
+<h3><a name="configurationChange">設定の変更</a></h3>
+<p>
+dao.diconに記述された設定を変更することでS2Daoの振る舞いをカスタマイズできます。
+ただし、dao.diconはjarファイルに含まれるので直接編集することができません。
+次の方法のいずれかを使用し変更を加えた設定が有効になるようにしてください。
+</p>
+<ul>
+<li>dao.diconをコピーしコピーしたファイルに変更を加え、s2-dao-x.x.x.jarより優先度の高いclasspathへ配置する<br/>
+Seasar2.3とSeasar2.4の両方で使用可能です。
+オリジナルのdao.diconとコピーしたdao.diconのどちらがclasspathで優先されるのか確定できない場合には使用しないでください。
+</li>
+<li>dao.diconを新しい名前でコピーしコピーしたファイルに変更を加え、他の定義ファイルからは新しい名前で参照する<br/>
+Seasar2.3とSeasar2.4の両方で使用可能です。
+</li>
+<li>定義ファイルの差し替え機能を利用する<br/>
+Seasar2.4でのみ使用可能です。s2container.diconに次のように設定してください。
+<pre>
+&lt;component class=&quot;org.seasar.framework.container.factory.SimplePathResolver&quot;&gt;
+  &lt;initMethod name=&quot;addRealPath&quot;&gt;
+    &lt;arg&gt;&quot;dao.dicon&lt;/arg&gt;
+    &lt;arg&gt;&quot;my-dao.dicon&quot;&lt;/arg&gt;&lt;!-- 実際に使用する定義ファイル --&gt;
+  &lt;/initMethod&gt;
+&lt;/component&gt;
+</pre>
+この設定により，ある定義ファイルが'<code>dao.dicon</code>&quot;という名前でdiconファイルをインクルードすると，実際には'<code>my-dao.dicon</code>'がインクルードされます。詳細は「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html">DIContainer</a>」－「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html#ConfigFileReplacement">定義ファイルの差し替え</a>」を参照してください。
+</li>
+</ul>
+
+<h2><a name="customization">S2Daoのカスタマイズ</a></h2>
+<p>
+カスタマイズの方法は2種類あります。
+</p>
+<p>
+1つ目は、dao.diconに登録されているコンポーネントのプロパティに特定の値を設定することでコンポーネントの振る舞いを変化させる方法です。
+2つ目は、dao.diconに登録されているコンポーネントを別のコンポーネントに差し替える方法です。
+dao.diconに登録されているコンポーネントはすべてインタフェースの実装であるため、同じインタフェースをもつ別の実装に容易に差し替えることができます。
+</p>
+
+<h3><a name="customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a></h3>
+<p>
+dao.diconに定義されたコンポーネントには設定が可能なプロパティを提供しているものがあります。
+</p>
+
+<h4><a name="DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a></h4>
+<p>
+<code>org.seasar.dao.impl.DaoMetaDataFactoryImpl</code>のプロパティの変更により次のことが可能になります。
+</p>
+<ul>
+	<li>ログのカテゴリをDaoクラスで振り分ける</li>
+	<li>SQLファイルのエンコーディング名を指定する</li>
+</ul>
+<p>
+設定可能なプロパティは次の通りです。
+</p>
+<table border="1">
+<tbody><tr nowrap="" align="center" bgcolor="#d1f3f4">
+<th width="80">型</th>
+<th width="100">プロパティ名</th>
+<th width="100">説明</th>
+<th width="100">デフォルト値</th></tr>
+<tr>
+<td>boolean</td>
+<td>useDaoClassForLog</td>
+<td><code>true</code>の場合、SQLのログ出力のカテゴリにDaoのクラスが使用されます。
+<code>false</code>の場合、SQLのログ出力のカテゴリには<code>org.seasar.extension.jdbc.impl.BasicHandler</code>が使用されます。</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>String</td>
+<td>sqlFileEncoding</td>
+<td>SQLファイルのエンコーディング名です。
+ここに指定された文字列は<code>java.io.InputStreamReader(InputStream, String)</code>の第2引数にそのまま使用されます。</td>
+<td>"JISAutoDetect"</td>
+</tr>
+</tbody></table>
+
+<h4><a name="DaoNamingConventionImpl">DaoNamingConventionImpl</a></h4>
+<p>
+<code>org.seasar.dao.impl.DaoNamingConventionImpl</code>はS2Dao全体の命名規約を管理するコンポーネントです。
+プロパティの変更により次のことが可能です。
+</p>
+<ul>
+<li>バージョン番号のプロパティ名を変更する</li>
+<li>タイムスタンプのプロパティ名を変更する</li>
+<li>Daoインターフェースの命名規約を変更する</li>
+<li>メソッドの命名規約を変更する</li>
+<li>UnlessNull機能に関する規約を変更する</li>
+<li>ModifiedOnly機能に関する規約を変更する</li>
+</ul>
+<p>
+設定可能なプロパティは次の通りです。
+</p>
+<table border="1">
+<tbody><tr nowrap="" align="center" bgcolor="#d1f3f4">
+<th width="80">型</th>
+<th width="100">プロパティ名</th>
+<th width="100">説明</th>
+<th width="100">デフォルト値</th></tr>
+<tr>
+<td>String</td>
+<td>versionNoPropertyName</td>
+<td>バージョン番号のプロパティ名です。</td>
+<td>"versionNo"</td>
+</tr>
+<tr>
+<td>String</td>
+<td>timestampPropertyName</td>
+<td>タイムスタンプのプロパティ名です。</td>
+<td>"timestamp"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>daoSuffixes</td>
+<td>Daoインタフェースのサフィックスの配列です。</td>
+<td>"Dao"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>insertPrefixes</td>
+<td>追加メソッドのプレフィックスの配列です。</td>
+<td>"insert", "create", "add"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>updatePrefixes</td>
+<td>更新メソッドのプレフィックスの配列です。</td>
+<td>"update", "modify", "store"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>deletePrefixes</td>
+<td>削除メソッドのプレフィックスの配列です。</td>
+<td>"delete", "remove"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>unlessNullSuffixes</td>
+<td>UnlessNull機能をもつ更新メソッドのサフィックスの配列です。</td>
+<td>"UnlessNull"</td>
+</tr>
+<tr>
+<td>String[]</td>
+<td>modifiedOnlySuffixes</td>
+<td>ModifiedOnly機能をもつ更新メソッドのサフィックスです。</td>
+<td>"ModifiedOnly"</td>
+</tr>
+<tr>
+<td>String</td>
+<td>modifiedPropertyNamesPropertyName</td>
+<td>ModifiedOnly機能で使用するプロパティの名前です。</td>
+<td>"modifiedPropertyNames"</td>
+</tr>
+</tbody></table>
+
+<h3><a name="customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a></h3>
+<p>
+dao.diconに定義されたコンポーネントはインタフェースの定義に従う限りすべて任意のコンポーネントに差し替えることが可能です。
+いくつかのコンポーネントについてはS2Daoが代替の実装をあらかじめ提供しています。以下では、S2Daoが提供するコンポーネントを説明します。
+</p>
+
+<h4><a name="FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></h4>
+<p>
+S2Daoのデフォルトの振る舞いでは、Daoの初期化時に、どのプロパティが永続的であるのか
+どのプロパティが主キーであるのかといった情報をBeanに指定されたアノテーションとデータベースのメタデータから判定していますが、
+RDBMSによってはデータベースのメタデータの取得にとても時間がかかることが判明しています（Oracleなど）。
+そこで、データベースのメタデータにはアクセスせず、Beanのアノテーションの情報のみを使って高速にプロパティの永続性や主キーを判定するコンポーネントが用意されています。
+</p>
+<p>
+このコンポーネントを利用するには
+<code>org.seasar.dao.impl.PropertyTypeFactoryBuilderImpl</code>を
+<code>org.seasar.dao.impl.FastPropertyTypeFactoryBuilder</code>に差し替えてください。
+</p>
+<p>
+単にコンポーネントを入れ替えただけでは動作しない場合があります。
+<code>FastPropertyTypeFactoryBuilder</code>を使用する場合は、カラム名や主キーの情報などをデータベースに一致するようにアノテーションを指定してください。
+</p>
+
+<h4><a name="DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></h4>
+<p>
+アノテーションで明示しない場合、デフォルトの規約では、BeanはBeanの名前と同じ名前のテーブルに対応付けられます。
+しかし、Javaのクラス名は単語の区切りをキャメルケースで表すがテーブル名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
+そこで、キャメルケースで表されたJavaのクラス名をアンダースコア区切りで表されたテーブル名に変換するコンポーネントが用意されています。
+この変換によりS2Daoはキャメルケースで表されたJavaのクラス名をアンダースコア区切りで表されたテーブル名に対応付けることができます。
+</p>
+<p>
+例えば、<code>hoge.foo.BarBaz</code>というBeanクラスが<code>BAR_BAZ</code>テーブルに対応します。
+</p>
+<p>
+このコンポーネントを利用するには
+<code>org.seasar.dao.impl.DefaultTableNaming</code>を
+<code>org.seasar.dao.impl.DecamelizeTableNaming</code>に差し替えてください。
+</p>
+
+<h4><a name="DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></h4>
+<p>
+アノテーションで明示しない場合、デフォルトの規約では、Beanのプロパティはプロパティの名前と同じ名前のカラムに対応付けられます。
+しかし、Javaのプロパティ名は単語の区切りをキャメルケースで表すがカラム名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
+そこで、キャメルケースで表されたJavaのプロパティ名をアンダースコア区切りで表されたカラム名に変換するコンポーネントが用意されています。
+この変換によりS2Daoはキャメルケースで表されたJavaのプロパティ名をアンダースコア区切りで表されたカラム名に対応付けることができます。
+</p>
+<p>
+例えば、<code>barBaz</code>というプロパティが<code>BAR_BAZ</code>カラムに対応します。
+</p>
+<p>
+このコンポーネントを利用するには
+<code>org.seasar.dao.impl.DefaultColumnNaming</code>を
+<code>org.seasar.dao.impl.DecamelizeColumnNaming</code>に差し替えてください。
+</p>
+
+<h4><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h4>
+<p>
+S2DaoのModifiedOnly機能を使って変更した（setterを呼び出した）プロパティのみをUPDATE文のSET句に指定されるようにする場合、getModifiedPropertyNamesというメソッドを実装する必要があります。これを検索メソッドからの戻り値に対してAOPを使って自動的に実装するのがBeanEnhancerImplです。
+</p>
+<p>
+このコンポーネントを利用するには、
+<code>org.seasar.dao.impl.NullBeanEnhancer</code>を
+<code>org.seasar.dao.impl.BeanEnhancerImpl</code>に差し替えてください。
+</p>
+<p>
+ただし、この機能はシリアライズ/デシリアライズとの相性が悪いことがありますので、そういった機能を利用する場合には、使用しないようにしてください。詳しくは<a href="s2dao.html#DefMethod">メソッドの定義</a>を参照してください。
+</p>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">&copy; Copyright The Seasar Foundation and the others 2004-2005, all rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>

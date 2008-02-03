@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>S2Dao - Top</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
+<body onload="preload('en')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/en/index.html"><img src="images/menu01_b_en.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/en/projects.html"><img src="images/menu02_b_en.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/en/products.html"><img src="images/menu06_b_en.gif" height="30" width="110" border="0" alt="" id="menu06" onmouseover="swap(6)" onmouseout="restore(6)"></a></td>
+<td><a href="http://www.seasar.org/en/documents.html"><img src="images/menu04_b_en.gif" height="30" width="109" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/en/resources.html"><img src="images/menu05_b_en.gif" height="30" width="113" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<p>
+	<p>S2Dao具有以下特征：</p>
+	<ul>
+		<li>不使用XML进行O/R Mapping</li>
+		<p>最近的框架式（Framework）的O/R Mapping， 必须使用XML记述大量的信息。<br />
+		     使用S2Dao，则不需要XML文件，
+			只要在Java源程序中记述元数据（metadata）就可以实现O/R Mapping。 </p>
+	</ul>
+	<ul>
+		<li>不需要JDBC的知识</li>
+		<p>Java应用程序中，使用JDBC的API来执行对数据库的连接和切断处理。
+		<br />在S2Dao中，这一类处理完全由S2Dao完成，开发者无需考虑JDBC就可以实现对数据库的处理。
+		源程序中不用记述对数据库的连接和切断处理，由此减少了作业量。</p>
+	</ul>
+	<ul>
+		<li>SQL程序员和Java程序员可以分头作业</li>
+		<p>在S2Dao中，SQL指令可以作为外部文件来准备。
+		这些SQL指令可以通过SQL*Plus等工具来调试并确认其动作，之后可以给这些SQL指令加上注解，指定与Java的映射关系（Mapping），
+		使用SQL工具不用改动这些SQL指令即可执行（这被称之为2WaySQL）。而且，S2Dao读取后也可以得到与Java的映射（Mapping）关系。
+		SQL指令记述在外部文件（SQL文件）中，除了SQL指令以外不用编写任何Java逻辑，所以SQL程序员和Java开发人员完全可以分头作业，提高开发效率。
+		动态SQL指令也不需要编写Java逻辑就可以开发。</p>
+	</ul>
+	<ul>
+		<li>SQL指令的自动生成</li>
+		<p>Java程序中定义的方法（method），只要遵循命名规则，不用编写SQL指令，S2Dao能够自动生成SQL指令。<br />
+		几乎在所有的情况下都能够自动生成SQL指令，如果想要编一个非常复杂的SQL指令或者想对其进行改造的话，也可以手动编写SQL指令。
+		</p>
+	</ul>
+	<ul>
+	    <li>接口（interface）和实装的分离</li>
+	    <p>只需定义接口，就能够实现<a href="http://s2container.seasar.org/2.3/ja/aop.html">AOP(Aspect Oriented Programming)</a>或者是SQL指令的自动生成。</p>
+	</ul>
+</p>
+
+<h3><a name="document">资料</a></h3>
+<ul>
+	<li><a href="s2dao.html">S2Dao</a>
+	<!-- 未翻訳分
+	<ul>
+		<li><a href="daoDicon.html">dao.dicon指南</a></li>
+	</ul>
+	</li>
+    <li><a href="s2dao-tiger.html">S2Dao Tiger</a></li>
+	<li><a href="tiger-annotation.html">S2Dao Tiger注释</a></li>
+	<li><a href="s2pager.html">S2Pager</a></li>
+	-->
+	<li><a href="http://www.seasar.org/wiki/index.php?FAQ%2FS2DAO">FAQ</a></li>
+	<li><a href="http://www.seasar.org/wiki/index.php?S2DaoUpdateOperationLog">移植指南</a></li>
+</ul>
+
+<h3><a name="tracking">追踪（tracking）</a></h3>
+<ul>
+	<li><a href="https://www.seasar.org/issues/browse/DAO">JIRA</a></li>
+</ul>
+
+<h3><a name="download">下载</a></h3>
+<ul>
+	<li><a href="../download/2007-12-15/s2-dao-1.0.47.zip">S2Dao 1.0.47</a> (包括S2Dao Tiger)</li>
+	<li><a href="../download/2007-12-15/s2-dao-pager-examples-1.0.47.zip">S2Pager Examples 1.0.47</a></li>
+</ul>
+<!--
+<h3>工具</h3>
+<ul>
+	<li><a href="http://s2daoplugin.sandbox.seasar.org/">S2DaoPlugin</a></li>
+	<li><a href="http://dbflute.sandbox.seasar.org/ja/">DBFlute</a></li>
+	<li><a href="http://s2dao-codegen.sandbox.seasar.org/">S2Dao-CodeGen</a></li>
+</ul>
+<h4><a href="download.html">过去的版本</a></h4>
+-->
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2005, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr>
+</table>
+</body>
+<!-- document end -->
+</html>
