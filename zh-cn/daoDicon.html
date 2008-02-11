@@ -2,14 +2,14 @@
 <html>
 <!-- don't edit start -->
 <head>
-<title>dao.dicon - リファレンス</title>
+<title>dao.dicon - 指南</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen" />
 <link href="seasar_p.css" type="text/css" rel="stylesheet" media="print" />
 <script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
 </head>
-<body onload="preload('ja')">
+<body onload="preload('en')">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
 <td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
 <tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
@@ -17,11 +17,11 @@
 <td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
 <td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
 </tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
-<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
+<td><a href="http://www.seasar.org/en/index.html"><img src="images/menu01_b_en.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/en/projects.html"><img src="images/menu02_b_en.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/en/products.html"><img src="images/menu06_b_en.gif" height="30" width="110" border="0" alt="" id="menu06" onmouseover="swap(6)" onmouseout="restore(6)"></a></td>
+<td><a href="http://www.seasar.org/en/documents.html"><img src="images/menu04_b_en.gif" height="30" width="109" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/en/resources.html"><img src="images/menu05_b_en.gif" height="30" width="113" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
 <td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
 <td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
 <table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
@@ -29,52 +29,52 @@
 <!-- don't edit end -->
 <!-- document start -->
 <ul>
-<li><a href="#daoDicon">dao.diconとは</a>
+<li><a href="#daoDicon">dao.dicon是什么</a>
 <ul>
-<li><a href="#configurationChange">設定の変更</a></li>
+<li><a href="#configurationChange">更改设定</a></li>
 </ul>
 </li>
-<li><a href="#customization">S2Daoのカスタマイズ</a>
+<li><a href="#customization">S2Dao的改造</a>
 <ul>
-<li><a href="#customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a>
+<li><a href="#customizationByProperty">通过组件的属性设定进行改造</a>
 <ul>
 <li><a href="#DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a>
 <ul>
-<li>ログのカテゴリをDaoクラスで振り分ける</li>
-<li>SQLファイルのエンコーディング名を指定する</li>
+<li>利用Dao类将日志分类</li>
+<li>指定SQL文件的编码名</li>
 </ul>
 </li>			
 <li><a href="#DaoNamingConventionImpl">DaoNamingConventionImpl</a>
 <ul>
-<li>バージョン番号のプロパティ名を変更する</li>
-<li>タイムスタンプのプロパティ名を変更する</li>
-<li>Daoインターフェースの命名規約を変更する</li>
-<li>メソッドの命名規約を変更する</li>
-<li>UnlessNull機能に関する規約を変更する</li>
-<li>ModifiedOnly機能に関する規約を変更する</li>
+<li>更改版本号的属性名</li>
+<li>更改时间印戳(timestamp)的属性名</li>
+<li>更改Dao接口的命名规约</li>
+<li>更改方法(method)的命名规约</li>
+<li>更改有关UnlessNull功能的规约</li>
+<li>更改有关ModifiedOnly功能的规约</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a>
+<li><a href="#customizationByComponent">通过组件的替换进行改造</a>
 <ul>
-<li><a href="#FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></li>
-<li><a href="#DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></li>
-<li><a href="#DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></li>
-<li><a href="#BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></li>					
+<li><a href="#FastPropertyTypeFactoryBuilder">对Dao的初始化实现高速化</a></li>
+<li><a href="#DecamelizeTableNaming">遵循CamelCase命名法的Bean和带下划线的表名之间的自动关联</a></li>
+<li><a href="#DecamelizeColumnNaming">遵循CamelCase命名法的属性名和带下划线的列项之间的自动关联</a></li>
+<li><a href="#BeanEnhancerImpl">UPDATE时，只把修改过的属性当作更新对象</a></li>					
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-<h2><a name="daoDicon">dao.diconとは</a></h2>
+<h2><a name="daoDicon">dao.dicon是什么</a></h2>
 <p>
-dao.diconはS2Daoの動作を設定するファイルです。
-このファイルはs2-dao-x.x.x.jar内に含まれているため自動で読み込まれます。
+dao.dicon是设定S2Dao的动作的文件。
+这一文件被包含在s2-dao-x.x.x.jar之内，所以能够被自动读取。
 </p>
 <p>
-dao.diconは次のように記述されています。
+dao.dicon的记法如下所示。
 </p>
 <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;Shift_JIS&quot;?&gt;
@@ -109,226 +109,226 @@ dao.diconは次のように記述されています。
 &lt;/components&gt;
 </pre>
 
-<h3><a name="configurationChange">設定の変更</a></h3>
+<h3><a name="configurationChange">更改设定</a></h3>
 <p>
-dao.diconに記述された設定を変更することでS2Daoの振る舞いをカスタマイズできます。
-ただし、dao.diconはjarファイルに含まれるので直接編集することができません。
-次の方法のいずれかを使用し変更を加えた設定が有効になるようにしてください。
+通过更改dao.dicon的设定内容，能够改造S2Dao的动作。
+但是，由于dao.dicon被包含在jar文件中，所以不能直接进行编辑。
+请使用以下的任意一种方法使得更改后的设定变成有效的设定。
 </p>
 <ul>
-<li>dao.diconをコピーしコピーしたファイルに変更を加え、s2-dao-x.x.x.jarより優先度の高いclasspathへ配置する<br/>
-Seasar2.3とSeasar2.4の両方で使用可能です。
-オリジナルのdao.diconとコピーしたdao.diconのどちらがclasspathで優先されるのか確定できない場合には使用しないでください。
+<li>复制dao.dicon，对复制的文件进行修改，将其存放在比s2-dao-x.x.x.jar的优先度高的classpath下<br/>
+Seasar2.3和Seasar2.4两者均可使用。
+如果不能确定本来的dao.dicon和复制的dao.dicon二者的classpath哪一个优先级更高的话，请不要使用。
 </li>
-<li>dao.diconを新しい名前でコピーしコピーしたファイルに変更を加え、他の定義ファイルからは新しい名前で参照する<br/>
-Seasar2.3とSeasar2.4の両方で使用可能です。
+<li>把dao.dicon复制为一个新的文件，对该文件进行修改之后，使其他的定义文件参照这个新名字的文件<br/>
+Seasar2.3和Seasar2.4两者均可使用。
 </li>
-<li>定義ファイルの差し替え機能を利用する<br/>
-Seasar2.4でのみ使用可能です。s2container.diconに次のように設定してください。
+<li>利用定义文件的替换功能<br/>
+只有Seasar2.4可以使用此功能。请在s2container.dicon里做如下设定。
 <pre>
 &lt;component class=&quot;org.seasar.framework.container.factory.SimplePathResolver&quot;&gt;
   &lt;initMethod name=&quot;addRealPath&quot;&gt;
     &lt;arg&gt;&quot;dao.dicon&lt;/arg&gt;
-    &lt;arg&gt;&quot;my-dao.dicon&quot;&lt;/arg&gt;&lt;!-- 実際に使用する定義ファイル --&gt;
+    &lt;arg&gt;&quot;my-dao.dicon&quot;&lt;/arg&gt;&lt;!-- 实际上使用的定义文件 --&gt;
   &lt;/initMethod&gt;
 &lt;/component&gt;
 </pre>
-この設定により，ある定義ファイルが'<code>dao.dicon</code>&quot;という名前でdiconファイルをインクルードすると，実際には'<code>my-dao.dicon</code>'がインクルードされます。詳細は「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html">DIContainer</a>」－「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html#ConfigFileReplacement">定義ファイルの差し替え</a>」を参照してください。
+根据这一设定，某个定义文件用'<code>dao.dicon</code>&quot;这个名字包含(include)dicon文件时，实际上包含的是'<code>my-dao.dicon</code>'文件。详细情况请参阅「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html">DIContainer</a>」－「<a href="http://s2container.seasar.org/2.4/ja/DIContainer.html#ConfigFileReplacement">替换定义文件</a>」的章节。
 </li>
 </ul>
 
-<h2><a name="customization">S2Daoのカスタマイズ</a></h2>
+<h2><a name="customization">S2Dao的改造</a></h2>
 <p>
-カスタマイズの方法は2種類あります。
+改造方法有2种。
 </p>
 <p>
-1つ目は、dao.diconに登録されているコンポーネントのプロパティに特定の値を設定することでコンポーネントの振る舞いを変化させる方法です。
-2つ目は、dao.diconに登録されているコンポーネントを別のコンポーネントに差し替える方法です。
-dao.diconに登録されているコンポーネントはすべてインタフェースの実装であるため、同じインタフェースをもつ別の実装に容易に差し替えることができます。
+第一种，通过在dao.dicon中登录的组件的属性中，设定特殊值使组件动作发生变化的方法。
+第二种，把dao.dicon中登录的组件替换成别的组件的方法。
+因为在dao.dicon中登录的组件均为接口的实装，所以很容易用有着同样接口的其他的实装进行替换。
 </p>
 
-<h3><a name="customizationByProperty">コンポーネントのプロパティの設定によるカスタマイズ</a></h3>
+<h3><a name="customizationByProperty">通过组件的属性设定进行改造</a></h3>
 <p>
-dao.diconに定義されたコンポーネントには設定が可能なプロパティを提供しているものがあります。
+在dao.dicon中定义的组件里，有些组件允许对属性进行设定。
 </p>
 
 <h4><a name="DaoMetaDataFactoryImpl">DaoMetaDataFactoryImpl</a></h4>
 <p>
-<code>org.seasar.dao.impl.DaoMetaDataFactoryImpl</code>のプロパティの変更により次のことが可能になります。
+<code>通过更改org.seasar.dao.impl.DaoMetaDataFactoryImpl</code>的属性，可以实现以下的功能。
 </p>
 <ul>
-	<li>ログのカテゴリをDaoクラスで振り分ける</li>
-	<li>SQLファイルのエンコーディング名を指定する</li>
+	<li>利用Dao类将日志分类</li>
+	<li>指定SQL文件的编码名</li>
 </ul>
 <p>
-設定可能なプロパティは次の通りです。
+可以设定的属性如下所示。
 </p>
 <table border="1">
 <tbody><tr nowrap="" align="center" bgcolor="#d1f3f4">
-<th width="80">型</th>
-<th width="100">プロパティ名</th>
-<th width="100">説明</th>
-<th width="100">デフォルト値</th></tr>
+<th width="80">类型</th>
+<th width="100">属性名</th>
+<th width="100">说明</th>
+<th width="100">缺省值</th></tr>
 <tr>
 <td>boolean</td>
 <td>useDaoClassForLog</td>
-<td><code>true</code>の場合、SQLのログ出力のカテゴリにDaoのクラスが使用されます。
-<code>false</code>の場合、SQLのログ出力のカテゴリには<code>org.seasar.extension.jdbc.impl.BasicHandler</code>が使用されます。</td>
+<td>值为<code>true</code>的场合，SQL的日志输出的分类中使用Dao类。
+<code>值为false</code>的场合，SQL的日志输出的分类中使用<code>org.seasar.extension.jdbc.impl.BasicHandler</code>。</td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td>String</td>
 <td>sqlFileEncoding</td>
-<td>SQLファイルのエンコーディング名です。
-ここに指定された文字列は<code>java.io.InputStreamReader(InputStream, String)</code>の第2引数にそのまま使用されます。</td>
+<td>值为SQL文件的编码名。
+这里指定的文字列也在<code>java.io.InputStreamReader(InputStream, String)</code>的第2个参数中使用。</td>
 <td>"JISAutoDetect"</td>
 </tr>
 </tbody></table>
 
 <h4><a name="DaoNamingConventionImpl">DaoNamingConventionImpl</a></h4>
 <p>
-<code>org.seasar.dao.impl.DaoNamingConventionImpl</code>はS2Dao全体の命名規約を管理するコンポーネントです。
-プロパティの変更により次のことが可能です。
+<code>org.seasar.dao.impl.DaoNamingConventionImpl</code>是管理S2Dao全体命名规约的组件。
+通过更改属性可以实现以下的功能。
 </p>
 <ul>
-<li>バージョン番号のプロパティ名を変更する</li>
-<li>タイムスタンプのプロパティ名を変更する</li>
-<li>Daoインターフェースの命名規約を変更する</li>
-<li>メソッドの命名規約を変更する</li>
-<li>UnlessNull機能に関する規約を変更する</li>
-<li>ModifiedOnly機能に関する規約を変更する</li>
+<li>更改版本号的属性名</li>
+<li>更改时间印戳(timestamp)的属性名</li>
+<li>更改Dao接口的命名规约</li>
+<li>更改方法(method)的命名规约</li>
+<li>更改有关UnlessNull功能的规约</li>
+<li>更改有关ModifiedOnly功能的规约</li>
 </ul>
 <p>
-設定可能なプロパティは次の通りです。
+可以设定的属性如下所示。
 </p>
 <table border="1">
 <tbody><tr nowrap="" align="center" bgcolor="#d1f3f4">
-<th width="80">型</th>
-<th width="100">プロパティ名</th>
-<th width="100">説明</th>
-<th width="100">デフォルト値</th></tr>
+<th width="80">类型</th>
+<th width="100">属性名</th>
+<th width="100">说明</th>
+<th width="100">缺省值</th></tr>
 <tr>
 <td>String</td>
 <td>versionNoPropertyName</td>
-<td>バージョン番号のプロパティ名です。</td>
+<td>版本号的属性名。</td>
 <td>"versionNo"</td>
 </tr>
 <tr>
 <td>String</td>
 <td>timestampPropertyName</td>
-<td>タイムスタンプのプロパティ名です。</td>
+<td>时间印戳(timestamp)的属性名。</td>
 <td>"timestamp"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>daoSuffixes</td>
-<td>Daoインタフェースのサフィックスの配列です。</td>
+<td>Dao接口的后缀数组。</td>
 <td>"Dao"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>insertPrefixes</td>
-<td>追加メソッドのプレフィックスの配列です。</td>
+<td>插入方法的前缀数组。</td>
 <td>"insert", "create", "add"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>updatePrefixes</td>
-<td>更新メソッドのプレフィックスの配列です。</td>
+<td>更新方法的前缀数组。</td>
 <td>"update", "modify", "store"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>deletePrefixes</td>
-<td>削除メソッドのプレフィックスの配列です。</td>
+<td>删除方法的前缀数组。</td>
 <td>"delete", "remove"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>unlessNullSuffixes</td>
-<td>UnlessNull機能をもつ更新メソッドのサフィックスの配列です。</td>
+<td>附有UnlessNull功能的更新方法的后缀数组。</td>
 <td>"UnlessNull"</td>
 </tr>
 <tr>
 <td>String[]</td>
 <td>modifiedOnlySuffixes</td>
-<td>ModifiedOnly機能をもつ更新メソッドのサフィックスです。</td>
+<td>附有ModifiedOnly功能的更新方法的后缀数组。</td>
 <td>"ModifiedOnly"</td>
 </tr>
 <tr>
 <td>String</td>
 <td>modifiedPropertyNamesPropertyName</td>
-<td>ModifiedOnly機能で使用するプロパティの名前です。</td>
+<td>ModifiedOnly功能使用的属性名。</td>
 <td>"modifiedPropertyNames"</td>
 </tr>
 </tbody></table>
 
-<h3><a name="customizationByComponent">コンポーネントの差し替えによるカスタマイズ</a></h3>
+<h3><a name="customizationByComponent">通过组件的替换进行改造</a></h3>
 <p>
-dao.diconに定義されたコンポーネントはインタフェースの定義に従う限りすべて任意のコンポーネントに差し替えることが可能です。
-いくつかのコンポーネントについてはS2Daoが代替の実装をあらかじめ提供しています。以下では、S2Daoが提供するコンポーネントを説明します。
+在dao.dicon中定义的组件，只要遵循接口定义，全部可以用任意的组件来替换。
+S2Dao预先提供了一些有着可代替的实装的组件。以下说明这些S2Dao提供的组件。
 </p>
 
-<h4><a name="FastPropertyTypeFactoryBuilder">Daoの初期化を高速化する</a></h4>
+<h4><a name="FastPropertyTypeFactoryBuilder">对Dao的初始化实现高速化</a></h4>
 <p>
-S2Daoのデフォルトの振る舞いでは、Daoの初期化時に、どのプロパティが永続的であるのか
-どのプロパティが主キーであるのかといった情報をBeanに指定されたアノテーションとデータベースのメタデータから判定していますが、
-RDBMSによってはデータベースのメタデータの取得にとても時間がかかることが判明しています（Oracleなど）。
-そこで、データベースのメタデータにはアクセスせず、Beanのアノテーションの情報のみを使って高速にプロパティの永続性や主キーを判定するコンポーネントが用意されています。
+S2Dao的值为缺省时的动作中，在Dao执行初始化时，虽然哪一个属性是持久化属性，
+哪一个属性是主键，这些信息可以通过Bean里指定的注释(annotation)和数据库的元数据(metadata)来判定，
+但是我们已经知道，通过RDBMS取得数据库（Oracle等）的元数据的话非常的费时间。
+因此，提供了一个不用访问数据库的元数据，只用Bean的注释信息就能快速判断持久化属性或是主键的组件。
 </p>
 <p>
-このコンポーネントを利用するには
-<code>org.seasar.dao.impl.PropertyTypeFactoryBuilderImpl</code>を
-<code>org.seasar.dao.impl.FastPropertyTypeFactoryBuilder</code>に差し替えてください。
+要使用这个组件，请把
+<code>org.seasar.dao.impl.PropertyTypeFactoryBuilderImpl</code>替换成
+<code>org.seasar.dao.impl.FastPropertyTypeFactoryBuilder</code>。
 </p>
 <p>
-単にコンポーネントを入れ替えただけでは動作しない場合があります。
-<code>FastPropertyTypeFactoryBuilder</code>を使用する場合は、カラム名や主キーの情報などをデータベースに一致するようにアノテーションを指定してください。
-</p>
-
-<h4><a name="DecamelizeTableNaming">キャメルケースで表された名前をもつBeanとアンダースコア区切りの名前のテーブルを自動で対応付ける</a></h4>
-<p>
-アノテーションで明示しない場合、デフォルトの規約では、BeanはBeanの名前と同じ名前のテーブルに対応付けられます。
-しかし、Javaのクラス名は単語の区切りをキャメルケースで表すがテーブル名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
-そこで、キャメルケースで表されたJavaのクラス名をアンダースコア区切りで表されたテーブル名に変換するコンポーネントが用意されています。
-この変換によりS2Daoはキャメルケースで表されたJavaのクラス名をアンダースコア区切りで表されたテーブル名に対応付けることができます。
-</p>
-<p>
-例えば、<code>hoge.foo.BarBaz</code>というBeanクラスが<code>BAR_BAZ</code>テーブルに対応します。
-</p>
-<p>
-このコンポーネントを利用するには
-<code>org.seasar.dao.impl.DefaultTableNaming</code>を
-<code>org.seasar.dao.impl.DecamelizeTableNaming</code>に差し替えてください。
+仅仅更换组件的话有时候无法动作。
+使用<code>FastPropertyTypeFactoryBuilder</code>的场合，请用注释(annotation)使列名或主键的信息与数据库的信息保持一致。
 </p>
 
-<h4><a name="DecamelizeColumnNaming">キャメルケースで表された名前をもつプロパティとアンダースコア区切りの名前のカラムを自動で対応付ける</a></h4>
+<h4><a name="DecamelizeTableNaming">遵循CamelCase命名法的Bean和带下划线的表名之间的自动关联</a></h4>
 <p>
-アノテーションで明示しない場合、デフォルトの規約では、Beanのプロパティはプロパティの名前と同じ名前のカラムに対応付けられます。
-しかし、Javaのプロパティ名は単語の区切りをキャメルケースで表すがカラム名はアンダースコア区切りで表すと言った場合に、このデフォルトの規約は利用できません。
-そこで、キャメルケースで表されたJavaのプロパティ名をアンダースコア区切りで表されたカラム名に変換するコンポーネントが用意されています。
-この変換によりS2Daoはキャメルケースで表されたJavaのプロパティ名をアンダースコア区切りで表されたカラム名に対応付けることができます。
+不用注释进行显式声明的场合，按照缺省规约，Bean将和与Bean同名的表名进行关联。
+但是，Java的类名是按照CamelCase命名法表示的，表名则用下划线表示的场合，不能使用这一缺省规约。
+因此提供一个组件，把按照CamelCase命名法表示的Java类名变换成用下划线表示的表名。
+通过这一变换，S2Dao能够把CamelCase命名法表示的Java类名和用下划线表示的表名进行关联。
 </p>
 <p>
-例えば、<code>barBaz</code>というプロパティが<code>BAR_BAZ</code>カラムに対応します。
+例如，把名为<code>hoge.foo.BarBaz</code>的Bean类和<code>BAR_BAZ</code>表进行关联。
 </p>
 <p>
-このコンポーネントを利用するには
-<code>org.seasar.dao.impl.DefaultColumnNaming</code>を
-<code>org.seasar.dao.impl.DecamelizeColumnNaming</code>に差し替えてください。
+要利用这个组件，请把
+<code>org.seasar.dao.impl.DefaultTableNaming</code>替换成
+<code>org.seasar.dao.impl.DecamelizeTableNaming</code>。
 </p>
 
-<h4><a name="BeanEnhancerImpl">UPDATE時、修正したプロパティのみを更新対象とする</a></h4>
+<h4><a name="DecamelizeColumnNaming">遵循CamelCase命名法的属性名和带下划线的列项之间的自动关联</a></h4>
 <p>
-S2DaoのModifiedOnly機能を使って変更した（setterを呼び出した）プロパティのみをUPDATE文のSET句に指定されるようにする場合、getModifiedPropertyNamesというメソッドを実装する必要があります。これを検索メソッドからの戻り値に対してAOPを使って自動的に実装するのがBeanEnhancerImplです。
+不用注释进行显式声明的场合，按照缺省规约，Bean的属性将和与属性名同名的列项进行关联。
+但是，Java的属性名是按照CamelCase命名法表示的，列项名则用下划线表示的场合，不能使用这一缺省规约。
+因此提供一个组件，把按照CamelCase命名法表示的Java属性名变换成用下划线表示的列项名。
+通过这一变换，S2Dao能够把CamelCase命名法表示的Java属性名和用下划线表示的列项名进行关联。
 </p>
 <p>
-このコンポーネントを利用するには、
-<code>org.seasar.dao.impl.NullBeanEnhancer</code>を
-<code>org.seasar.dao.impl.BeanEnhancerImpl</code>に差し替えてください。
+例如，把名为<code>barBaz</code>的属性和<code>BAR_BAZ</code>列项进行关联。
 </p>
 <p>
-ただし、この機能はシリアライズ/デシリアライズとの相性が悪いことがありますので、そういった機能を利用する場合には、使用しないようにしてください。詳しくは<a href="s2dao.html#DefMethod">メソッドの定義</a>を参照してください。
+要利用这个组件，请把
+<code>org.seasar.dao.impl.DefaultColumnNaming</code>替换成
+<code>org.seasar.dao.impl.DecamelizeColumnNaming</code>。
+</p>
+
+<h4><a name="BeanEnhancerImpl">UPDATE时，只把修改过的属性当作更新对象</a></h4>
+<p>
+使用S2Dao的ModifiedOnly功能，只把修改过（调用setter）的属性设定到UPDATE指令的SET子句里的场合，必须对getModifiedPropertyNames方法进行实装。对于检索方法的返回值，BeanEnhancerImpl将使用AOP，对其自动进行实装。
+</p>
+<p>
+要利用这个组件，请把
+<code>org.seasar.dao.impl.NullBeanEnhancer</code>替换成
+<code>org.seasar.dao.impl.BeanEnhancerImpl</code>。
+</p>
+<p>
+但是，这一功能与序列化/反序列化功能不相合，要使用序列化/反序列化功能的场合，请不要使用这个功能。详细情况请参阅<a href="s2dao.html#DefMethod">方法的定义</a>的章节。
 </p>
 
 <!-- document end -->
