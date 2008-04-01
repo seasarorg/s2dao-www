@@ -79,6 +79,7 @@
 				<li><a href="#Batch">バッチ更新</a></li>
 				<li><a href="#AutoSelect">検索SQLの自動生成 </a></li>
 				<li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
+				<li><a href="#FetchHandler">FetchHandlerによる検索結果のフェッチ</a></li>
 				<li><a href="#HowToRun">S2Daoの実行</a></li>
 	        	<li><a href="http://s2container.seasar.org/2.3/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
 			<li><a href="#S2JUnit4">S2JUnit4を利用したテスト</a></li>	        	
@@ -1239,6 +1240,68 @@ public class EmployeeSearchCondition {
 </pre>
 <pre>List getEmployeesBySearchCondition(EmployeeSearchCondition dto);</pre>
 	<p>また同様の指定方法で引数にEntityを使用することも出来ます。DTOの詳しい使用方法は、<a href="#AutoSelectExample">自動で検索用SQL文を生成する場合のExample</a>を参照して下さい。</a>
+
+    <h3><a name="FetchHandler">FetchHandlerによる検索結果のフェッチ</a></h3>
+    <p>バージョン1.0.48からFetchHandlerを使ったフェッチ機能に対応しました。
+    CSVファイル出力やバッチ処理などのように大量のデータを検索する場合に、
+    OutOfMemoryErrorなどのエラーが発生するのを避けることが出来ます。</p>
+    <p>フェッチ機能を使うには、まず検索用メソッドの一番最後の引数にFetchHandlerを指定します。
+    </p>
+<pre>
+import org.seasar.dao.tiger.FetchHandler;
+
+@S2Dao(bean = Employee.class)
+public interface EmployeeDao {
+
+    @Arguments("deptno")
+    public int fetchEmployeeByDeptNo(int deptno, FetchHandler&lt;Employee&gt; fetchHandler);
+
+}
+</pre>
+	<p>そして、FetchHandlerを実装したクラスを用意します。無名クラスを使うことも出来ます。
+	FetchHandlerを実装したクラスのexecuteメソッドが、	データベースから１レコード読み込まれるたびに呼び出されます。
+	executeメソッドの戻り値は、フェッチを継続するかどうかを表します。例えば１００レコード読み込んだ時点でフェッチを止めたい場合は、
+	１００レコード目を処理したあとfalseを返すことで実現できます。</p>
+<pre>
+import org.seasar.dao.tiger.FetchHandler;
+
+public class EmployeeFileWriter implements FetchHandler&lt;Employee&gt; {
+
+    // 中略...
+
+    public boolean execute(Employee emp) {
+        Department dept = emp.getDepartment();
+        StringBuilder sb = new StringBuilder(255);
+        sb.append(emp.getEmpno()).append(",");
+        sb.append(emp.getEname()).append(",");
+        sb.append(emp.getJob()).append(",");
+        sb.append(emp.getMgr()).append(",");
+        sb.append(emp.getHiredate()).append(",");
+        sb.append(emp.getSal()).append(",");
+        sb.append(emp.getComm()).append(",");
+        sb.append(dept.getDeptno()).append(",");
+        sb.append(dept.getDname()).append(",");
+        sb.append(dept.getLoc());
+        
+        // CSVファイルへ書き出す。
+        printWriter.println(sb.toString());
+        
+        rowCount++;
+        if (rowCount &gt;= 100) {
+            // 最大100件出力したら、そこでやめる。
+            return false;
+        }
+        return true;
+    }
+
+}
+</pre>
+	<p>実際にデータを抽出するには、このように用意したFetchHandlerを以下のようにDaoのメソッドに渡すことで実行することが出来ます。
+	</p>
+<pre>
+    EmployeeFileWriter handler = new EmployeeFileWriter("example.csv");
+    employeeDao.fetchEmployeeByDeptNo(20, handler);
+</pre>
 
     <h3><a name="HowToRun">S2Daoの実行</a></h3>
     <p>Daoを実行する基本的な方法は以下のようになります。</p>
