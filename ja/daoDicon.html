@@ -92,10 +92,9 @@ dao.diconは次のように記述されています。
         &lt;/arg&gt;
     &lt;/component&gt;
     &lt;component class=&quot;org.seasar.dao.impl.ValueTypeFactoryImpl&quot;/&gt;
-    &lt;component 
-        name=&quot;stringClobType&quot; 
-        class=&quot;org.seasar.extension.jdbc.types.StringClobType&quot;
-    /&gt;
+    &lt;component name=&quot;stringClobType&quot;&gt;
+        @org.seasar.dao.types.ValueTypes@CLOB
+    &lt;/component&gt;
     &lt;component class=&quot;org.seasar.dao.impl.BeanMetaDataFactoryImpl&quot;/&gt;
     &lt;component class=&quot;org.seasar.dao.impl.DaoNamingConventionImpl&quot;/&gt;
     &lt;component class=&quot;org.seasar.dao.impl.NullBeanEnhancer&quot;/&gt;

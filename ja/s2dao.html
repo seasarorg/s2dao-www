@@ -370,9 +370,11 @@ public void setAaa(String aaa) {
 </pre>
 <pre>
 &lt;!-- xxx.dicon --&gt;
-&lt;component name="stringClobType" class="org.seasar.extension.jdbc.types.StringClobType" /&gt;
+&lt;component name="stringClobType"&gt;
+    @org.seasar.dao.types.ValueTypes@CLOB
+&lt;/component&gt;
 </pre>
-diconで指定している"StringClobType.class"が、JavaとRDBMS間の型変換を行うクラスです。
+OGNL式で指定している"@org.seasar.dao.types.ValueTypes@CLOB"が、JavaとRDBMS間の型変換を行うコンポーネントになります。
 VALUE_TYPEアノテーションには、diconで設定したコンポーネント名を記述します。
 
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
@@ -897,6 +899,11 @@ public static class FooDto {
 	<p>
 	PROCEDURE_PARAMETERのタイプ名に指定できる値は<code>return</code>、<code>in</code>、<code>out</code>、<code>inout</code>のいずれかです。
 	アノテーションを指定するフィールドの数と定義順序はプロシージャのパラメータと一致させる必要があります。
+	</p>
+	<p>
+	この機能では、ソースコード上に記述したフィールドの順番と、 コンパイルされた.classファイル内のフィールドの順番が同じになることを前提としていますが、 これはJavaの仕様では保証されていません。
+	SunのJDKやEclipseではソースコード上と.classファイル内のフィールド順は同じになっていますが、 フィールドの順番が変わってしまう環境ではストアドの呼び出しが失敗します。
+	フィールドの順番が変わってしまう環境があった場合は<a href="https://www.seasar.org/mailman/listinfo/seasar-user">Seasar-userメーリングリスト</a>までお知らせください。	
 	</p>
 
  	<h5><a name="CheckSingleRowUpdateAnnotation">CHECK_SINGLE_ROW_UPDATEアノテーション</a></h5>
