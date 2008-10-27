@@ -40,6 +40,7 @@
 								<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
 								<li><a href="#N1Mapping">N:1マッピング</a></li>
 								<li><a href="#IDAutoGenerate">IDの自動生成</a></li>
+								<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
 								<li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
 								<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
 								<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
@@ -79,7 +80,7 @@
 				<li><a href="#Batch">バッチ更新</a></li>
 				<li><a href="#AutoSelect">検索SQLの自動生成 </a></li>
 				<li><a href="#IDAutoGenerate">IDの自動生成 </a></li>
-				<li><a href="#CLOBType">CLOB型とのマッピング</a></li>
+				<li><a href="#CLOBType">CLOB型とのマッピング例</a></li>
 				<li><a href="#HowToRun">S2Daoの実行</a></li>
 	        	<li><a href="http://s2container.seasar.org/2.3/ja/testtech.html#S2DaoTestCase">S2DaoTestCase</a></li>
 	        	<li><a href="http://s2container.seasar.org/2.3/ja/s2jdbc.html#OracleUnicode">OracleのUnicode問題</a></li>
@@ -352,11 +353,49 @@ public static final String id_ID = "sequence, sequenceName=myseq";
 				<td>×</td>
 			</tr>
 		</table>
-	<h5><a name="CLOBType">CLOB型とのマッピング</a></h5>
-<p>
-JavaBeansのString型プロパティをテーブルのCLOB型と対応付けるには、VALUE_TYPEアノテーションを使用します。
-下記の例では、"aaa"プロパティをCLOB型と対応付けています。
-</p>
+	<h5><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h5>
+		<p>
+		Javaのプロパティとデータベースのカラムの型のマッピングはS2Daoにより自動で行われますが、VALUE_TYPEアノテーションを使うことで、明示的に指定することも可能です。
+		VALUE_TYPEアノテーションに指定するコンポーネントは自作することも可能ですが、よく利用されるものはorg.seasar.dao.types.ValueTypesクラスに定数としてあらかじめ定義されています。
+		ValueTypesクラスの定数を以下の表に示します。
+		</p>
+		<table border="1" class="main">
+			<tr bgcolor="#d1f3f4" align="center">
+				<th scope="col">ValueTypesクラスの定数</th>
+				<th scope="col">説明</th>
+			</tr>
+			<tr>
+				<td>CLOB</td>
+				<td>JavaのStringとデータベースのCLOB型をマッピングします。</td>
+			</tr>
+			<tr>
+				<td>BLOB</td>
+				<td>Javaのbyte[]とデータベースのBLOB型をマッピングします。</td>
+			</tr>
+			<tr>
+				<td>SERIALIZABLE_BYTE_ARRAY</td>
+				<td>JavaのSerializableとデータベースのバイナリ型（データベースにより型名が異なります）をマッピングします。</td>
+			</tr>
+			<tr>
+				<td>SERIALIZABLE_BLOB</td>
+				<td>JavaのSerializableとデータベースのBLOB型をマッピングします。</td>
+			</tr>
+			<tr>
+				<td>POSTGRE_BLOB</td>
+				<td>Javaのbyte[]とPostgreSQLのOID型をマッピングします</td>
+			</tr>
+			<tr>
+				<td>POSTGRE_SERIALIZABLE_BLOB</td>
+				<td>JavaのSerializableとPostgreSQLのOID型をマッピングします。</td>
+			</tr>
+		</table>
+		<p>
+			この定数の利用法については、以下のCLOB型とのマッピング例を参照ください。
+		</p>
+	<h6><a name="CLOBType">CLOB型とのマッピング例</a></h6>
+	<p>
+	JavaBeansのString型プロパティをテーブルのCLOB型と対応付けるには、次のようにVALUE_TYPEアノテーションを使用します。
+	</p>
 <pre>
 // JavaBeans
 public static String aaa_VALUE_TYPE = "stringClobType";
@@ -368,14 +407,16 @@ public void setAaa(String aaa) {
     this.aaa = aaa;
 }
 </pre>
+	<p>
+	diconファイルでは、OGNL式を使用して、ValueTypesクラスの定数を参照します。
+	コンポーネント名とVALUE_TYPEアノテーションの値（ここでは"stringClobType"）は一致させる必要があります。
+	</p>
 <pre>
 &lt;!-- xxx.dicon --&gt;
 &lt;component name="stringClobType"&gt;
     @org.seasar.dao.types.ValueTypes@CLOB
 &lt;/component&gt;
 </pre>
-OGNL式で指定している"@org.seasar.dao.types.ValueTypes@CLOB"が、JavaとRDBMS間の型変換を行うコンポーネントになります。
-VALUE_TYPEアノテーションには、diconで設定したコンポーネント名を記述します。
 
 	<h5><a name="NoPersistentColumns">永続化されないカラム</a></h5>
 	<p>カラムが永続化の対象かどうかという情報は、テーブルの定義(JDBCのメタデータ)より自動的に取得されます。また、明示的にNO_PERSISTENT_PROPSを使って永続化したくないカラムを指定することもできます。NO_PERSISTENT_PROPSに空文字を指定するとJDBCのメタデータのメタデータを使わずにすべてのプロパティを永続化の対象とみなします。</p>

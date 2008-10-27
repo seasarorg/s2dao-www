@@ -40,6 +40,7 @@
 								<li><a href="#ColumnAnnotation">COLUMNアノテーション</a></li>
 								<li><a href="#N1Mapping">N:1マッピング</a></li>
 								<li><a href="#IDAutoGenerate">IDの自動生成</a></li>
+								<li><a href="#ValueTypeAnnotation">VALUE_TYPEアノテーション</a></li>
 								<li><a href="#NoPersistentColumns">永続化されないカラム</a></li>
 								<li><a href="#VersionNoPropertyAnnotation">VERSION_NO_PROPERTYアノテーション</a></li>
 								<li><a href="#TimestampPropertyAnnotation">TIMESTAMP_PROPERTYアノテーション</a></li>
@@ -396,6 +397,71 @@ public long getEmpno() {
 				<td>×</td>
 			</tr>
 		</table>
+
+<h5><a name="ValueTypeAnnotation">VALUE_TYPEアノテーション</a></h5>
+	<p>
+	Javaのプロパティとデータベースのカラムの型のマッピングはS2Daoにより自動で行われますが、org.seasar.dao.annotation.tiger.ValueTypeアノテーションを使うことで、明示的に指定することも可能です。
+	ValueTypeアノテーションに指定するコンポーネントは自作することも可能ですが、よく利用されるものはorg.seasar.dao.types.ValueTypesクラスに定数としてあらかじめ定義されています。
+	ValueTypesクラスの定数を以下の表に示します。
+	</p>
+	<table border="1" class="main">
+		<tr bgcolor="#d1f3f4" align="center">
+			<th scope="col">ValueTypesクラスの定数</th>
+			<th scope="col">説明</th>
+		</tr>
+		<tr>
+			<td>CLOB</td>
+			<td>JavaのStringとデータベースのCLOB型をマッピングします。</td>
+		</tr>
+		<tr>
+			<td>BLOB</td>
+			<td>Javaのbyte[]とデータベースのBLOB型をマッピングします。</td>
+		</tr>
+		<tr>
+			<td>SERIALIZABLE_BYTE_ARRAY</td>
+			<td>JavaのSerializableとデータベースのバイナリ型（データベースにより型名が異なります）をマッピングします。</td>
+		</tr>
+		<tr>
+			<td>SERIALIZABLE_BLOB</td>
+			<td>JavaのSerializableとデータベースのBLOB型をマッピングします。</td>
+		</tr>
+		<tr>
+			<td>POSTGRE_BLOB</td>
+			<td>Javaのbyte[]とPostgreSQLのOID型をマッピングします</td>
+		</tr>
+		<tr>
+			<td>POSTGRE_SERIALIZABLE_BLOB</td>
+			<td>JavaのSerializableとPostgreSQLのOID型をマッピングします。</td>
+		</tr>
+	</table>
+	<p>
+		この定数の利用法については、以下のCLOB型とのマッピング例を参照ください。
+	</p>
+<h6><a name="CLOBType">CLOB型とのマッピング例</a></h6>
+	<p>
+	JavaBeansのString型プロパティをテーブルのCLOB型と対応付けるには、次のようにValueTypeアノテーションを使用します。
+	</p>
+<pre>
+// JavaBeans
+@ValueType("stringClobType")
+private String aaa;
+public String getAaa() {
+    return aaa;
+}
+public void setAaa(String aaa) {
+    this.aaa = aaa;
+}
+</pre>
+	<p>
+	diconファイルでは、OGNL式を使用して、ValueTypesクラスの定数を参照します。
+	コンポーネント名とValueTypeアノテーションの値（ここでは"stringClobType"）は一致させる必要があります。
+	</p>
+<pre>
+&lt;!-- xxx.dicon --&gt;
+&lt;component name="stringClobType"&gt;
+    @org.seasar.dao.types.ValueTypes@CLOB
+&lt;/component&gt;
+</pre>
 
 <h5><a name="instanceVariable">カラムに対応するインスタンス変数の宣言</a></h5>
 カラムの値はBeanのインスタンス変数で表します。インスタンス変数の宣言の方法には2種類あります。
