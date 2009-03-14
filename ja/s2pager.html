@@ -162,6 +162,35 @@ List result = bookDao.findByCategoryPagerCondition(condition);</pre>
 &lt;/component&gt;
 ...
 </pre>
+               <p>
+                  この設定では、全件数を取得するSQLの実行後に、結果セットを取得するSQLを実行します。org.seasar.dao.pager.LimitOffsetPagingSqlRewriterのcountSqlCompatibilityプロパティでこのタイミングを変更できますが、通常この設定を変更することはありません。
+               
+               </p>
+               <h4>MySQL用の設定(オプション)</h4>
+               <p>
+               バージョン1.0.50以降ではMySQL専用の設定が用意されています。この設定ではMySQLの<a href="http://dev.mysql.com/doc/refman/5.1/ja/information-functions.html#function_found-rows">FOUND_ROWS関数</a>を使用することにより、標準設定よりもパフォーマンスの向上が期待できます。
+               </p>
+<pre>
+...
+&lt;!-- LIMIT OFFSET句を使ったSQL書き換えによるページング処理用設定(MySQL用) --&gt;
+&lt;component name=&quot;pagingSqlRewriter&quot; class=&quot;org.seasar.dao.pager.MySQLLimitOffsetPagingSqlRewriter&quot;/&gt;
+&lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicResultSetFactory&quot;/&gt;
+&lt;component class=&quot;org.seasar.extension.jdbc.impl.ConfigurableStatementFactory&quot;&gt;
+    &lt;arg&gt;
+        &lt;component class=&quot;org.seasar.extension.jdbc.impl.BasicStatementFactory&quot;/&gt;
+    &lt;/arg&gt;
+    &lt;property name=&quot;fetchSize&quot;&gt;100&lt;/property&gt;
+    &lt;!--
+    &lt;property name=&quot;maxRows&quot;&gt;100&lt;/property&gt;
+    --&gt;
+&lt;/component&gt;
+...
+</pre>
+               <p>
+                  この設定では、結果セットを取得するSQLの実行後に、全件数を取得するSQLを実行します。org.seasar.dao.pager.MySQLLimitOffsetPagingSqlRewriterのcountSqlCompatibilityプロパティでこのタイミングを変更できますが、通常この設定を変更することはありません。
+               
+               </p>
+
             <h4>j2ee.diconの設定：<code>PagerResultSetFactoryLimitOffsetWrapper</code>を使う場合（非推奨）</h4>
             <p>
             この設定を有効にするには、他のページング用の設定はコメントアウトしてください。
@@ -260,6 +289,10 @@ WHERE
 ORDER BY 
   S2DAO_ROWNUMBER
 </pre>            
+               <p>
+                  この設定では、全件数を取得するSQLの実行後に、結果セットを取得するSQLを実行します。org.seasar.dao.pager.OracleRownumPagingSqlRewriterのcountSqlCompatibilityプロパティでこのタイミングを変更できますが、通常この設定を変更することはありません。
+               
+               </p>
             <h2><a name="Utilities">S2Pagerのユーティリティクラス群</a></h2>
             <p>
             S2Pagerにはデータベースアクセスとは離れたレイヤでページングをサポートするいくつかのユーティリティクラスを持ちます。これらのクラスの使用例は<a href="#Sample">サンプル</a>に含まれています。
