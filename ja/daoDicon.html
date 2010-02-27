@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- don't edit start -->
 <head>
@@ -43,7 +43,7 @@
 <li>ログのカテゴリをDaoクラスで振り分ける</li>
 <li>SQLファイルのエンコーディング名を指定する</li>
 </ul>
-</li>			
+</li>
 <li><a href="#DaoNamingConventionImpl">DaoNamingConventionImpl</a>
 <ul>
 <li>バージョン番号のプロパティ名を変更する</li>
@@ -52,6 +52,11 @@
 <li>メソッドの命名規約を変更する</li>
 <li>UnlessNull機能に関する規約を変更する</li>
 <li>ModifiedOnly機能に関する規約を変更する</li>
+</ul>
+</li>
+<li><a href="#ResultSetHandlerFactorySelector">ResultSetHandlerFactorySelector</a>
+<ul>
+<li>返り値がBeanやDTO、Mapのメソッドで、結果が2件以上の時に例外を投げる。</li>
 </ul>
 </li>
 </ul>
@@ -259,6 +264,31 @@ dao.diconに定義されたコンポーネントには設定が可能なプロ�
 <td>modifiedPropertyNamesPropertyName</td>
 <td>ModifiedOnly機能で使用するプロパティの名前です。</td>
 <td>"modifiedPropertyNames"</td>
+</tr>
+</tbody></table>
+
+<h4><a name="ResultSetHandlerFactorySelector">ResultSetHandlerFactorySelector</a></h4>
+<p>
+バージョン1.0.51より、<code>org.seasar.dao.impl.ResultSetHandlerFactorySelector</code>のプロパティの変更により次のことが可能になります。
+</p>
+<ul>
+	<li>返り値がBeanやDTO、Mapのメソッドで、結果が2件以上の時に例外を投げる。</li>
+</ul>
+<p>
+設定可能なプロパティは次の通りです。
+</p>
+<table border="1">
+<tbody><tr nowrap="" align="center" bgcolor="#d1f3f4">
+<th width="80">型</th>
+<th width="100">プロパティ名</th>
+<th width="100">説明</th>
+<th width="100">デフォルト値</th></tr>
+<tr>
+<td>boolean</td>
+<td>restrictNotSingleResult</td>
+<td><code>true</code>の場合、org.seasar.dao.NotSingleResultRuntimeExceptionがスローされます。
+<code>false</code>の場合、警告ログが出力されます。</td>
+<td><code>false</code></td>
 </tr>
 </tbody></table>
 
